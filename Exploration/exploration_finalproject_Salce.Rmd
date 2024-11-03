@@ -16,7 +16,7 @@ header-includes:
 
 For my data exploration, I wanted to find a data set that would serve as a foundation to allow for investigations of questions different analysis techniques that we have learned in the course. Based on what we have learned so far, I wanted to find a geostatistical data set that I had questions about, but also something that I had at least some kind of intuitive grasp on.
 
-I grew up in Flagstaff, AZ, a densely forested part of the state. In general, life in Flagstaff is fairly worry-free, aside from the ever-present threat of wildfires in the area. Being curious about what kind of wildfire data was available turned out to be fruitful for geostatistical data. In my search, I managed to find a Wildland Fire Incident Location data set, hosted via ArcGIS Open data, through the National Interagency Fire Center website.
+I grew up in Flagstaff AZ, a densely forested part of the state. In general, life in Flagstaff is fairly worry-free, aside from the ever-present threat of wildfires in the area. Being curious about what kind of wildfire data was available turned out to be fruitful for geostatistical data. In my search, I managed to find a Wildland Fire Incident Location data set, hosted via ArcGIS Open data, through the National Interagency Fire Center website.
 
 https://data-nifc.opendata.arcgis.com/datasets/b4402f7887ca4ea9a6189443f220ef28_0/explore?location=-0.000000%2C0.000000%2C1.38
 
