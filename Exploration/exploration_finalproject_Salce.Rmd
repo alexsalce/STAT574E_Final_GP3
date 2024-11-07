@@ -12,11 +12,23 @@ header-includes:
 - \usepackage[T1]{fontenc}
 ---
 
-# Description of Dataset
+# Possible Topic
 
-For my data exploration, I wanted to find a data set that would serve as a foundation to allow for investigations of questions different analysis techniques that we have learned in the course. Based on what we have learned so far, I wanted to find a geostatistical data set that I had questions about, but also something that I had at least some kind of intuitive grasp on.
+I grew up in Flagstaff, AZ, a densely forested part of the state. In general, life in Flagstaff is fairly worry-free, aside from the ever-present threat of wildfires in the area. Being curious about what kind of wildfire data was available turned out to be fruitful for geostatistical data.
 
-I grew up in Flagstaff, AZ, a densely forested part of the state. In general, life in Flagstaff is fairly worry-free, aside from the ever-present threat of wildfires in the area. Being curious about what kind of wildfire data was available turned out to be fruitful for geostatistical data. In my search, I managed to find a Wildland Fire Incident Location data set, hosted via ArcGIS Open data, through the National Interagency Fire Center website.
+Based on what we have learned in this course so far, I believe there is quite a bit of opportunity for spatial statistical analyses that could be applied to spatial wildfire data. One of my inspirations is an intuition that I have from growing up that if a fire were to start in a certain part of the forest that it was more likely to get out of control due to accessibility.
+
+A possible topic may be to approach modeling of the size of wildfires based on proximity to accessible roads, fire stations, and the season which they happen, among other factors. In a general sense, we could be tackling the question of whether there is any spatial dependence for the size of a wildfire, and can we make a prediction model for the size of a fire if it were to start at a particular location? Or, can we use point processes to come up with a intensity surface model for large wildfires spatially? In a real-world sense, this might be useful for identifying areas that may need better access, or for prioritizing priority areas for prevention needs like control burns.
+
+Of course, this analysis could get very heavy (as I am sure it has by professionals), but there could be some novel insights that could be captured within the bounds of the class project.
+
+# Identify a potential dataset to work with
+
+I wanted to find a wildfire data set that captures the locations of where fires start spatially on earth, as well as the total acreage of the resulting fire to do the analysis I was generally considering.
+
+## Description of Dataset
+
+ In my search, I managed to find a Wildland Fire Incident Location data set, hosted via ArcGIS Open data, through the National Interagency Fire Center website.
 
 https://data-nifc.opendata.arcgis.com/datasets/b4402f7887ca4ea9a6189443f220ef28_0/explore?location=-0.000000%2C0.000000%2C1.38
 
@@ -29,7 +41,7 @@ For the exploration I also used the `rFIA` package (thanks for the inspiration, 
 In general, this is a data set that I think leaves the door open for lots of different questions and analyses.
 
 
-# Exploratory Data Analysis
+## Exploratory Data Analysis
 
 In this section, I put together some visualizations that were interesting to me and to serve as proof-of-concept for combining some data.
 
@@ -231,7 +243,7 @@ wf_density_plot
 
 ```
 
-# Overview of the Dataset
+## Overview of the Dataset
 
 For this exploration, I am only looking at Arizona, and more specifically Coconino County in some cases, since that is where home is and I have some familiarity with it.
 
@@ -242,7 +254,13 @@ I also imported tree abundance data from the `rFIA` package to look at a possibl
 There are other datasets that I am seeking that I decided not to include here yet since they were more ambitious, and I wanted for our group to come to a consensus before we delve any deeper, but I believe there are lots of interesting approaches to this data other than my initial thoughts that we could explore, especially combining other data sets.
 
 
-# Challenges
+# Possible statistical model/methods
+
+If we use total acreage of fire as a response, we could use a spatial linear model to create a prediction model for wildfire size based on the location it starts, using factors like month of the year, distance from nearest access road or major road, forest abundance, or other data we may find available.
+
+We could also filter the data to large fires and treat incidence as a point process, maybe to fires that end up exceeding 1000 acres, and use predictors like nearest distance to roads, forest density, or other predictors of available data to fit a point process model to model the risk surface for large wildfires across the state. This could be accomplished using a log-linear or logistic model.
+
+# Possible Challenges
 
 There will be some challenges dealing with this data that I have already encountered. First, getting an understanding of all of the available fields in the wildfire incidence data set will be time consuming, since there are 97 variables that are not all populated. Deciding what is useable/important may be tricky.  Additionally, as is often the case with data sets from the "wild", there is a fair amount of data cleanup that has to happen, which was definitely the case here.
 
