@@ -27,9 +27,9 @@ Our primary research questions will be centered around wildfire data in (AZ only
 
 # Research Questions
 
-Our research questions are derived from our overall topic question: "
+Our research questions are derived from our overall topic question: "What influences the size of a wildfire in Arizona?"
 
-(1) Research question 1?
+(1) Does proximity to major or smaller roads influence the resulting size of a wildfire?
 (2) Research question 2?
 (3) Research question 3?
 
