@@ -1,0 +1,72 @@
+---
+title: "Environmental Statistics Final Project Proposal - Group 3"
+author: "Matthew David Wallace, Raymond Owino, Alex Salce"
+date: "November 15th, 2024"
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+    theme: cosmo
+header-includes:
+- \renewcommand*\familydefault{\sfdefault} %% this picks a sans serif font
+- \usepackage[T1]{fontenc}
+---
+
+# Topic and Datasets
+
+Our primary research questions will be centered around wildfire data in (AZ only? US? Other states? More than one state?), and will be utilizing the following datasets.
+
+  - [NIFC | Wildland Fire Incident Locations](https://data-nifc.opendata.arcgis.com/datasets/b4402f7887ca4ea9a6189443f220ef28_0/explore?location=-0.000000%2C0.000000%2C1.38)
+    - The primary dataset for our research questions will utilize the Wildland Fire Incident Locations dataset. This dataset includes 97 variables including point location data for wildfire incidence in the US from 2014 to the present as recorded from the [IRWIN (Integrated Reporting of Wildland Fire Information )](https://www.wildfire.gov/application/irwin-integrated-reporting-wildfire-information) system, which aggregates fire data from many data sources. The dataset contains many features, but we will primarily utilize the point data for fire origin, as well as total acreage the fire went on to burn. Some of the assigned tasking will include investigation of other possibly useful features in the dataset.
+  - [NIFC | WFIGS Interagency Fire Perimeters](https://data-nifc.opendata.arcgis.com/datasets/5e72b1699bf74eefb3f3aff6f4ba5511_0/explore?location=31.929411%2C-110.159461%2C9.00)
+    - This dataset is the best available fire perimeter data for individual wildfires in the US. Our research may necessitate a deeper dive into some of the individual wildfires and the areas they covered spatially.
+  - [LiDAR data](https://azgeo.maps.arcgis.com/apps/webappviewer/index.html?id=0f812aa0bb03432b8b5e0d3b7ad9342d)
+    - The LiDAR data should give us features of the terrain that can be used as predictor variables for our model fits.
+  - [rFIA data](https://rfia.netlify.app/tutorial/)
+    - We may incorporate abundance data for standing trees (using `TPA & BAA` data) as predictor variables for our model fits.
+
+# Research Questions
+
+Our research questions are derived from our overall topic question: "
+
+(1) Research question 1?
+(2) Research question 2?
+(3) Research question 3?
+
+# Statistical Methods
+
+The statistical methods we plan to use to address answer these questions are the following.
+
+- Spatial linear model
+  - Use additional datasets for prediction variables
+- Point process model
+  - Use additional datasets for prediction variables
+
+
+# Team Responsibilities
+
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+
+library(readr)
+library(knitr)
+
+proposal_resp <- read_csv('./proposal_resp_gp3_574E.csv')
+
+kable(proposal_resp, col.names = gsub("[.]", " ", names(proposal_resp)))
+
+```
+
+
+
+# Anticipating Challenges
+
+Challenges that we anticipate:
+
+- Combining data, cleaning data, and filtering data
+  - We intend to use data from multiple sources, which will present challenges for combining 
+- Deciphering available data
+  - These datasets have many variables included, some of which will require researching to better understand whether they can be useful in answering any of our research questions or providing useful predictor data for our models.
+- Dataset size
+  - Can we reasonably answer all of our research questions, given that we are working with fairly large datasets? We may encounter computational challenges getting our models to work, given that we will be working with so much data. If we do run into challenges, we may need to refine our research questions.
+- Available data
+  - Will we have enough data available to utilize to fit the models we hope to support our research questions with the data that we currently have? We may need to acquire more data, or refine our research questions.
