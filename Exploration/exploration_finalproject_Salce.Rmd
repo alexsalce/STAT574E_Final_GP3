@@ -61,31 +61,35 @@ library(leaflet)
 library(htmltools)
 
 # load datasets
-load("./R_data/az_fia.RData")
-load("./R_data/az_fia_density.RData")
-load("./R_data/az_roads_cc_sf.RData")
+library(here)
+set_here(path='..')
+
+load(here("data/az_fia.RData"))
+load(here("data/az_fia_density.RData"))
+load(here("./data/az_roads_cc_sf.RData"))
+load(here("./data/wfigs_az.RData"))
 
 ```
 
 
 ```{r data_cleanup, warning=FALSE, results='hide', cache=TRUE}
 
-path <- "./wildland_fire_incident_locations/WFIGS_Incident_Locations_-265102656568979733.csv"
-wfigs_incident_location_data <- read_csv(path, show_col_types = FALSE)
-
-#convert date data to date objects
-
-wfigs_incident_location_data <- wfigs_incident_location_data %>%
-  mutate_at(vars(FireDiscoveryDateTime, ContainmentDateTime, ControlDateTime, CreatedOnDateTime_dt, ModifiedOnDateTime_dt), as.POSIXlt, format = "%m/%d/%Y %I:%M:%S %p")
-
-wfigs_incident_location_data <- wfigs_incident_location_data %>%
-  filter(!is.na(InitialLatitude) & !is.na(InitialLongitude))
-
-wfigs_az <- wfigs_incident_location_data %>% filter(POOState=="US-AZ")
-# wfigs_ca <- wfigs_incident_location_data %>% filter(POOState=="US-CA")
-
-
-rm(wfigs_incident_location_data)
+# path <- "./wildland_fire_incident_locations/WFIGS_Incident_Locations_-265102656568979733.csv"
+# wfigs_incident_location_data <- read_csv(path, show_col_types = FALSE)
+# 
+# #convert date data to date objects
+# 
+# wfigs_incident_location_data <- wfigs_incident_location_data %>%
+#   mutate_at(vars(FireDiscoveryDateTime, ContainmentDateTime, ControlDateTime, CreatedOnDateTime_dt, ModifiedOnDateTime_dt), as.POSIXlt, format = "%m/%d/%Y %I:%M:%S %p")
+# 
+# wfigs_incident_location_data <- wfigs_incident_location_data %>%
+#   filter(!is.na(InitialLatitude) & !is.na(InitialLongitude))
+# 
+# wfigs_az <- wfigs_incident_location_data %>% filter(POOState=="US-AZ")
+# # wfigs_ca <- wfigs_incident_location_data %>% filter(POOState=="US-CA")
+# 
+# 
+# rm(wfigs_incident_location_data)
 
 ```
 

@@ -1516,6 +1516,230 @@ window.onload = function() {
   PagedTableDoc.initAll();
 };
 </script>
+<script>$(document).ready(function(){
+    if (typeof $('[data-toggle="tooltip"]').tooltip === 'function') {
+        $('[data-toggle="tooltip"]').tooltip();
+    }
+    if ($('[data-toggle="popover"]').popover === 'function') {
+        $('[data-toggle="popover"]').popover();
+    }
+});
+</script>
+<style type="text/css">
+.lightable-minimal {
+border-collapse: separate;
+border-spacing: 16px 1px;
+width: 100%;
+margin-bottom: 10px;
+}
+.lightable-minimal td {
+margin-left: 5px;
+margin-right: 5px;
+}
+.lightable-minimal th {
+margin-left: 5px;
+margin-right: 5px;
+}
+.lightable-minimal thead tr:last-child th {
+border-bottom: 2px solid #00000050;
+empty-cells: hide;
+}
+.lightable-minimal tbody tr:first-child td {
+padding-top: 0.5em;
+}
+.lightable-minimal.lightable-hover tbody tr:hover {
+background-color: #f5f5f5;
+}
+.lightable-minimal.lightable-striped tbody tr:nth-child(even) {
+background-color: #f5f5f5;
+}
+.lightable-classic {
+border-top: 0.16em solid #111111;
+border-bottom: 0.16em solid #111111;
+width: 100%;
+margin-bottom: 10px;
+margin: 10px 5px;
+}
+.lightable-classic tfoot tr td {
+border: 0;
+}
+.lightable-classic tfoot tr:first-child td {
+border-top: 0.14em solid #111111;
+}
+.lightable-classic caption {
+color: #222222;
+}
+.lightable-classic td {
+padding-left: 5px;
+padding-right: 5px;
+color: #222222;
+}
+.lightable-classic th {
+padding-left: 5px;
+padding-right: 5px;
+font-weight: normal;
+color: #222222;
+}
+.lightable-classic thead tr:last-child th {
+border-bottom: 0.10em solid #111111;
+}
+.lightable-classic.lightable-hover tbody tr:hover {
+background-color: #F9EEC1;
+}
+.lightable-classic.lightable-striped tbody tr:nth-child(even) {
+background-color: #f5f5f5;
+}
+.lightable-classic-2 {
+border-top: 3px double #111111;
+border-bottom: 3px double #111111;
+width: 100%;
+margin-bottom: 10px;
+}
+.lightable-classic-2 tfoot tr td {
+border: 0;
+}
+.lightable-classic-2 tfoot tr:first-child td {
+border-top: 3px double #111111;
+}
+.lightable-classic-2 caption {
+color: #222222;
+}
+.lightable-classic-2 td {
+padding-left: 5px;
+padding-right: 5px;
+color: #222222;
+}
+.lightable-classic-2 th {
+padding-left: 5px;
+padding-right: 5px;
+font-weight: normal;
+color: #222222;
+}
+.lightable-classic-2 tbody tr:last-child td {
+border-bottom: 3px double #111111;
+}
+.lightable-classic-2 thead tr:last-child th {
+border-bottom: 1px solid #111111;
+}
+.lightable-classic-2.lightable-hover tbody tr:hover {
+background-color: #F9EEC1;
+}
+.lightable-classic-2.lightable-striped tbody tr:nth-child(even) {
+background-color: #f5f5f5;
+}
+.lightable-material {
+min-width: 100%;
+white-space: nowrap;
+table-layout: fixed;
+font-family: Roboto, sans-serif;
+border: 1px solid #EEE;
+border-collapse: collapse;
+margin-bottom: 10px;
+}
+.lightable-material tfoot tr td {
+border: 0;
+}
+.lightable-material tfoot tr:first-child td {
+border-top: 1px solid #EEE;
+}
+.lightable-material th {
+height: 56px;
+padding-left: 16px;
+padding-right: 16px;
+}
+.lightable-material td {
+height: 52px;
+padding-left: 16px;
+padding-right: 16px;
+border-top: 1px solid #eeeeee;
+}
+.lightable-material.lightable-hover tbody tr:hover {
+background-color: #f5f5f5;
+}
+.lightable-material.lightable-striped tbody tr:nth-child(even) {
+background-color: #f5f5f5;
+}
+.lightable-material.lightable-striped tbody td {
+border: 0;
+}
+.lightable-material.lightable-striped thead tr:last-child th {
+border-bottom: 1px solid #ddd;
+}
+.lightable-material-dark {
+min-width: 100%;
+white-space: nowrap;
+table-layout: fixed;
+font-family: Roboto, sans-serif;
+border: 1px solid #FFFFFF12;
+border-collapse: collapse;
+margin-bottom: 10px;
+background-color: #363640;
+}
+.lightable-material-dark tfoot tr td {
+border: 0;
+}
+.lightable-material-dark tfoot tr:first-child td {
+border-top: 1px solid #FFFFFF12;
+}
+.lightable-material-dark th {
+height: 56px;
+padding-left: 16px;
+padding-right: 16px;
+color: #FFFFFF60;
+}
+.lightable-material-dark td {
+height: 52px;
+padding-left: 16px;
+padding-right: 16px;
+color: #FFFFFF;
+border-top: 1px solid #FFFFFF12;
+}
+.lightable-material-dark.lightable-hover tbody tr:hover {
+background-color: #FFFFFF12;
+}
+.lightable-material-dark.lightable-striped tbody tr:nth-child(even) {
+background-color: #FFFFFF12;
+}
+.lightable-material-dark.lightable-striped tbody td {
+border: 0;
+}
+.lightable-material-dark.lightable-striped thead tr:last-child th {
+border-bottom: 1px solid #FFFFFF12;
+}
+.lightable-paper {
+width: 100%;
+margin-bottom: 10px;
+color: #444;
+}
+.lightable-paper tfoot tr td {
+border: 0;
+}
+.lightable-paper tfoot tr:first-child td {
+border-top: 1px solid #00000020;
+}
+.lightable-paper thead tr:last-child th {
+color: #666;
+vertical-align: bottom;
+border-bottom: 1px solid #00000020;
+line-height: 1.15em;
+padding: 10px 5px;
+}
+.lightable-paper td {
+vertical-align: middle;
+border-bottom: 1px solid #00000010;
+line-height: 1.15em;
+padding: 7px 5px;
+}
+.lightable-paper.lightable-hover tbody tr:hover {
+background-color: #F9EEC1;
+}
+.lightable-paper.lightable-striped tbody tr:nth-child(even) {
+background-color: #00000008;
+}
+.lightable-paper.lightable-striped tbody td {
+border: 0;
+}
+</style>
 
 <style type="text/css">
 code{white-space: pre-wrap;}
@@ -1648,9 +1872,11 @@ Proposal - Group 3</h1>
 
 <div id="topic-and-datasets" class="section level1">
 <h1>Topic and Datasets</h1>
+<p>Primary topic question: <strong>“What influences the size of a
+wildfire in Arizona?”</strong></p>
 <p>Our primary research questions will be centered around wildfire data
-in (AZ only? US? Other states? More than one state?), and will be
-utilizing the following datasets.</p>
+in Arizona, and will be utilizing (if applicable, and not limited to)
+the following datasets.</p>
 <ul>
 <li><a href="https://data-nifc.opendata.arcgis.com/datasets/b4402f7887ca4ea9a6189443f220ef28_0/explore?location=-0.000000%2C0.000000%2C1.38">NIFC
 | Wildland Fire Incident Locations</a>
@@ -1665,6 +1891,17 @@ features, but we will primarily utilize the point data for fire origin,
 as well as total acreage the fire went on to burn. Some of the assigned
 tasking will include investigation of other possibly useful features in
 the dataset.</li>
+<li><a href="https://data-nifc.opendata.arcgis.com/datasets/nifc::wildland-fire-incident-locations/about">About
+this dataset</a></li>
+</ul></li>
+<li><code>tigris</code> package, <code>roads()</code>
+<ul>
+<li><code>tigris</code> function <code>roads()</code> has
+<code>sf</code> data for roads in AZ. From <code>?roads</code>: <em>From
+the Census Bureau: “The content of the all roads shapefile includes
+primary roads, secondary roads, local neighborhood roads, rural roads,
+city streets, vehicular trails (4WD), ramps, service drives, walkways,
+stairways, alleys, and private roads.”</em></li>
 </ul></li>
 <li><a href="https://data-nifc.opendata.arcgis.com/datasets/5e72b1699bf74eefb3f3aff6f4ba5511_0/explore?location=31.929411%2C-110.159461%2C9.00">NIFC
 | WFIGS Interagency Fire Perimeters</a>
@@ -1690,61 +1927,256 @@ fits.</li>
 </div>
 <div id="research-questions" class="section level1">
 <h1>Research Questions</h1>
-<p>Using the above data (not limited to the above), we plan to approach
-the following three research questions.</p>
+<p>Our research questions are derived from our overall topic question:
+<strong>“What influences the size of a wildfire in
+Arizona?”</strong></p>
 <ol style="list-style-type: decimal">
-<li>Research question 1?</li>
-<li>Research question 2?</li>
-<li>Research question 3?</li>
+<li>Does proximity to major or smaller roads influence the resulting
+size of a wildfire? Is proximity from roads a useful predictor in
+whether a wildfire get “big”?</li>
+<li>Are natural factors useful predictors for the size of wildfires?
+Precipitation, temperature, and season affect the resulting size of a
+wildfire? Does the terrain (topology, forest abundance, etc.) influence
+the resulting size of a wildfire? Does population density affect
+resulting size of a wildfire?</li>
+<li>Do the patterns human-caused wildfires seem to arise according to a
+homogeneous Poisson Process? Do the non-human cause wildfires seem to
+arise from a HPP?</li>
 </ol>
+<p>Our research questions cover a lot of detail that we believe we can
+recover, but may be modified as we implement our data and models.</p>
 </div>
 <div id="statistical-methods" class="section level1">
 <h1>Statistical Methods</h1>
-<p>The statistical methods we plan to use to address answer these
-questions are the following.</p>
+<p>To approach our research questions, our primary dataset we will
+utilize will be the <em>Wildland Fire Incident Locations</em> data,
+which provides the data that will be the foundation for our modeling
+efforts. Additional data will be acquired as outlined in <a href="#team-responsibilities">Team Responsibilities</a>.</p>
+<div id="data-for-model-construction" class="section level2">
+<h2>Data for model construction</h2>
+<div id="wildland-fire-incident-locations" class="section level3">
+<h3>Wildland Fire Incident Locations</h3>
 <ul>
-<li>Spatial linear model
+<li><p><code>IncidentSize</code>: Size of resulting fire in
+acres</p></li>
+<li><p>The location data for fires:</p>
 <ul>
-<li>Use additional datasets for prediction variables</li>
+<li><code>InitialLatitude</code> and <code>InitialLongitude</code>:
+Coordinate data for the reported origin of the fire in the IRWIN
+system</li>
 </ul></li>
-<li>Point process model
+<li><p>Other relevant data in dataset:</p>
 <ul>
-<li>Use additional datasets for prediction variables</li>
+<li><code>FireDiscoveryDateTime</code>: Date and time of fire
+discovery</li>
+<li><code>IncidentTypeCategory</code>: Categorized as a Wildfire (WF),
+Prescribed Fire (RX), or Incident Complex (CX) record</li>
+<li><code>POOCounty</code>: County in which fire originated</li>
 </ul></li>
 </ul>
+</div>
+<div id="tigris-package-roads" class="section level3">
+<h3><code>tigris</code> package, <code>roads()</code></h3>
+<p><code>roads(state = &quot;AZ&quot;)</code> returns an <code>sf</code>
+object.</p>
+<ul>
+<li><code>geometry</code>: <code>LINESTRING</code> geometry for roads in
+AZ</li>
+<li><code>MTFCC</code>: classification of roads, <a href="https://www2.census.gov/geo/pdfs/reference/mtfccs2022.pdf">see
+here for road class code descriptions</a></li>
+</ul>
+<p>Other predictor data that we seek (natural factors, population
+density), will be joined on available factors depending upon the data.
+For example, we hope to implement the terrain slope grade within a 1km
+radius of coordinates, so that data would be joined on the wildfire
+coordinates as a predictor.</p>
+</div>
+</div>
+<div id="models" class="section level2">
+<h2>Models</h2>
+<p>The statistical methods we plan to use to address answer these
+questions are the following.</p>
+<div id="spatial-linear-model" class="section level3">
+<h3><strong>Spatial linear model</strong></h3>
+<div id="response" class="section level4">
+<h4>Response</h4>
+<ul>
+<li>Raw <code>IncidentSize</code> data: continuous, fixed spatial data
+response (Geostatistical).</li>
+</ul>
+</div>
+<div id="predictors" class="section level4">
+<h4>Predictors</h4>
+<ul>
+<li>Closest road (possibly filtered by class) as calculated from
+something similar to (if not exactly) <a href="https://gis.stackexchange.com/questions/243994/how-to-calculate-distance-from-point-to-linestring-in-r-using-sf-library-and-g">the
+geosphere::dist2line function</a>. Ideally, a function similar to
+<code>min_dist</code> of HW4 could be used here [Continuous]
+<ul>
+<li>What kind of relationship, if any, does distance to nearest roads
+have with wildfire size?</li>
+</ul></li>
+<li><code>FireDiscoveryDateTime</code>: time by month, season, or
+possibly exact time started [Discrete or Continuous]</li>
+<li>Population density data [Continuous]
+<ul>
+<li>What kind of relationship, if any, does population density have with
+wildfire size?</li>
+</ul></li>
+<li>Natural factors [Discrete or continuous]
+<ul>
+<li>What kind of relationship, if any, do natural factors have with
+wildfire size?</li>
+</ul></li>
+</ul>
+<p>Example (rough/hypothetical) of a model fit:
+<code>wf_splm &lt;- splm(IncidentSize ~ FireDiscoveryDateTime + PopDensity + SlopeGrade + Precip + Abundance + min_dist, data=wf_data, spcov_type = &quot;matern&quot;, estmethod = &quot;sv-wls&quot;)</code></p>
+</div>
+</div>
+<div id="point-process-model" class="section level3">
+<h3><strong>Point process model</strong></h3>
+<div id="response-1" class="section level4">
+<h4>Response</h4>
+<p>The response data for the point process model will use the
+<code>IncidentSize</code> data to create a binary response of whether
+the fire was “not large” or “large” (using 0 and 1 response values,
+respectively). The threshold for a “large” fire will be analyzed and
+could be modified as part of the analysis. We may also filter data to
+only human caused fires or non-human caused for analysis.</p>
+</div>
+<div id="predictors-1" class="section level4">
+<h4>Predictors</h4>
+<p>The same predictors can be used as the linear model.</p>
+<p>Example (rough/hypothetical) of a model fit:
+<code>wf_kppm &lt;- kppm(IncidentSize ~ FireDiscoveryDateTime + PopDensity + SlopeGrade + Precip + Abundance + min_dist, data=wf_data, clusters = &quot;LGCP&quot;, model = &quot;exponential&quot;)</code></p>
+<p>We can analyze the theoretical <span class="math inline">\(F(r)\)</span> and <span class="math inline">\(G(r)\)</span> against the observed <span class="math inline">\(F(r)\)</span> and <span class="math inline">\(G(r)\)</span> to assess whether the data are CSR,
+and use the predicted <span class="math inline">\(F(r)\)</span> and
+<span class="math inline">\(G(r)\)</span> from the model to compare how
+well our model fits.</p>
+</div>
+<div id="alternative-model-for-binary-response-data---binomial-response-glm" class="section level4">
+<h4>Alternative model for binary response data - Binomial response
+GLM</h4>
+<p>Or we can use GLM fit for analysis of this type of response data for
+a comparable fit to our <code>splm</code> model in previous example.</p>
+<p>Example (rough/hypothetical) of a model fit:
+<code>wf_spglm_binom &lt;- spglm(IncidentSize ~ FireDiscoveryDateTime + PopDensity + SlopeGrade + Precip + Abundance + min_dist, data=wf_data, family = &quot;binomial&quot;, spcov_type = &quot;matern&quot;)</code></p>
+</div>
+</div>
+</div>
 </div>
 <div id="team-responsibilities" class="section level1">
 <h1>Team Responsibilities</h1>
 <table>
 <thead>
-<tr class="header">
-<th align="left">Media</th>
-<th align="left">Raymond</th>
-<th align="left">Matthew</th>
-<th align="left">Alex</th>
+<tr>
+<th style="text-align:left;">
+Project Area
+</th>
+<th style="text-align:left;">
+Raymond
+</th>
+<th style="text-align:left;">
+Matthew
+</th>
+<th style="text-align:left;">
+Alex
+</th>
+<th style="text-align:left;">
+All
+</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
-<td align="left">Report</td>
-<td align="left">test</td>
-<td align="left">test</td>
-<td align="left">test</td>
+<tr>
+<td style="text-align:left;width: 3cm; ">
+Data
+</td>
+<td style="text-align:left;width: 3cm; ">
+Find natural factors data
+</td>
+<td style="text-align:left;width: 3cm; ">
+Find population density data (possibly R package available)?
+</td>
+<td style="text-align:left;width: 3cm; ">
+Determine methodologies for calculated data like proximity to roads
+</td>
+<td style="text-align:left;width: 3cm; ">
+Determine pertinent factors to our questions and study their background
+/ “Explorations” (histograms, other visuals)
+</td>
 </tr>
-<tr class="even">
-<td align="left">Code</td>
-<td align="left">test</td>
-<td align="left">test</td>
-<td align="left">test</td>
+<tr>
+<td style="text-align:left;width: 3cm; ">
+Code
+</td>
+<td style="text-align:left;width: 3cm; ">
+Spatial Linear model fitting &amp; outputs (plots etc)
+</td>
+<td style="text-align:left;width: 3cm; ">
+Point Process model fitting &amp; outputs (plots etc)
+</td>
+<td style="text-align:left;width: 3cm; ">
+Initial model fits / Data combination and wrangling for model inputs
+</td>
+<td style="text-align:left;width: 3cm; ">
+Combining results and model refinements
+</td>
 </tr>
-<tr class="odd">
-<td align="left">Video</td>
-<td align="left">test</td>
-<td align="left">test</td>
-<td align="left">test</td>
+<tr>
+<td style="text-align:left;width: 3cm; ">
+Collaboration
+</td>
+<td style="text-align:left;width: 3cm; ">
+Meeting scheduling/zoom host
+</td>
+<td style="text-align:left;width: 3cm; ">
+Meeting minutes primary POC for group status
+</td>
+<td style="text-align:left;width: 3cm; ">
+Set up GitHub repo for data/analysis repository
+</td>
+<td style="text-align:left;width: 3cm; ">
+Asynchronous comms on Slack
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 3cm; ">
+Deliverables
+</td>
+<td style="text-align:left;width: 3cm; ">
+Final presennation video
+</td>
+<td style="text-align:left;width: 3cm; ">
+Slide Deck for final presentation video
+</td>
+<td style="text-align:left;width: 3cm; ">
+Final Report for submission
+</td>
+<td style="text-align:left;width: 3cm; ">
+Contributions to each member’s area (i.e. we will each do slides &amp;
+give to Matt / record video portions and give to Raymond for editing /
+write sections of report and give to Alex)
+</td>
 </tr>
 </tbody>
 </table>
+<p>We held a group discussion to deliberate all of the above general
+tasking, but there is mutual understanding that we will be helping each
+other for each portion. For example, each of us “owns” a deliverable,
+but that will only mean that the assignee will be the primary POC for
+putting together the deliverable.</p>
+<p>Each member of the group “owns” a part of the analysis, for example
+Raymond will be collecting and exploring all of our climate factor data,
+Matt has population density data, Alex has the primary wildfire point
+data. We will each be responsible for choosing factors we want to
+include, researching the data to the best extent possible (how it was
+collected, units, etc.), and do explorations of the data factors we
+choose to get general ideas of why they will be useful. Each member of
+the group will own modeling tasks as well. The final presentation
+sections and report contributions will be assigned according to each
+member’s responsible area. We will be exchanging information and data
+via GitHub and Slack.</p>
 </div>
 <div id="anticipating-challenges" class="section level1">
 <h1>Anticipating Challenges</h1>
@@ -1765,7 +2197,8 @@ data for our models.</li>
 <li>Dataset size
 <ul>
 <li>Can we reasonably answer all of our research questions, given that
-we are working with fairly large datasets? We may encounter
+we are working with fairly large datasets? Or due to unforseen
+challenges joining or generating needed data? We may encounter
 computational challenges getting our models to work, given that we will
 be working with so much data. If we do run into challenges, we may need
 to refine our research questions.</li>
