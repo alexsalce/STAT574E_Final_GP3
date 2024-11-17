@@ -112,6 +112,8 @@ The statistical methods we plan to use to address answer these questions are the
   
 Example (rough/hypothetical) of a model fit: `wf_splm <- splm(IncidentSize ~ FireDiscoveryDateTime + PopDensity + SlopeGrade + Precip + Abundance + min_dist, data=wf_data, spcov_type = "matern", estmethod = "sv-wls")`
 
+This model will provide insight to questions 1 and 2, as we will be able to investigate the influence of distance from roads as well as human/natural factor influence on size of a wildfire.
+
 
 ### **Point process model**
 
@@ -132,6 +134,8 @@ We can analyze the theoretical $F(r)$ and $G(r)$ against the observed $F(r)$ and
 Since in this case our response data is binomial, we can use GLM fit for analysis for a comparable fit to our `splm` model in previous example.
 
 Example (rough/hypothetical) of a model fit: `wf_spglm_binom <- spglm(IncidentSize ~ FireDiscoveryDateTime + PopDensity + SlopeGrade + Precip + Abundance + min_dist, data=wf_data, family = "binomial", spcov_type = "matern")`
+
+This model should give additional insight to road proximity, natural factors, and human influence, with a risk-style model, identifying regions of AZ that have higher probability of large wildfires. Essentially another angle to approach the problem than the spatial lm. 
 
 
 # Team Responsibilities

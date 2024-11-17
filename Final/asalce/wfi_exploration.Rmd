@@ -1,0 +1,175 @@
+---
+title: "Wildland Fire Incident Locations"
+author: "Alex Salce"
+date: "`r Sys.Date()`"
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+    theme: cosmo
+header-includes:
+- \renewcommand*\familydefault{\sfdefault} %% this picks a sans serif font
+- \usepackage[T1]{fontenc}
+---
+
+
+## Wildland Fire Incident 
+
+In this section, I put together some visualizations that were interesting to me and to serve as proof-of-concept for combining some data.
+
+```{r warning=FALSE, message=FALSE}
+
+library(dplyr)
+library(readr)
+library(tigris)
+library(sf)
+library(gganimate)
+library(ggplot2)
+library(mapview)
+library(tidyverse)
+library(leaflet)
+library(htmltools)
+
+# load datasets
+library(here)
+set_here(path='..')
+
+load(here("./data/az_roads_cc_sf.RData"))
+load(here("./data/wfigs_az.RData"))
+
+```
+
+
+```{r azdata, message=FALSE, warning=FALSE, results='hide', cache=TRUE}
+
+wfigs_az <- wfigs_az %>% filter(!is.na(IncidentSize))
+
+wfigs_az_sf <- st_as_sf(wfigs_az, coords = c("InitialLongitude", "InitialLatitude"))
+
+arizona_sf <- states() %>% filter_state("arizona")
+
+az_counties_sf <- counties(state = "AZ", cb = TRUE)
+
+#UTM Zone 12 https://epsg.io/2223
+
+# arizona_sf <- st_transform(arizona_sf, crs = "EPSG:2223")
+
+st_crs(wfigs_az_sf) <- st_crs(arizona_sf)
+st_crs(az_counties_sf) <- st_crs(arizona_sf)
+st_crs(az_roads_cc_sf) <- st_crs(arizona_sf)
+
+#there were some coordinates that were reported outside of the state
+# wfigs_az_sf <- st_intersection(wfigs_az_sf, arizona_sf)
+
+```
+
+
+```{r fig.align='center', out.width="95%", tidy=TRUE, warning=FALSE, message=FALSE, results='hide', cache=TRUE, tidy.opts=list(width.cutoff=70)}
+
+plot(arizona_sf$geometry, main = "Wildfires in Arizona 2014-2024")
+plot(az_counties_sf, add=T)
+plot(wfigs_az_sf$geometry, pch = 16, cex = 0.4, col = scales::alpha("darkred", 0.1), add = T)
+
+```
+
+```{r fig.align='center', out.width="95%", tidy=TRUE, warning=FALSE, message=FALSE, results='hide', cache=TRUE, tidy.opts=list(width.cutoff=70)}
+
+# Extract Coconino County
+coconino <- az_counties_sf %>% 
+  filter(NAME == "Coconino")
+
+# Crop Arizona and counties to the buffered area
+arizona_coconino <- st_intersection(arizona_sf, coconino)
+counties_coconino <- st_intersection(az_counties_sf, coconino)
+wfigs_az_sf_coconino <- st_intersection(wfigs_az_sf, coconino)
+
+az_cc_rd_primary <- az_roads_cc_sf %>% 
+  filter(MTFCC %in% c("S1100"))  # Primary  roads
+
+az_cc_rd_secondary <- az_roads_cc_sf %>% 
+  filter(MTFCC %in% c("S1200"))  # Secondary roads
+
+az_cc_rd_local <- az_roads_cc_sf %>% 
+  filter(MTFCC %in% c("S1400"))  # Local and neighborhood roads
+
+az_cc_rd_4wd <- az_roads_cc_sf %>% 
+  filter(MTFCC %in% c("S1500"))  # Local and neighborhood roads
+
+az_cc_rd_ramp <- az_roads_cc_sf %>% 
+  filter(MTFCC %in% c("S1630"))  # Local and neighborhood roads
+
+az_cc_rd_frontage <- az_roads_cc_sf %>% 
+  filter(MTFCC %in% c("S1640"))  # Frontage roads
+
+az_cc_rd_ped_trail <- az_roads_cc_sf %>% 
+  filter(MTFCC %in% c("S1710"))  # Pedestrian walkway or trail
+
+az_cc_rd_ped_stairs <- az_roads_cc_sf %>% 
+  filter(MTFCC %in% c("S1720"))  # Stairways
+
+az_cc_rd_alleys <- az_roads_cc_sf %>% 
+  filter(MTFCC %in% c("S1730"))  # Alleyways
+
+az_cc_rd_privateservice <- az_roads_cc_sf %>% 
+  filter(MTFCC %in% c("S1740"))  # Private service roads
+
+az_cc_rd_census <- az_roads_cc_sf %>% 
+  filter(MTFCC %in% c("S1750"))  # US Census Buereau use only
+
+az_cc_rd_parkinglot <- az_roads_cc_sf %>% 
+  filter(MTFCC %in% c("S1780"))  # Parking lot road
+
+az_cc_rd_wintertrail <- az_roads_cc_sf %>% 
+  filter(MTFCC %in% c("S1810"))  # Winter trail
+
+az_cc_rd_bikepath <- az_roads_cc_sf %>% 
+  filter(MTFCC %in% c("S1820"))  # Bike path or trail, no motorized vehicles
+
+az_cc_rd_bridle <- az_roads_cc_sf %>% 
+  filter(MTFCC %in% c("S1830"))  # Horse trail, no motorized vehicles
+
+```
+
+```{r}
+
+wfigs_az_sf_coconino$distance_rd_primary <- 
+  st_distance(wfigs_az_sf_coconino, az_cc_rd_primary) %>% apply(1, min)
+
+wfigs_az_sf_coconino <- wfigs_az_sf_coconino %>% filter(distance_rd_primary <= 1000)
+
+
+```
+
+```{r}
+
+# fun interactive version of the map:
+
+mapview(arizona_coconino, col.regions = "snow") +
+  mapview(counties_coconino, col.regions = "gray")+
+  mapview(az_cc_rd_primary, color = "black", alpha = 0.8) +
+  mapview(wfigs_az_sf_coconino, col. = "darkred", alpha.regions = 0.3)
+
+```
+
+
+```{r fig.align='center', out.width="95%", tidy=TRUE, warning=FALSE, message=FALSE, results='hide', cache=TRUE, tidy.opts=list(width.cutoff=70)}
+
+wfigs_az_lg_sf <- wfigs_az_sf %>% filter(IncidentSize >= 1000)
+
+plot(arizona_sf$geometry, main = "Large Wildfires (>1000 acres) in Arizona 2014-2024")
+plot(az_counties_sf, add=T)
+plot(wfigs_az_lg_sf$geometry, pch = 16, cex = 0.5, col = scales::alpha("darkred", 0.3), add = T)
+
+
+wfigs_az_lg_sf_coconino <- st_intersection(wfigs_az_lg_sf, coconino)
+
+# fun interactive version of the map:
+
+# mapview(arizona_coconino, col.regions = "snow") +
+#   mapview(counties_coconino, col.regions = "gray")+
+#   mapview(az_cc_major_roads, color = "black", alpha = 0.8) +
+#   mapview(az_cc_minor_roads, color = "black", alpha = 0.15) +
+#   mapview(wfigs_az_lg_sf_coconino, col. = "darkorange", alpha.regions = 0.3)
+
+
+```
