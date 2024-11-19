@@ -20,31 +20,77 @@ In this section, I put together some visualizations that were interesting to me 
 ```{r warning=FALSE, message=FALSE}
 
 library(dplyr)
-library(readr)
 library(tigris)
 library(sf)
-library(gganimate)
 library(ggplot2)
 library(mapview)
 library(tidyverse)
-library(leaflet)
-library(htmltools)
+library(scales)
 
 # load datasets
 library(here)
-set_here(path='..')
+set_here(path='../../')
 
-load(here("./data/az_roads_cc_sf.RData"))
-load(here("./data/wfigs_az.RData"))
+# load(here("./data/az_roads_cc_sf.RData"))
+load(here('data/wfigs_az_sf.RData'))
+load(here('data/az_roads_sf.RData'))
+
+```
+
+
+```{r wfigs_az_sfCleanup, eval=FALSE, echo=FALSE}
+
+# reference for vars
+# https://data-nifc.opendata.arcgis.com/datasets/nifc::wildland-fire-incident-locations/about)
+
+# Low hanging fruit (mostly if not all NA)
+wfigs_az_sf <- wfigs_az_sf %>% select(-c(ABCDMisc, 
+                                         FinalAcres, 
+                                         FinalFireReportApprovedByTitle,
+                                         FinalFireReportApprovedByUnit,
+                                         FinalFireReportApprovedDate, 
+                                         FireDepartmentID, 
+                                         POOLegalDescQtr, 
+                                         POOLegalDescQtrQtr, 
+                                         POOLegalDescPrincipalMeridian, 
+                                         POOLegalDescRange, 
+                                         POOLegalDescSection, 
+                                         POOLegalDescTownship, 
+                                         CpxName, 
+                                         CpxID, 
+                                         IncidentComplexityLevel))
+
+
+# data for this project only
+wfigsaz_sf <- wfigs_az_sf %>% select(c(OBJECTID,
+                                        IncidentSize,
+                                        FireCause,
+                                        FireCauseGeneral,
+                                        FireCauseSpecific,
+                                        FireDiscoveryDateTime,
+                                        IncidentName,
+                                        IncidentShortDescription,
+                                        IncidentTypeCategory,
+                                        IncidentTypeKind,
+                                        InitialResponseAcres,
+                                        InitialResponseDateTime,
+                                        IrwinID,
+                                        IsFireCauseInvestigated,
+                                        POOCity,
+                                        POOCounty,
+                                        POOFips,
+                                        POODispatchCenterID,
+                                        PredominantFuelGroup,
+                                        PredominantFuelModel,
+                                        UniqueFireIdentifier,
+                                        EstimatedFinalCost,
+                                        79:98
+                                        ))
 
 ```
 
 
 ```{r azdata, message=FALSE, warning=FALSE, results='hide', cache=TRUE}
-
-wfigs_az <- wfigs_az %>% filter(!is.na(IncidentSize))
-
-wfigs_az_sf <- st_as_sf(wfigs_az, coords = c("InitialLongitude", "InitialLatitude"))
 
 arizona_sf <- states() %>% filter_state("arizona")
 
@@ -56,15 +102,16 @@ az_counties_sf <- counties(state = "AZ", cb = TRUE)
 
 st_crs(wfigs_az_sf) <- st_crs(arizona_sf)
 st_crs(az_counties_sf) <- st_crs(arizona_sf)
-st_crs(az_roads_cc_sf) <- st_crs(arizona_sf)
+st_crs(az_roads_sf) <- st_crs(arizona_sf)
 
 #there were some coordinates that were reported outside of the state
-# wfigs_az_sf <- st_intersection(wfigs_az_sf, arizona_sf)
+wfigs_az_sf <- st_intersection(wfigs_az_sf, arizona_sf)
 
 ```
 
 
-```{r fig.align='center', out.width="95%", tidy=TRUE, warning=FALSE, message=FALSE, results='hide', cache=TRUE, tidy.opts=list(width.cutoff=70)}
+
+```{r azwildfireplot, fig.align='center', out.width="95%", tidy=TRUE, echo=FALSE, warning=FALSE, message=FALSE, results='hide', cache=TRUE, tidy.opts=list(width.cutoff=70)}
 
 plot(arizona_sf$geometry, main = "Wildfires in Arizona 2014-2024")
 plot(az_counties_sf, add=T)
@@ -72,75 +119,71 @@ plot(wfigs_az_sf$geometry, pch = 16, cex = 0.4, col = scales::alpha("darkred", 0
 
 ```
 
-```{r fig.align='center', out.width="95%", tidy=TRUE, warning=FALSE, message=FALSE, results='hide', cache=TRUE, tidy.opts=list(width.cutoff=70)}
+
+```{r roadsfilter, eval=FALSE, echo=FALSE}
+
+az_rd_primary <- az_roads_sf %>% 
+  filter(MTFCC %in% c("S1100"))  # Primary  roads
+
+az_rd_secondary <- az_roads_sf %>% 
+  filter(MTFCC %in% c("S1200"))  # Secondary roads
+
+az_rd_4wd <- az_roads_sf %>% 
+  filter(MTFCC %in% c("S1500"))  # 4WD roads
+
+rm(az_roads_sf)
+
+```
+
+```{r rdanalysismapview, eval=FALSE, echo=FALSE}
+
+# fun interactive version of the map:
+
+mapview(arizona_sf, col.regions = "snow") +
+  mapview(az_rd_primary$geometry, color = "green", alpha = 0.8) +
+  mapview(az_rd_secondary$geometry, color = "blueviolet", alpha = 0.8) +
+  mapview(az_rd_4wd$geometry, col. = "gray", alpha.regions = 0.3)
+
+```
+
+```{r rdanalysisplot, cache=TRUE, echo=FALSE}
+
+#roads used for analysis
+
+plot(arizona_sf$geometry, main = "Primary, Secondary, 4WD roads")
+plot(az_rd_primary$geometry, col = "green", add = T, lwd = 0.2)
+plot(az_rd_secondary$geometry, col = "blueviolet", add = T, lwd = 0.2)
+plot(az_rd_4wd$geometry, col = "gray", add = T, lwd = 0.05)
+
+```
+
+```{r disthists}
+
+hist(wfigs_az_sf$distance_rd_primary)
+hist(wfigs_az_sf$distance_rd_secondary)
+hist(wfigs_az_sf$distance_rd_4wd)
+
+```
+
+
+# Counties
+
+```{r cococounty}
 
 # Extract Coconino County
-coconino <- az_counties_sf %>% 
+coconino_sf <- az_counties_sf %>% 
   filter(NAME == "Coconino")
 
 # Crop Arizona and counties to the buffered area
-arizona_coconino <- st_intersection(arizona_sf, coconino)
-counties_coconino <- st_intersection(az_counties_sf, coconino)
-wfigs_az_sf_coconino <- st_intersection(wfigs_az_sf, coconino)
-
-az_cc_rd_primary <- az_roads_cc_sf %>% 
-  filter(MTFCC %in% c("S1100"))  # Primary  roads
-
-az_cc_rd_secondary <- az_roads_cc_sf %>% 
-  filter(MTFCC %in% c("S1200"))  # Secondary roads
-
-az_cc_rd_local <- az_roads_cc_sf %>% 
-  filter(MTFCC %in% c("S1400"))  # Local and neighborhood roads
-
-az_cc_rd_4wd <- az_roads_cc_sf %>% 
-  filter(MTFCC %in% c("S1500"))  # Local and neighborhood roads
-
-az_cc_rd_ramp <- az_roads_cc_sf %>% 
-  filter(MTFCC %in% c("S1630"))  # Local and neighborhood roads
-
-az_cc_rd_frontage <- az_roads_cc_sf %>% 
-  filter(MTFCC %in% c("S1640"))  # Frontage roads
-
-az_cc_rd_ped_trail <- az_roads_cc_sf %>% 
-  filter(MTFCC %in% c("S1710"))  # Pedestrian walkway or trail
-
-az_cc_rd_ped_stairs <- az_roads_cc_sf %>% 
-  filter(MTFCC %in% c("S1720"))  # Stairways
-
-az_cc_rd_alleys <- az_roads_cc_sf %>% 
-  filter(MTFCC %in% c("S1730"))  # Alleyways
-
-az_cc_rd_privateservice <- az_roads_cc_sf %>% 
-  filter(MTFCC %in% c("S1740"))  # Private service roads
-
-az_cc_rd_census <- az_roads_cc_sf %>% 
-  filter(MTFCC %in% c("S1750"))  # US Census Buereau use only
-
-az_cc_rd_parkinglot <- az_roads_cc_sf %>% 
-  filter(MTFCC %in% c("S1780"))  # Parking lot road
-
-az_cc_rd_wintertrail <- az_roads_cc_sf %>% 
-  filter(MTFCC %in% c("S1810"))  # Winter trail
-
-az_cc_rd_bikepath <- az_roads_cc_sf %>% 
-  filter(MTFCC %in% c("S1820"))  # Bike path or trail, no motorized vehicles
-
-az_cc_rd_bridle <- az_roads_cc_sf %>% 
-  filter(MTFCC %in% c("S1830"))  # Horse trail, no motorized vehicles
+arizona_coconino <- st_intersection(arizona_sf, coconino_sf)
+counties_coconino <- st_intersection(az_counties_sf, coconino_sf)
+wfigs_az_sf_coconino <- st_intersection(wfigs_az_sf, coconino_sf)
 
 ```
 
-```{r}
-
-wfigs_az_sf_coconino$distance_rd_primary <- 
-  st_distance(wfigs_az_sf_coconino, az_cc_rd_primary) %>% apply(1, min)
-
-wfigs_az_sf_coconino <- wfigs_az_sf_coconino %>% filter(distance_rd_primary <= 1000)
 
 
-```
-
-```{r}
+```{r eval=FALSE, include=FALSE}
 
 # fun interactive version of the map:
 
@@ -148,6 +191,26 @@ mapview(arizona_coconino, col.regions = "snow") +
   mapview(counties_coconino, col.regions = "gray")+
   mapview(az_cc_rd_primary, color = "black", alpha = 0.8) +
   mapview(wfigs_az_sf_coconino, col. = "darkred", alpha.regions = 0.3)
+
+```
+
+
+```{r eval=FALSE, include=FALSE, fig.align='center', out.width="95%", tidy=TRUE, warning=FALSE, message=FALSE, results='hide', cache=TRUE, tidy.opts=list(width.cutoff=70)}
+
+wfigs_az_lg_sf_coconino <- wfigs_az_sf_coconino %>% filter(IncidentSize >= 1000)
+
+plot(arizona_sf$geometry, main = "Large Wildfires (>1000 acres) in Arizona 2014-2024")
+plot(az_counties_sf, add=T)
+plot(wfigs_az_lg_sf_coconino$geometry, pch = 16, cex = 0.5, col = scales::alpha("darkred", 0.3), add = T)
+
+
+# fun interactive version of the map:
+
+mapview(arizona_coconino, col.regions = "snow") +
+  mapview(counties_coconino, col.regions = "gray")+
+  mapview(az_cc_rd_primary, color = "black", alpha = 0.8) +
+  mapview(wfigs_az_lg_sf_coconino, col. = "darkorange", alpha.regions = 0.3)
+
 
 ```
 
