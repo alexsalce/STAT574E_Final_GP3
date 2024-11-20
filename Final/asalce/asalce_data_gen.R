@@ -183,5 +183,13 @@
 
 
 ########################
-##
+##OLD LOAD DIRECTORIES##
+########################
+
+# load(here("./data/az_roads_cc_sf.RData"))
+# load(here('data/az_roads_sf.RData'))
+
+
+########################
+####
 ########################

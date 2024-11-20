@@ -31,9 +31,11 @@ library(scales)
 library(here)
 set_here(path='../../')
 
-# load(here("./data/az_roads_cc_sf.RData"))
+
 load(here('data/wfigs_az_sf.RData'))
-load(here('data/az_roads_sf.RData'))
+load(here('data/az_rd_4WD.RData'))
+load(here('data/az_rd_primary.RData'))
+load(here('data/az_rd_secondary.RData'))
 
 ```
 
@@ -157,11 +159,82 @@ plot(az_rd_4wd$geometry, col = "gray", add = T, lwd = 0.05)
 
 ```
 
+```{r minsaddl, echo=FALSE, eval=FALSE}
+
+wfigs_az_sf <- wfigs_az_sf %>%
+  mutate(distance_rd_min_all = pmin(distance_rd_primary, 
+                                    distance_rd_secondary, 
+                                    distance_rd_4wd))
+
+wfigs_az_sf <- wfigs_az_sf %>%
+  mutate(distance_rd_min_prisec = pmin(distance_rd_primary, 
+                                    distance_rd_secondary))
+
+wfigs_az_sf$distance_rd_min_isprisec <- as.integer(wfigs_az_sf$distance_rd_min_all ==
+                                                     wfigs_az_sf$distance_rd_min_prisec) 
+
+#if want to convert 0s and 1s to string info
+
+wfigs_az_sf <- wfigs_az_sf %>%
+  mutate(distance_rd_min_isprisec = case_when(
+    distance_rd_min_isprisec == 0 ~ "4wd",
+    distance_rd_min_isprisec == 1 ~ "Primary or Secondary",
+    TRUE ~ as.character(distance_rd_min_isprisec)
+  ))
+
+```
+
+```{r whichrdhist}
+
+table(wfigs_az_sf$distance_rd_min_isprisec)
+
+```
+
 ```{r disthists}
 
-hist(wfigs_az_sf$distance_rd_primary)
-hist(wfigs_az_sf$distance_rd_secondary)
-hist(wfigs_az_sf$distance_rd_4wd)
+x_rng <- range(c(wfigs_az_sf$distance_rd_primary, 
+                 wfigs_az_sf$distance_rd_secondary, 
+                 wfigs_az_sf$distance_rd_4wd))
+y_max <- max(hist(wfigs_az_sf$distance_rd_primary, plot = FALSE)$counts, 
+             hist(wfigs_az_sf$distance_rd_secondary, plot = FALSE)$counts,
+             hist(wfigs_az_sf$distance_rd_4wd, plot = FALSE)$counts)
+
+
+#overlay hist of dist from roads
+
+hist(wfigs_az_sf$distance_rd_primary, col = rgb(1, 0, 0, 0.5), xlim = x_rng, ylim = c(0, y_max),
+     main = "Min distance to fires", xlab = "Value")
+hist(wfigs_az_sf$distance_rd_secondary, col = rgb(0, 1, 0, 0.5), add = TRUE)
+hist(wfigs_az_sf$distance_rd_4wd, col = rgb(0, 0, 1, 0.5), add = TRUE)
+
+# Add a legend
+legend("topright", c("Primary Roads", "Secondary Roads", "4WD Roads"),
+       fill = c(rgb(1, 0, 0, 0.5), rgb(0, 1, 0, 0.5), rgb(0, 0, 1, 0.5)))
+
+```
+
+
+```{r}
+
+lgfirehist <- wfigs_az_sf[wfigs_az_sf$IncidentSize>=1000,]
+
+x_rng <- range(c(lgfirehist$distance_rd_primary, 
+                 lgfirehist$distance_rd_secondary, 
+                 lgfirehist$distance_rd_4wd))
+y_max <- max(hist(lgfirehist$distance_rd_primary, plot = FALSE)$counts, 
+             hist(lgfirehist$distance_rd_secondary, plot = FALSE)$counts,
+             hist(lgfirehist$distance_rd_4wd, plot = FALSE)$counts)
+
+#overlay hist of dist from roads
+
+hist(lgfirehist$distance_rd_primary, col = rgb(1, 0, 0, 0.5), xlim = x_rng, ylim = c(0, y_max),
+     main = "Min distance to fires >1000 acres", xlab = "Value")
+hist(lgfirehist$distance_rd_secondary, col = rgb(0, 1, 0, 0.5), add = TRUE)
+hist(lgfirehist$distance_rd_4wd, col = rgb(0, 0, 1, 0.5), add = TRUE)
+
+# Add a legend
+legend("topright", c("Primary Roads", "Secondary Roads", "4WD Roads"),
+       fill = c(rgb(1, 0, 0, 0.5), rgb(0, 1, 0, 0.5), rgb(0, 0, 1, 0.5)))
 
 ```
 
