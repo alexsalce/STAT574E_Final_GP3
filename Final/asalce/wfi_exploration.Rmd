@@ -26,6 +26,7 @@ library(ggplot2)
 library(mapview)
 library(tidyverse)
 library(scales)
+library(readr)
 
 # load datasets
 library(here)
@@ -36,6 +37,7 @@ load(here('data/wfigs_az_sf.RData'))
 load(here('data/az_rd_4WD.RData'))
 load(here('data/az_rd_primary.RData'))
 load(here('data/az_rd_secondary.RData'))
+wfigs_az_all_cov <- read_csv(here('data/wfigs_az_all_cov.csv'), show_col_types = FALSE)
 
 ```
 
@@ -92,6 +94,60 @@ wfigsaz_sf <- wfigs_az_sf %>% select(c(OBJECTID,
 ```
 
 
+```{r finaldataframes}
+
+az_fires_rx <- wfigs_az_sf %>% filter(IncidentTypeCategory=="RX")
+az_fires_wf <- wfigs_az_sf %>% filter(IncidentTypeCategory=="WF")
+
+
+#human caused wildfires
+
+table(wfigs_az_sf$FireCause)
+
+az_fires_wf_hum <- az_fires_wf %>% filter(FireCause=="Human")
+az_fires_wf_nat <- az_fires_wf %>% filter(FireCause=="Natural")
+az_fires_wf_un <- az_fires_wf %>% filter(FireCause=="Undetermined" | FireCause=="Unknown")
+
+
+```
+
+
+```{r thresholding}
+
+####################################
+# RUN BELOW FOR FIRE SIZE THRESHOLD#
+####################################
+
+
+# fire size threshold
+# FIRE_SIZE_CLASS = Code for fire size based on the number of acres within the 
+# final fire perimeter (A=greater than 0 but less than or equal to 0.25 acres, 
+# B=0.26-9.9 acres, C=10.0-99.9 acres, D=100-299 acres, E=300 to 999 acres, 
+# F=1000 to 4999 acres, and G=5000+ acres).
+
+# class F and G fires
+wf_size_threshold <- 1000
+
+# max prescribed burn size
+# wf_size_threshold <- max(az_fires_rx$IncidentSize)
+
+wfigs_az_sf_thresh <- wfigs_az_sf %>% filter(IncidentSize >= wf_size_threshold)
+
+
+az_fires_rx <- wfigs_az_sf_thresh %>% filter(IncidentTypeCategory=="RX")
+az_fires_wf <- wfigs_az_sf_thresh %>% filter(IncidentTypeCategory=="WF")
+
+
+#human caused wildfires
+
+table(wfigs_az_sf_thresh$FireCause)
+
+az_fires_wf_hum <- az_fires_wf %>% filter(FireCause=="Human")
+az_fires_wf_nat <- az_fires_wf %>% filter(FireCause=="Natural")
+az_fires_wf_un <- az_fires_wf %>% filter(FireCause=="Undetermined" | FireCause=="Unknown")
+
+```
+
 ```{r azdata, message=FALSE, warning=FALSE, results='hide', cache=TRUE}
 
 arizona_sf <- states() %>% filter_state("arizona")
@@ -104,10 +160,10 @@ az_counties_sf <- counties(state = "AZ", cb = TRUE)
 
 st_crs(wfigs_az_sf) <- st_crs(arizona_sf)
 st_crs(az_counties_sf) <- st_crs(arizona_sf)
-st_crs(az_roads_sf) <- st_crs(arizona_sf)
+st_crs(az_rd_primary) <- st_crs(arizona_sf)
+st_crs(az_rd_secondary) <- st_crs(arizona_sf)
+st_crs(az_rd_4wd) <- st_crs(arizona_sf)
 
-#there were some coordinates that were reported outside of the state
-wfigs_az_sf <- st_intersection(wfigs_az_sf, arizona_sf)
 
 ```
 
@@ -184,6 +240,7 @@ wfigs_az_sf <- wfigs_az_sf %>%
 
 ```
 
+
 ```{r whichrdhist}
 
 table(wfigs_az_sf$distance_rd_min_isprisec)
@@ -192,20 +249,22 @@ table(wfigs_az_sf$distance_rd_min_isprisec)
 
 ```{r disthists}
 
-x_rng <- range(c(wfigs_az_sf$distance_rd_primary, 
-                 wfigs_az_sf$distance_rd_secondary, 
-                 wfigs_az_sf$distance_rd_4wd))
-y_max <- max(hist(wfigs_az_sf$distance_rd_primary, plot = FALSE)$counts, 
-             hist(wfigs_az_sf$distance_rd_secondary, plot = FALSE)$counts,
-             hist(wfigs_az_sf$distance_rd_4wd, plot = FALSE)$counts)
+histdf <- az_fires_wf_nat
+
+x_rng <- range(c(histdf$distance_rd_primary, 
+                 histdf$distance_rd_secondary, 
+                 histdf$distance_rd_4wd))
+y_max <- max(hist(histdf$distance_rd_primary, plot = FALSE)$counts, 
+             hist(histdf$distance_rd_secondary, plot = FALSE)$counts,
+             hist(histdf$distance_rd_4wd, plot = FALSE)$counts)
 
 
 #overlay hist of dist from roads
 
-hist(wfigs_az_sf$distance_rd_primary, col = rgb(1, 0, 0, 0.5), xlim = x_rng, ylim = c(0, y_max),
+hist(histdf$distance_rd_primary, col = rgb(1, 0, 0, 0.5), xlim = x_rng, ylim = c(0, y_max),
      main = "Min distance to fires", xlab = "Value")
-hist(wfigs_az_sf$distance_rd_secondary, col = rgb(0, 1, 0, 0.5), add = TRUE)
-hist(wfigs_az_sf$distance_rd_4wd, col = rgb(0, 0, 1, 0.5), add = TRUE)
+hist(histdf$distance_rd_secondary, col = rgb(0, 1, 0, 0.5), add = TRUE)
+hist(histdf$distance_rd_4wd, col = rgb(0, 0, 1, 0.5), add = TRUE)
 
 # Add a legend
 legend("topright", c("Primary Roads", "Secondary Roads", "4WD Roads"),
@@ -213,30 +272,30 @@ legend("topright", c("Primary Roads", "Secondary Roads", "4WD Roads"),
 
 ```
 
+```{r disthistsmindistprimsec4wd}
 
-```{r}
+histdf <- az_fires_wf_nat
 
-lgfirehist <- wfigs_az_sf[wfigs_az_sf$IncidentSize>=1000,]
+x_rng <- range(c(histdf$distance_rd_min_all[histdf$distance_rd_min_isprisec==1], 
+                 histdf$distance_rd_min_all[histdf$distance_rd_min_isprisec==0]))
+y_max <- max(hist(histdf$distance_rd_min_all, plot = FALSE)$counts)
 
-x_rng <- range(c(lgfirehist$distance_rd_primary, 
-                 lgfirehist$distance_rd_secondary, 
-                 lgfirehist$distance_rd_4wd))
-y_max <- max(hist(lgfirehist$distance_rd_primary, plot = FALSE)$counts, 
-             hist(lgfirehist$distance_rd_secondary, plot = FALSE)$counts,
-             hist(lgfirehist$distance_rd_4wd, plot = FALSE)$counts)
 
 #overlay hist of dist from roads
 
-hist(lgfirehist$distance_rd_primary, col = rgb(1, 0, 0, 0.5), xlim = x_rng, ylim = c(0, y_max),
-     main = "Min distance to fires >1000 acres", xlab = "Value")
-hist(lgfirehist$distance_rd_secondary, col = rgb(0, 1, 0, 0.5), add = TRUE)
-hist(lgfirehist$distance_rd_4wd, col = rgb(0, 0, 1, 0.5), add = TRUE)
+hist(histdf$distance_rd_min_all[histdf$distance_rd_min_isprisec==1], col = rgb(1, 0, 0, 0.5), xlim = x_rng, ylim = c(0, y_max),
+     main = "Min distance to fires", xlab = "Value")
+hist(histdf$distance_rd_min_all[histdf$distance_rd_min_isprisec==0], col = rgb(0, 1, 0, 0.5), add = TRUE)
 
 # Add a legend
-legend("topright", c("Primary Roads", "Secondary Roads", "4WD Roads"),
-       fill = c(rgb(1, 0, 0, 0.5), rgb(0, 1, 0, 0.5), rgb(0, 0, 1, 0.5)))
+legend("topright", c("MinDistIsPrimSec", "MinDistIs4WD"),
+       fill = c(rgb(1, 0, 0, 0.5), rgb(0, 1, 0, 0.5)))
 
 ```
+
+
+
+
 
 
 # Counties
