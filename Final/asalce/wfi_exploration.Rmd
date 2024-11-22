@@ -33,16 +33,16 @@ library(here)
 set_here(path='../../')
 
 
-load(here('data/wfigs_az_sf.RData'))
-load(here('data/az_rd_4WD.RData'))
-load(here('data/az_rd_primary.RData'))
-load(here('data/az_rd_secondary.RData'))
-wfigs_az_all_cov <- read_csv(here('data/wfigs_az_all_cov.csv'), show_col_types = FALSE)
+load(here('data/wfigs_az_sf_EPSG32612.RData'))
+load(here('data/az_rd_4WD_EPSG32612.RData'))
+load(here('data/az_rd_primary_EPSG32612.RData'))
+load(here('data/az_rd_secondary_EPSG32612.RData'))
+# wfigs_az_all_cov <- read_csv(here('data/wfigs_az_all_cov.csv'), show_col_types = FALSE)
 
-wfigs_az_sf <- st_transform(wfigs_az_sf, crs = "EPSG:32612")
-az_rd_primary <- st_transform(az_rd_primary, crs = "EPSG:32612")
-az_rd_secondary <- st_transform(az_rd_secondary, crs = "EPSG:32612")
-az_rd_4wd <- st_transform(az_rd_4wd, crs = "EPSG:32612")
+# wfigs_az_sf <- st_transform(wfigs_az_sf, crs = "EPSG:32612")
+# az_rd_primary <- st_transform(az_rd_primary, crs = "EPSG:32612")
+# az_rd_secondary <- st_transform(az_rd_secondary, crs = "EPSG:32612")
+# az_rd_4wd <- st_transform(az_rd_4wd, crs = "EPSG:32612")
 
 ```
 

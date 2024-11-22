@@ -76,14 +76,14 @@
 #GENERATE CLOSEST ROAD TO WILDFIRE DIST (m)#
 ############################################
 
-wfigs_az_sf$distance_rd_primary <-
-  st_distance(wfigs_az_sf, az_rd_primary) %>% apply(1, min)
-
-wfigs_az_sf$distance_rd_secondary <-
-  st_distance(wfigs_az_sf, az_rd_secondary) %>% apply(1, min)
-
-wfigs_az_sf$distance_rd_4wd <-
-  st_distance(wfigs_az_sf, az_rd_4wd) %>% apply(1, min)
+# wfigs_az_sf$distance_rd_primary <-
+#   st_distance(wfigs_az_sf, az_rd_primary) %>% apply(1, min)
+#
+# wfigs_az_sf$distance_rd_secondary <-
+#   st_distance(wfigs_az_sf, az_rd_secondary) %>% apply(1, min)
+#
+# wfigs_az_sf$distance_rd_4wd <-
+#   st_distance(wfigs_az_sf, az_rd_4wd) %>% apply(1, min)
 
 # wfigs_az_sf <- wfigs_az_sf %>% filter(distance_rd_primary <= 1000)
 
@@ -191,5 +191,52 @@ wfigs_az_sf$distance_rd_4wd <-
 
 
 ########################
-####
+###     CLEANUP      ###
 ########################
+
+# reference for vars
+# https://data-nifc.opendata.arcgis.com/datasets/nifc::wildland-fire-incident-locations/about)
+
+# Low hanging fruit (mostly if not all NA)
+# wfigs_az_sf <- wfigs_az_sf %>% select(-c(ABCDMisc,
+#                                          FinalAcres,
+#                                          FinalFireReportApprovedByTitle,
+#                                          FinalFireReportApprovedByUnit,
+#                                          FinalFireReportApprovedDate,
+#                                          FireDepartmentID,
+#                                          POOLegalDescQtr,
+#                                          POOLegalDescQtrQtr,
+#                                          POOLegalDescPrincipalMeridian,
+#                                          POOLegalDescRange,
+#                                          POOLegalDescSection,
+#                                          POOLegalDescTownship,
+#                                          CpxName,
+#                                          CpxID,
+#                                          IncidentComplexityLevel))
+#
+#
+# # data for this project only
+# wfigsaz_sf <- wfigs_az_sf %>% select(c(OBJECTID,
+#                                        IncidentSize,
+#                                        FireCause,
+#                                        FireCauseGeneral,
+#                                        FireCauseSpecific,
+#                                        FireDiscoveryDateTime,
+#                                        IncidentName,
+#                                        IncidentShortDescription,
+#                                        IncidentTypeCategory,
+#                                        IncidentTypeKind,
+#                                        InitialResponseAcres,
+#                                        InitialResponseDateTime,
+#                                        IrwinID,
+#                                        IsFireCauseInvestigated,
+#                                        POOCity,
+#                                        POOCounty,
+#                                        POOFips,
+#                                        POODispatchCenterID,
+#                                        PredominantFuelGroup,
+#                                        PredominantFuelModel,
+#                                        UniqueFireIdentifier,
+#                                        EstimatedFinalCost,
+#                                        79:98
+# ))

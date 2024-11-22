@@ -32,9 +32,9 @@ library(here)
 set_here(path='../../')
 
 load(here('data/wfigs_az_sf_EPSG32612.RData'))
-load(here('data/az_rd_4WD_EPSG32612.RData'))
-load(here('data/az_rd_primary_EPSG32612.RData'))
-load(here('data/az_rd_secondary_EPSG32612.RData'))
+# load(here('data/az_rd_4WD_EPSG32612.RData'))
+# load(here('data/az_rd_primary_EPSG32612.RData'))
+# load(here('data/az_rd_secondary_EPSG32612.RData'))
 
 #NOTE: all sf object data uses CRS ESPG:32612
 # https://epsg.io/32612
@@ -293,11 +293,11 @@ library(spmodel)
 
 az_fires_wf_lm <- az_fires_wf_nat
 
-az_wf_splm_esv <- esv(IncidentSize ~ distance_rd_min_prisec + tmax + tmin + prcp + mean_slope + mean_forest, data = az_fires_wf_lm)
+az_wf_splm_esv <- esv(IncidentSize ~ distance_rd_min_prisec + tmax + tmin + prcp + mean_slope + mean_forest + pop.density + pop., data = az_fires_wf_lm)
 
 plot(az_wf_splm_esv)
 
-az_wf_splm <- splm(IncidentSize ~ distance_rd_min_prisec + tmax + tmin + prcp + mean_slope + mean_forest, data = az_fires_wf_lm, spcov_type = "matern", estmethod = "sv-wls")
+az_wf_splm <- splm(IncidentSize ~ distance_rd_min_prisec + tmax + tmin + prcp + mean_slope + mean_forest + pop.density + pop., data = az_fires_wf_lm, spcov_type = "matern", estmethod = "sv-wls")
 
 summary(az_wf_splm)
 
