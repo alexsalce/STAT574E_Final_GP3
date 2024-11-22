@@ -39,6 +39,11 @@ load(here('data/az_rd_primary.RData'))
 load(here('data/az_rd_secondary.RData'))
 wfigs_az_all_cov <- read_csv(here('data/wfigs_az_all_cov.csv'), show_col_types = FALSE)
 
+wfigs_az_sf <- st_transform(wfigs_az_sf, crs = "EPSG:32612")
+az_rd_primary <- st_transform(az_rd_primary, crs = "EPSG:32612")
+az_rd_secondary <- st_transform(az_rd_secondary, crs = "EPSG:32612")
+az_rd_4wd <- st_transform(az_rd_4wd, crs = "EPSG:32612")
+
 ```
 
 

@@ -76,14 +76,14 @@
 #GENERATE CLOSEST ROAD TO WILDFIRE DIST (m)#
 ############################################
 
-# wfigs_az_sf$distance_rd_primary <-
-#   st_distance(wfigs_az_sf, az_rd_primary) %>% apply(1, min)
-#
-# wfigs_az_sf$distance_rd_secondary <-
-#   st_distance(wfigs_az_sf, az_rd_secondary) %>% apply(1, min)
-#
-# wfigs_az_sf$distance_rd_4wd <-
-#   st_distance(wfigs_az_sf, az_rd_4wd) %>% apply(1, min)
+wfigs_az_sf$distance_rd_primary <-
+  st_distance(wfigs_az_sf, az_rd_primary) %>% apply(1, min)
+
+wfigs_az_sf$distance_rd_secondary <-
+  st_distance(wfigs_az_sf, az_rd_secondary) %>% apply(1, min)
+
+wfigs_az_sf$distance_rd_4wd <-
+  st_distance(wfigs_az_sf, az_rd_4wd) %>% apply(1, min)
 
 # wfigs_az_sf <- wfigs_az_sf %>% filter(distance_rd_primary <= 1000)
 

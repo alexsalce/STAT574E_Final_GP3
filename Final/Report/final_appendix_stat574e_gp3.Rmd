@@ -31,15 +31,14 @@ library(knitr)
 library(here)
 set_here(path='../../')
 
-load(here('data/wfigs_az_sf.RData'))
-load(here('data/wfigs_az_sf_rd_nat.RData'))
-load(here('data/az_rd_4WD.RData'))
-load(here('data/az_rd_primary.RData'))
-load(here('data/az_rd_secondary.RData'))
+load(here('data/wfigs_az_sf_EPSG32612.RData'))
+load(here('data/az_rd_4WD_EPSG32612.RData'))
+load(here('data/az_rd_primary_EPSG32612.RData'))
+load(here('data/az_rd_secondary_EPSG32612.RData'))
 
-wfigs_az_sf <- wfigs_az_sf_rd_nat
+#NOTE: all sf object data uses CRS ESPG:32612
+# https://epsg.io/32612
 
-rm(wfigs_az_sf_rd_nat)
 
 ```
 
@@ -68,6 +67,29 @@ This histogram uses input `sf` object to create `histdf`, which is used to gener
 As a generalization, we will think of Primary & Secondary roads as essentially the same class of roads, and we know that many humans use these roads every day. No matter the stretch of road, there is a good chance of there being some human settlement of some kind alongside these roads within close proximity.
 
 The "4WD" roads are technically a fairly "incomplete" dataset, but they do give a sense of areas humans can spend their time in remote areas. In general, though, if a wildfire incident is closer to a 4WD road we can think of it as being a "more remote" fire, i.e. there is a good chance it's fairly removed from any prominent human settlement.
+
+For reference, the minimum distances as well as the closest road type indicators were generated using the below code.
+
+```{r nearestrdDataGen, eval=FALSE}
+
+wfigs_az_sf$distance_rd_primary <-
+  st_distance(wfigs_az_sf, az_rd_primary) %>% apply(1, min)
+
+wfigs_az_sf$distance_rd_secondary <-
+  st_distance(wfigs_az_sf, az_rd_secondary) %>% apply(1, min)
+
+wfigs_az_sf$distance_rd_4wd <-
+  st_distance(wfigs_az_sf, az_rd_4wd) %>% apply(1, min)
+
+
+wfigs_az_sf <- wfigs_az_sf %>%
+  mutate(distance_rd_min_prisec = pmin(distance_rd_primary, 
+                                    distance_rd_secondary))
+
+wfigs_az_sf$distance_rd_min_isprisec <- as.integer(wfigs_az_sf$distance_rd_min_all ==
+                                                     wfigs_az_sf$distance_rd_min_prisec) 
+
+```
 
 #### All wildfire data
 
@@ -267,9 +289,9 @@ library(spmodel)
 
 ```
 
-```{r splm, warning=FALSE}
+```{r splm, warning=FALSE, cache=TRUE}
 
-az_fires_wf_lm <- st_transform(az_fires_wf_nat, crs = "EPSG:32612")
+az_fires_wf_lm <- az_fires_wf_nat
 
 az_wf_splm_esv <- esv(IncidentSize ~ distance_rd_min_prisec + tmax + tmin + prcp + mean_slope + mean_forest, data = az_fires_wf_lm)
 
