@@ -50,7 +50,7 @@ load(here('data/az_rd_secondary_EPSG32612.RData'))
 ```{r wfigs_az_sfCleanup, eval=FALSE, echo=FALSE}
 
 # reference for vars
-# https://data-nifc.opendata.arcgis.com/datasets/nifc::wildland-fire-incident-locations/about)
+# https://data-nifc.opendata.arcgis.com/datasets/nifc::wildland-fire-incident-locations/about
 
 # Low hanging fruit (mostly if not all NA)
 wfigs_az_sf <- wfigs_az_sf %>% select(-c(ABCDMisc, 
