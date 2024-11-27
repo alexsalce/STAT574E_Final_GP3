@@ -1,5 +1,8 @@
 # This file documents all R scripts used to generate and clean data
 
+# how to return the size of an ENV object
+# format(object.size(my_df), unit = "MB")
+
 ####################
 # Get all AZ roads #
 ####################
