@@ -53,7 +53,7 @@ We have a few datasets that we have pre-constructed based on available resources
 -`az_rd_primary` and `az_rd_secondary` are `sf` data of all roads in Arizona with FCC road classification codes of `S1100` or `S1200`. These two classes are treated as "major" roads in our analyses. `az_rd_4WD` is all roads with `S1500` classification, and are representative of remote roadways in Arizona. All other road types are removed/disregarded as they are deemed not useful for our analysis. [See this document for all classification codes](https://docs.fcc.gov/public/attachments/DA-12-187A3.pdf).
 
 
-```{R azstatesf, cache = TRUE, message = FALSE, warning = FALSE}
+```{R azstatesf, cache = TRUE, message = FALSE, warning = FALSE, results = 'hide'}
 
 arizona_sf <- states() %>% filter_state("arizona")
 arizona_sf <- st_transform(arizona_sf, crs = "EPSG:32612")
@@ -484,7 +484,7 @@ rm(histdf1, histdf2, histdf3, x_rng, y_max, bins, df_names, row_counts, result_t
 
 ##### Building a Background Poisson Process Realization
 
-```{r builddataspglmppp, cache=TRUE}
+```{r builddataspglmppp, cache=TRUE, warning=FALSE, message=FALSE}
 
 # set seed to 219 for report!
 set.seed(219)
@@ -673,8 +673,14 @@ spglm_formula <- Wildfires ~ distance_rd_min_prisec +
   Precipitation_Buffered + Temp_Min_Buffered + Temp_Max_Buffered
 
 az_wf_spglm <- spglm(spglm_formula, data = data_sf, family = binomial, spcov_type = "matern")
+#check 
 
 summary(az_wf_spglm)
 
 ```
 
+```{r predictionglm}
+
+az_wf_predict_spglm <- predict(az_wf_spglm, type = "response", se.fit = T, newdata = az_fires_wf_hum)
+
+```
