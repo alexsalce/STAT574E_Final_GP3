@@ -111,6 +111,11 @@ wfigs_az_sf <- wfigs_az_sf %>%
   mutate(distance_rd_min_prisec = pmin(distance_rd_primary, 
                                     distance_rd_secondary))
 
+wfigs_az_sf <- wfigs_az_sf %>%
+  mutate(distance_rd_min_all = pmin(distance_rd_primary, 
+                                    distance_rd_secondary,
+                                    distance_rd_4wd))
+
 wfigs_az_sf$distance_rd_min_isprisec <- as.integer(wfigs_az_sf$distance_rd_min_all ==
                                                      wfigs_az_sf$distance_rd_min_prisec) 
 
@@ -535,7 +540,7 @@ ggmap(coconino_map) + labs(title = "Coconino County Naturally Caused Large Wildf
   geom_sf(data = coconino_plot, fill = NA, color = "turquoise", size = 5, inherit.aes = FALSE) +
   geom_sf(data=wf_sf_cc_plot, shape = 21, size = 0.9, 
           color = "red", fill = "red", inherit.aes = FALSE) +
-  geom_sf(data=bkg_sf_cc_plot, shape = 4, size = 0.8, color = "maroon1", inherit.aes = FALSE)
+  geom_sf(data=bkg_sf_cc_plot, shape = 4, size = 0.8, color = "black", inherit.aes = FALSE)
 
 ```
 
@@ -642,7 +647,6 @@ df1$FireDiscoveryDateTime <- as.Date(df1$FireDiscoveryDateTime)
 df2$FireDiscoveryDateTime <- as.Date(df2$FireDiscoveryDateTime)
 
 
-# NEED TO FIX DATA TYPES IN NEW COLUMNS TO BE ABLE TO BIND
 Covariates <- rbind(df1, df2)
 
 rm(df1,df2,df)
@@ -667,17 +671,80 @@ coords = c('x', 'y'))
 # model formula
 
 
-spglm_formula <- Wildfires ~ distance_rd_min_prisec + 
-  distance_rd_4wd + distance_rd_min_isprisec + 
-  mean_slope + mean_forest + mean_grass + pop.density +
-  Precipitation_Buffered + Temp_Min_Buffered + Temp_Max_Buffered
+# spglm_formula <- Wildfires ~ I(sqrt(distance_rd_min_prisec)) + 
+#   I(sqrt(distance_rd_4wd)) + I(sqrt(distance_rd_min_isprisec)) + 
+#   I(log(mean_slope)) + mean_forest + mean_grass + I(log(pop.density)) +
+#   Precipitation_Buffered + Temp_Min_Buffered + Temp_Max_Buffered +
+#   I(month(FireDiscoveryDateTime))
 
-az_wf_spglm <- spglm(spglm_formula, data = data_sf, family = binomial, spcov_type = "matern")
-#check 
+spglm_formula <- Wildfires ~  I(sqrt(distance_rd_min_isprisec)) + 
+  Precipitation_Buffered + Temp_Min_Buffered
+
+az_wf_spcov <- spcov_initial("gaussian")
+
+az_wf_spglm <- spglm(spglm_formula, data = data_sf, 
+                     family = binomial, spcov_initial = az_wf_spcov)
+#check spcov_initial
 
 summary(az_wf_spglm)
 
 ```
+```{r getpredictions, eval = FALSE}
+
+# Create a grid of points
+grid <- st_make_grid(coconino_sf, n = c(20, 20), what = "centers")
+
+# Convert the grid to an sf object
+grid_sf <- st_sf(geometry = grid)
+
+# Filter points to keep only those inside Coconino County
+coconino_grid <- grid_sf[coconino_sf, ]
+
+# If you need exactly 200 points, you can sample from the resulting grid
+coconino_grid_n <- coconino_grid %>% 
+  slice_sample(n = 400)
+
+# Plot to verify
+plot(st_geometry(coconino_sf))
+plot(st_geometry(coconino_grid_n), add = TRUE, col = "red", pch = 20)
+
+prediction_grid <- cbind(st_drop_geometry(coconino_grid_n), st_coordinates(coconino_grid_n)) 
+
+prediction_grid$FireDiscoveryDateTime <- ymd_hm("2023-12-31 12:00")
+
+```
+
+```{r updatepredictgrid, eval=FALSE}
+
+az_prediction_grid <- read_csv(here('data/az_prediction_grid.csv'))
+
+az_prediction_grid <- az_prediction_grid %>% select(c(-1))
+
+az_prediction_grid_sf <- st_as_sf(az_prediction_grid, coords = c("X", "Y"), crs = "EPSG:32612")
+
+az_prediction_grid_sf <- st_transform(az_prediction_grid_sf, crs = 4326)
+
+# Extract coordinates
+coords_4326 <- st_coordinates(az_prediction_grid_sf)
+
+# Create a dataframe with original coordinates
+df <- data.frame(
+  lon = coords_4326[,1],
+  lat = coords_4326[,2]
+)
+
+az_prediction_grid <- cbind(az_prediction_grid, df)
+
+```
+
+```{r}
+
+model_cv <- loocv(az_wf_spglm, type = "response")
+
+kable(model_cv)
+
+```
+
 
 ```{r predictionglm}
 
