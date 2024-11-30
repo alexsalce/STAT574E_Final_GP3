@@ -243,3 +243,82 @@
 #                                        EstimatedFinalCost,
 #                                        79:98
 # ))
+
+################################
+# Background and predction data#
+################################
+#
+# ## Build covariate data for background points
+#
+# background_sf$distance_rd_primary <-
+#   st_distance(background_sf, az_rd_primary) %>% apply(1, min)
+#
+# background_sf$distance_rd_secondary <-
+#   st_distance(background_sf, az_rd_secondary) %>% apply(1, min)
+#
+# background_sf$distance_rd_4wd <-
+#   st_distance(background_sf, az_rd_4wd) %>% apply(1, min)
+#
+#
+# # dist_road covariates
+#
+# background_sf <- background_sf %>%
+#   mutate(distance_rd_min_all = pmin(distance_rd_primary,
+#                                     distance_rd_secondary,
+#                                     distance_rd_4wd))
+#
+# background_sf <- background_sf %>%
+#   mutate(distance_rd_min_prisec = pmin(distance_rd_primary,
+#                                        distance_rd_secondary))
+#
+# background_sf$distance_rd_min_isprisec <- as.integer(
+#   background_sf$distance_rd_min_all ==
+#     background_sf$distance_rd_min_prisec)
+#
+# # generate random dates
+#
+# start_date <- ymd_hms("2014-01-01 00:00:00")
+# end_date <- now()
+# n <- nrow(background_sf)
+#
+# random_dates <- sample(seq(start_date, end_date, by = "min"), n, replace = TRUE)
+# random_dates <- as.POSIXlt(random_dates)
+#
+# background_sf$FireDiscoveryDateTime <- random_dates
+#
+#
+# ## Population density data
+#
+# population_data <- get_decennial(
+#   geography = "tract",
+#   variables = c(population="P001001"),
+#   state = "AZ",
+#   year = 2010,
+#   geometry = TRUE
+# )
+# population_data$variable = population_data$value/st_area(population_data$geometry)
+# names(population_data) <- c("GEOID","NAME","pop.density","pop.","geometry")
+#
+# population_data <- st_transform(population_data, crs = "EPSG:32612")
+#
+# background_sf <- st_join(background_sf, population_data, left = TRUE)
+#
+# ## Import Covariates
+#
+# background_nat <- read_csv(here('data/background_final.csv'))
+#
+# background_sf <- cbind(background_sf, background_nat[,11:19])
+
+
+##################################
+# Generate CSV for background_sf #
+##################################
+#
+# coords <- st_coordinates(background_sf)
+# df <- st_drop_geometry(background_sf)
+# df$x <- coords[, 1]
+# df$y <- coords[, 2]
+# write.csv(df, file = 'predictions_sf.csv', row.names = FALSE)
+#
+# rm(df, coords)
+

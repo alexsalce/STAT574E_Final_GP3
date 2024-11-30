@@ -491,6 +491,8 @@ rm(histdf1, histdf2, histdf3, x_rng, y_max, bins, df_names, row_counts, result_t
 
 ##### Building a Background Poisson Process Realization
 
+We will assign `az_fires_wf_spglm` as a placeholder `sf` object for whichever data we are interested in (for flexibility). For the report, we are only analyzing naturally caused "large" wildfires, hence it will be assigned using `az_fires_wf_nat` to generate `ppp` object and subsequent Poisson background realization points. Note that we are following a similar process as outlined in the *Random spatial index (point process) + Binary GLM* application in the *Non-Gaussian spatial data* lecture for the `gorillas` data.
+
 ```{r builddataspglmppp, cache=TRUE, warning=FALSE, message=FALSE}
 
 # set seed to 219 for report!
@@ -546,93 +548,18 @@ ggmap(coconino_map) + labs(title = "Coconino County Naturally Caused Large Wildf
 
 ```
 
-We first generate a realization of a Poisson point process to represent where Naturally occurring wildfires could have happened in Cocinino County.
-
-```{r buildbkgcovs, warning=FALSE, message=FALSE, eval=FALSE}
-
-## Build covariate data for background points
-
-background_sf$distance_rd_primary <-
-  st_distance(background_sf, az_rd_primary) %>% apply(1, min)
-
-background_sf$distance_rd_secondary <-
-  st_distance(background_sf, az_rd_secondary) %>% apply(1, min)
-
-background_sf$distance_rd_4wd <-
-  st_distance(background_sf, az_rd_4wd) %>% apply(1, min)
+We first generate a realization of a Poisson point process to represent where Naturally occurring wildfires could have happened in Cocinino County, a simple features object called `background_sf`. For each of the points in the realization opted to generate all of the covariate data, including the census data for population density as well as all of the natural data. The data was a collaborative effort and required some tedious construction of useable dataframes that are column binded to the `background_sf` object. Those details are omitted and the data is provided as an `RData` file that can be imported.
 
 
-# dist_road covariates
-
-background_sf <- background_sf %>%
-  mutate(distance_rd_min_all = pmin(distance_rd_primary, 
-                                    distance_rd_secondary, 
-                                    distance_rd_4wd))
-
-background_sf <- background_sf %>%
-  mutate(distance_rd_min_prisec = pmin(distance_rd_primary, 
-                                    distance_rd_secondary))
-
-background_sf$distance_rd_min_isprisec <- as.integer(
-  background_sf$distance_rd_min_all ==
-    background_sf$distance_rd_min_prisec) 
-
-# generate random dates
-
-start_date <- ymd_hms("2014-01-01 00:00:00")
-end_date <- now()
-n <- nrow(background_sf)
-
-random_dates <- sample(seq(start_date, end_date, by = "min"), n, replace = TRUE)
-random_dates <- as.POSIXlt(random_dates)
-
-background_sf$FireDiscoveryDateTime <- random_dates
-
-
-## Population density data
-
-population_data <- get_decennial(
-  geography = "tract",
-  variables = c(population="P001001"),
-  state = "AZ",
-  year = 2010,
-  geometry = TRUE
-)
-population_data$variable = population_data$value/st_area(population_data$geometry)
-names(population_data) <- c("GEOID","NAME","pop.density","pop.","geometry")
-
-population_data <- st_transform(population_data, crs = "EPSG:32612")
-
-background_sf <- st_join(background_sf, population_data, left = TRUE)
-
-## Import Covariates
-
-background_nat <- read_csv(here('data/background_final.csv'))
-
-background_sf <- cbind(background_sf, background_nat[,11:19])
-
-
-```
-
-```{r importbkgcovs}
+```{r importbkgcovs, echo=FALSE}
 
 load(here('data/background_sf.RData'))
 
 ```
 
 
-```{r gencsvforRaymond, eval=FALSE, echo=FALSE}
+The `background_sf` and `az_fires_wf_spglm`
 
-coords <- st_coordinates(background_sf)
-df <- st_drop_geometry(background_sf)
-df$x <- coords[, 1]
-df$y <- coords[, 2]
-write.csv(df, file = 'predictions_sf.csv', row.names = FALSE)
-
-rm(df, coords)
-
-
-```
 
 ```{r combine bkgwfcovariates}
 
@@ -653,10 +580,7 @@ Covariates <- rbind(df1, df2)
 
 rm(df1,df2,df)
 
-```
-
-
-```{r}
+#### row bind to build a data_sf sf object for use in our model
 
 all_points <- superimpose(unmark(az_fires_wf_spglm_ppp), background)
 
@@ -668,6 +592,8 @@ data_sf <- st_as_sf(cbind(data, as.data.frame(all_points)[, c('x', 'y')]),
 coords = c('x', 'y'))
 
 ```
+
+A function to create categorical bins for season to use as predictors in wildfire incidence models.
 
 ```{r functions}
 
@@ -685,7 +611,10 @@ get_season <- function(date) {
 
 ```
 
-```{r modelAIC, eval=FALSE}
+We wanted to take as objective of an approach to building the model as possible. The below chunk produces the AIC for different variants of model fits. This approach is something like a "poor man's" version of the `stepAIC` function from the `MASS` package that can give a best-AIC model and do variable selection in an automated way. This way is not automated, and below is only serving as an example of how some models were compared. The chunk cycles through each model in `formula_list` and does a fit for each of the different `cov_types`. It fits each model using `spglm` and `binary` response and computes AIC for the model, returning a list from which we can select the best AIC model.
+
+
+```{r modelAIC, cache = TRUE}
 
 
 # Create a list of formula objects
@@ -695,20 +624,18 @@ formula_list <- list(
   I(log(mean_slope)) + mean_forest + mean_grass + I(log(pop.density)) +
   Precipitation_Buffered + Temp_Min_Buffered + Temp_Max_Buffered +
   I(month(FireDiscoveryDateTime))"),
-  as.formula("Wildfires ~  I(sqrt(distance_rd_min_isprisec)) + pop.density +
+  as.formula("Wildfires ~  I(sqrt(distance_rd_min_isprisec)) +
   Precipitation_Buffered + Temp_Min_Buffered + I(get_season(FireDiscoveryDateTime)) +
   mean_grass * mean_forest"),
   as.formula("Wildfires ~  I(sqrt(distance_rd_min_isprisec)) + pop.density +
   Precipitation_Buffered + Temp_Min_Buffered + I(get_season(FireDiscoveryDateTime)) +
   mean_grass * mean_forest")
-  # as.formula("Wildfires ~  I(sqrt(distance_rd_min_isprisec)) +
-  # Precipitation_Buffered + Temp_Min_Buffered")
+
 )
 
 # Define spatial covariance types
 # gaussian best for all so far
 # OUT: cauchy and matern
-# OUT/dont converge: wave and circular
 cov_types <- c("wave", 
                "gaussian", 
                "spherical",
@@ -729,8 +656,21 @@ for (i in seq_along(formula_list)) {
   }
 }
 
+kable(data.frame(AIC = unlist(results)))
 
 ```
+
+```{r echo=FALSE}
+
+rm(model, cov_types, formula_list)
+
+```
+
+This is only any example to show one noteworthy result in this process. Some models returned unusually low AICs. Upon investigating, these very-low AIC models were actually just models whose coefficients did not converge. These models are discarded, hence the model we ultimately used.
+
+It's also interesting to note, as we will see below, that a predictor like `pop.density` can be added to the model and improve it by a noticeable margin in terms of AIC score as well as $R^2$, but not be close to a level of significance that we would think it would be "useful" as a predictor, but in fact it really is.
+
+Using lots of methodical trial and error, we selected the model in the below chunk by lowest AIC.
 
 
 ```{r}
