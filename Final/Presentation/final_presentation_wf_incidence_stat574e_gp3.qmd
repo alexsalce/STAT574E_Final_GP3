@@ -6,7 +6,7 @@ author: "Raymond Owino, Matthew Wallace, Alex Salce"
 format: 
   revealjs:
     smaller: true
-    scrollable: true
+    scrollable: false
     # auto-stretch: false
 editor: visual
 theme: simple
@@ -14,19 +14,88 @@ theme: simple
 
 ## Wildfire Incidence in Arizona
 
+::: {#fig-elephants layout-ncol=2}
+
+![](images/museumfire.jpg){width=50%}
+
+![](images/tunnelfire.jpg){width=50%}
+
+
+
+
+Wildifres in Arizona
+:::
+
+Our project investigates different approaches to wildfire incidence data in Arizona, with a focus on Coconino County (Northern AZ). 
+
+## Wildfire Incidence Data
+
+:::: {.columns}
+
+::: {.column width="50%"}
+The "Wildfire Incidence" data we will be studying specifies coordinates for a fire's origin, and its resulting size in acres.
+
+![](images/wildfires_all_plot.png){width=75%}
+
+:::
+
+::: {.column width="50%"}
+
+::: {layout-nrow=2}
+
+
+![](images/az_wf_small.png){width=275}
+
+![](images/az_wf_lg.png){width=275}
+
+:::
+:::
+
+::::
+
+ 
+## Wildfire Incidence Data
+
+:::: {.columns}
+
+::: {.column width="50%"}
+
+:::{#figlogo}
+
+![](images/nifclogo.png){width=75%}
+
+:::
+
+:::
+
+::: {.column width="50%"}
+
+Our incidence data uses the full **National Interagency Fire Center** [Wildland Fire Incident Locations](https://data-nifc.opendata.arcgis.com/datasets/b4402f7887ca4ea9a6189443f220ef28_0/explore?location=-0.000000%2C0.000000%2C1.38) dataset, and 
+
+:::
+
+::::
+
+## Wildfire Incidence Data
+
 Studying wildfire incidence in AZ using two primary approaches to data
 
  - Continuous, fixed
  - Point process
 
-## Data Overview - Wildfire Incidence
-
-Our dataset comes from
-
 ### Filter
 
   - Coconino county
   - Discard unknown cause
+
+### Research Questions
+
+(1) Does the proximity of a wildfire’s origin to a road influence its resulting size?
+
+(2) Can spatial natural/human factors serve as useful predictors in modeling resulting wildfire size?
+
+(3) Are the patterns of human or non human caused fires spatially CSR, or do they exhibit an inhomogeneous spatial intensity?
+
 
 ## Covariates
 

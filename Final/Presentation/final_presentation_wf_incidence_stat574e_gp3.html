@@ -245,7 +245,6 @@
     }
     .reveal .slide:not(.center) {
       height: 100%;
-      overflow-y: auto;
     }
     .reveal .slide.scrollable {
       overflow-y: auto;
@@ -343,20 +342,78 @@ Raymond Owino, Matthew Wallace, Alex Salce
 </section>
 <section id="wildfire-incidence-in-arizona" class="slide level2">
 <h2>Wildfire Incidence in Arizona</h2>
+<div id="fig-elephants" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig">
+<div aria-describedby="fig-elephants-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img data-src="images/museumfire.jpg"></p>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img data-src="images/tunnelfire.jpg"></p>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-elephants-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Wildifres in Arizona
+</figcaption>
+</figure>
+</div>
+<p>Our project investigates different approaches to wildfire incidence data in Arizona, with a focus on Coconino County (Northern AZ).</p>
+</section>
+<section id="wildfire-incidence-data" class="slide level2">
+<h2>Wildfire Incidence Data</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p>The “Wildfire Incidence” data we will be studying specifies coordinates for a fire’s origin, and its resulting size in acres.</p>
+<p><img data-src="images/wildfires_all_plot.png" style="width:75.0%"></p>
+</div><div class="column" style="width:50%;">
+<div>
+
+</div>
+<div class="quarto-layout-panel" data-layout-nrow="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
+<p><img data-src="images/az_wf_small.png" width="275"></p>
+</div>
+</div>
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
+<p><img data-src="images/az_wf_lg.png" width="275"></p>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="wildfire-incidence-data-1" class="slide level2">
+<h2>Wildfire Incidence Data</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div id="figlogo">
+<p><img data-src="images/nifclogo.png" style="width:75.0%"></p>
+</div>
+</div><div class="column" style="width:50%;">
+<p>Our incidence data uses the full <strong>National Interagency Fire Center</strong> <a href="https://data-nifc.opendata.arcgis.com/datasets/b4402f7887ca4ea9a6189443f220ef28_0/explore?location=-0.000000%2C0.000000%2C1.38">Wildland Fire Incident Locations</a> dataset, and</p>
+</div></div>
+</section>
+<section id="wildfire-incidence-data-2" class="slide level2">
+<h2>Wildfire Incidence Data</h2>
 <p>Studying wildfire incidence in AZ using two primary approaches to data</p>
 <ul>
 <li>Continuous, fixed</li>
 <li>Point process</li>
 </ul>
-</section>
-<section id="data-overview---wildfire-incidence" class="slide level2">
-<h2>Data Overview - Wildfire Incidence</h2>
-<p>Our dataset comes from</p>
 <h3 id="filter">Filter</h3>
 <ul>
 <li>Coconino county</li>
 <li>Discard unknown cause</li>
 </ul>
+<h3 id="research-questions">Research Questions</h3>
+<ol type="1">
+<li><p>Does the proximity of a wildfire’s origin to a road influence its resulting size?</p></li>
+<li><p>Can spatial natural/human factors serve as useful predictors in modeling resulting wildfire size?</p></li>
+<li><p>Are the patterns of human or non human caused fires spatially CSR, or do they exhibit an inhomogeneous spatial intensity?</p></li>
+</ol>
 </section>
 <section id="covariates" class="slide level2">
 <h2>Covariates</h2>
