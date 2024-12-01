@@ -27,3 +27,5 @@ spatstat.linnet
 spatstat
 tidycensus
 ggmap
+gganimate
+gifski

@@ -1,0 +1,43 @@
+---
+title: "Wildfire Incidence in Arizona"
+subtitle: "STAT574E Final Project"
+date: "12/11/2024"
+author: "Raymond Owino, Matthew Wallace, Alex Salce"
+format: 
+  revealjs:
+    smaller: true
+    scrollable: true
+    # auto-stretch: false
+editor: visual
+theme: simple
+---
+
+## Wildfire Incidence in Arizona
+
+Studying wildfire incidence in AZ using two primary approaches to data
+
+ - Continuous, fixed
+ - Point process
+
+## Data Overview - Wildfire Incidence
+
+Our dataset comes from
+
+### Filter
+
+  - Coconino county
+  - Discard unknown cause
+
+## Covariates
+
+  - Roads
+  - Environmental
+    - Temp, Precipitation, Terrain, Plant cover (trees, brush, etc.)
+
+
+
+```{r}
+1 + 1
+```
+
+

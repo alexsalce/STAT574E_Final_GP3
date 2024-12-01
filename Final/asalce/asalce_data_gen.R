@@ -322,3 +322,65 @@
 #
 # rm(df, coords)
 
+##################################
+# Grid predction dataframe update#
+##################################
+
+
+az_prediction_grid <- read_csv(here('data/az_prediction_grid_utm_latlon.csv'))
+
+# az_prediction_grid <- az_prediction_grid %>% select(c(-1))
+
+az_prediction_grid_sf <- st_as_sf(az_prediction_grid, coords = c("X", "Y"), crs = "EPSG:32612")
+
+az_prediction_grid_sf <- st_transform(az_prediction_grid_sf, crs = 4326)
+
+# Extract coordinates
+coords_4326 <- st_coordinates(az_prediction_grid_sf)
+
+# Create a dataframe with original coordinates
+df <- data.frame(
+  lon = coords_4326[,1],
+  lat = coords_4326[,2]
+)
+
+az_prediction_grid <- cbind(az_prediction_grid, df)
+
+
+
+az_prediction_grid_nat_covs <- read_csv(here('data/az_locations_all.csv'))
+
+az_prediction_grid_nat_covs <- az_prediction_grid_nat_covs %>% select(,-c(1:5))
+
+az_prediction_grid_sf <- cbind(az_prediction_grid_sf, az_prediction_grid_nat_covs)
+
+az_prediction_grid_sf <- st_join(az_prediction_grid_sf, population_data, left = TRUE)
+
+
+
+az_prediction_grid_sf$distance_rd_primary <-
+  st_distance(az_prediction_grid_sf, az_rd_primary) %>% apply(1, min)
+
+az_prediction_grid_sf$distance_rd_secondary <-
+  st_distance(az_prediction_grid_sf, az_rd_secondary) %>% apply(1, min)
+
+az_prediction_grid_sf$distance_rd_4wd <-
+  st_distance(az_prediction_grid_sf, az_rd_4wd) %>% apply(1, min)
+
+
+az_prediction_grid_sf <- az_prediction_grid_sf %>%
+  mutate(distance_rd_min_prisec = pmin(distance_rd_primary,
+                                       distance_rd_secondary))
+
+az_prediction_grid_sf <- az_prediction_grid_sf %>%
+  mutate(distance_rd_min_all = pmin(distance_rd_primary,
+                                    distance_rd_secondary,
+                                    distance_rd_4wd))
+
+az_prediction_grid_sf$distance_rd_min_isprisec <- as.integer(az_prediction_grid_sf$distance_rd_min_all ==                                                     az_prediction_grid_sf$distance_rd_min_prisec)
+
+
+################################
+# #
+################################
+

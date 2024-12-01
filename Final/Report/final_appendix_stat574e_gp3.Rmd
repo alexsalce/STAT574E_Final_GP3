@@ -219,13 +219,10 @@ We define the threshold for a fire to be "large" as `IncidentSize` $\geq 1000$ a
 # class F and G fires
 wf_size_threshold <- 1000
 
-# max prescribed burn size
-# wf_size_threshold <- max(az_fires_rx$IncidentSize)
 
 wfigs_az_sf$size_threshold <- as.integer(wfigs_az_sf$IncidentSize >= wf_size_threshold)
 
 wfigs_az_sf_thresh <- wfigs_az_sf %>% filter(size_threshold==1)
-# wfigs_az_sf_thresh <- wfigs_az_sf %>% filter(IncidentSize >= wf_size_threshold)
 
 
 az_fires_rx <- wfigs_az_sf_thresh %>% filter(IncidentTypeCategory=="RX")
@@ -344,13 +341,10 @@ Checking K, F, G functions to determine if wildfires are CSR or not.
 # class F and G fires
 wf_size_threshold <- 1000
 
-# max prescribed burn size
-# wf_size_threshold <- max(az_fires_rx$IncidentSize)
 
 wfigs_az_sf$size_threshold <- as.integer(wfigs_az_sf$IncidentSize >= wf_size_threshold)
 
 wfigs_az_sf_thresh <- wfigs_az_sf %>% filter(size_threshold==1)
-# wfigs_az_sf_thresh <- wfigs_az_sf %>% filter(IncidentSize >= wf_size_threshold)
 
 
 az_fires_rx <- wfigs_az_sf_thresh %>% filter(IncidentTypeCategory=="RX")
@@ -369,6 +363,12 @@ az_fires_wf_un <- az_fires_wf %>% filter(FireCause=="Undetermined" | FireCause==
 The first step is to filter our data to only "large" wildfires (`IncidentSize` $\geq 1000$ acres). We are now treating our data as point process data, so the magnitude of the resulting wildfire is no longer of interest. Rather, we will be only studying the occurrence of "big" wildfires.
 
 Since we will be treating the wildfires as a point process, the most sensible data to study should be the naturally occurring fires as it would be reasonable to assume that they occur randomly. For example, naturally occurring fires can be the result of lightning strikes, which we have previously seen modeled using a point process approach.
+
+```{r rm1, echo=FALSE}
+
+rm(az_fires_rx, wf_size_threshold)
+
+```
 
 
 #### Counties
@@ -484,7 +484,8 @@ result_table <- data.frame(WildFireType = df_names, Counts = row_counts)
 
 kable(result_table, label = "Wildfire Counts")
 
-rm(histdf1, histdf2, histdf3, x_rng, y_max, bins, df_names, row_counts, result_table)
+rm(histdf1, histdf2, histdf3, x_rng, y_max, bins, 
+   df_names, row_counts, result_table, az_fires_wf_un)
 
 ```
 
@@ -548,6 +549,12 @@ ggmap(coconino_map) + labs(title = "Coconino County Naturally Caused Large Wildf
 
 ```
 
+```{r rm2, echo=FALSE}
+
+rm(bkg_sf_cc_plot, wf_sf_cc_plot)
+
+```
+
 We first generate a realization of a Poisson point process to represent where Naturally occurring wildfires could have happened in Cocinino County, a simple features object called `background_sf`. For each of the points in the realization opted to generate all of the covariate data, including the census data for population density as well as all of the natural data. The data was a collaborative effort and required some tedious construction of useable dataframes that are column binded to the `background_sf` object. Those details are omitted and the data is provided as an `RData` file that can be imported.
 
 
@@ -580,7 +587,7 @@ Covariates <- rbind(df1, df2)
 
 rm(df1,df2,df)
 
-#### row bind to build a data_sf sf object for use in our model
+#### row bind to build a model_data_sf sf object for use in our model
 
 all_points <- superimpose(unmark(az_fires_wf_spglm_ppp), background)
 
@@ -588,8 +595,14 @@ Wildfires <- c(rep(1, az_fires_wf_spglm_ppp$n), rep(0, background$n))
 
 data <- cbind(Wildfires, Covariates)
 
-data_sf <- st_as_sf(cbind(data, as.data.frame(all_points)[, c('x', 'y')]),
+model_data_sf <- st_as_sf(cbind(data, as.data.frame(all_points)[, c('x', 'y')]),
 coords = c('x', 'y'))
+
+```
+
+```{r rm3, echo=FALSE}
+
+rm(Wildfires, data, all_points, background, common_cols, Covariates)
 
 ```
 
@@ -611,7 +624,7 @@ get_season <- function(date) {
 
 ```
 
-We wanted to take as objective of an approach to building the model as possible. The below chunk produces the AIC for different variants of model fits. This approach is something like a "poor man's" version of the `stepAIC` function from the `MASS` package that can give a best-AIC model and do variable selection in an automated way. This way is not automated, and below is only serving as an example of how some models were compared. The chunk cycles through each model in `formula_list` and does a fit for each of the different `cov_types`. It fits each model using `spglm` and `binary` response and computes AIC for the model, returning a list from which we can select the best AIC model.
+For our model selection, we used lowest AIC score to select a model. The below chunk produces the AIC for different variants of model fits. This approach is something like a "poor man's" version of the `stepAIC` function from the `MASS` package that can give a best-AIC model and do variable selection in an automated way. This way is not automated, and below is only serving as an example of how some models were compared. The chunk cycles through each model in `formula_list` and does a fit for each of the different `cov_types`. It fits each model using `spglm` and `binary` response and computes AIC for the model, returning a list from which we can select the best AIC model.
 
 
 ```{r modelAIC, cache = TRUE}
@@ -628,7 +641,8 @@ formula_list <- list(
   Precipitation_Buffered + Temp_Min_Buffered + I(get_season(FireDiscoveryDateTime)) +
   mean_grass * mean_forest"),
   as.formula("Wildfires ~  I(sqrt(distance_rd_min_isprisec)) + pop.density +
-  Precipitation_Buffered + Temp_Min_Buffered + I(get_season(FireDiscoveryDateTime)) +
+  Precipitation_Buffered * Temp_Min_Buffered +
+  I(get_season(FireDiscoveryDateTime)) +
   mean_grass * mean_forest")
 
 )
@@ -641,36 +655,54 @@ cov_types <- c("wave",
                "spherical",
                "circular")
 
-# Initialize a list to store results
-results <- list()
+# initialize results df
+results_df <- data.frame(
+  Model = character(),
+  AIC = numeric(),
+  Pseudo_R_squared = numeric(),
+  stringsAsFactors = FALSE
+)
 
 # Outer loop for formulas
 for (i in seq_along(formula_list)) {
   # Inner loop for spatial covariance types
   for (j in seq_along(cov_types)) {
     # Fit the model using spglm
-    model <- spglm(formula_list[[i]], data = data_sf, family = binomial, spcov_initial = spcov_initial(cov_types[j]))
+    model <- spglm(formula_list[[i]], data = model_data_sf, family = binomial, spcov_initial = spcov_initial(cov_types[j]))
     
-    # Store AIC in results list
-    results[[paste0("Model_", i, "_", cov_types[j])]] <- AIC(model)
+    model_summary <- summary(model)
+
+    # build results df for each model
+    new_row <- data.frame(
+      Model = paste0("Model_", i, "_", cov_types[j]),
+      AIC = AIC(model),
+      Pseudo_R_squared = model_summary$pseudoR2,
+      stringsAsFactors = FALSE
+    )
+    
+    # Append the new row to the results dataframe
+    results_df <- rbind(results_df, new_row)
+    
   }
 }
 
-kable(data.frame(AIC = unlist(results)))
+kable(results_df)
 
 ```
 
 ```{r echo=FALSE}
 
-rm(model, cov_types, formula_list)
+rm(model, cov_types, formula_list, new_row, model_summary)
 
 ```
 
-This is only any example to show one noteworthy result in this process. Some models returned unusually low AICs. Upon investigating, these very-low AIC models were actually just models whose coefficients did not converge. These models are discarded, hence the model we ultimately used.
+This is only any example to show noteworthy results in this process. 
 
-It's also interesting to note, as we will see below, that a predictor like `pop.density` can be added to the model and improve it by a noticeable margin in terms of AIC score as well as $R^2$, but not be close to a level of significance that we would think it would be "useful" as a predictor, but in fact it really is.
+Some models returned unusually low AICs. Upon investigating, these very-low AIC models were actually just models whose coefficients did not converge. These models are discarded, hence the model we ultimately used.
 
-Using lots of methodical trial and error, we selected the model in the below chunk by lowest AIC.
+It's also interesting to note, as we will see below, that a predictor like `pop.density` can be added to the model and improve it by a noticeable margin in terms of AIC score as well as $R^2$, but not be close to a level of significance that we would think it would be "useful" as a predictor, but in fact does improve the model by this measure.
+
+Using lots of methodical trial and error (there were many trial/error steps that are omitted), we selected the model in the below chunk by lowest AIC.
 
 
 ```{r}
@@ -678,26 +710,22 @@ Using lots of methodical trial and error, we selected the model in the below chu
 # best AIC model
 
 spglm_formula <- Wildfires ~  I(sqrt(distance_rd_min_isprisec)) + pop.density +
-  Precipitation_Buffered + Temp_Min_Buffered + I(get_season(FireDiscoveryDateTime)) +
+  Precipitation_Buffered * Temp_Min_Buffered + I(get_season(FireDiscoveryDateTime)) +
   mean_grass * mean_forest
 
 az_wf_spcov <- spcov_initial("wave")
 
-az_wf_spglm <- spglm(spglm_formula, data = data_sf, 
+az_wf_spglm <- spglm(spglm_formula, data = model_data_sf, 
                      family = binomial, spcov_initial = az_wf_spcov)
 #check spcov_initial
 
 summary(az_wf_spglm)
 
-#model diagnostics
-
-model_cv <- loocv(az_wf_spglm, type = "response")
-
-kable(model_cv, caption = "Leave-One-Out Cross Validation")
-
 kable(AIC(az_wf_spglm), caption = "Model AIC")
 
 ```
+
+To use our model for predictions, we had to weigh the challenges for acquiring data for our predictors with the time it takes to extract the data (some processing took a lot of time). Below is code that generates a grid of points in Coconino county, and gives us a total of 272 points evenly spaced across the county.
 
 ```{r getpredictions, eval = FALSE}
 
@@ -724,66 +752,12 @@ prediction_grid$FireDiscoveryDateTime <- ymd_hm("2023-12-31 12:00")
 
 ```
 
-```{r updatepredictgrid, eval=FALSE}
 
-az_prediction_grid <- read_csv(here('data/az_prediction_grid_utm_latlon.csv'))
+##### Predictions
 
-# az_prediction_grid <- az_prediction_grid %>% select(c(-1))
+Once we have the points, we go through a similar process of generating the data for roads, census data, and natural factors. The natural factors were taken for the last day of 2023, so that the buffered temperature and precipitation data covers the year of 2023.
 
-az_prediction_grid_sf <- st_as_sf(az_prediction_grid, coords = c("X", "Y"), crs = "EPSG:32612")
-
-az_prediction_grid_sf <- st_transform(az_prediction_grid_sf, crs = 4326)
-
-# Extract coordinates
-coords_4326 <- st_coordinates(az_prediction_grid_sf)
-
-# Create a dataframe with original coordinates
-df <- data.frame(
-  lon = coords_4326[,1],
-  lat = coords_4326[,2]
-)
-
-az_prediction_grid <- cbind(az_prediction_grid, df)
-
-```
-
-
-```{r predictiongridnatcovs, eval=FALSE}
-
-az_prediction_grid_nat_covs <- read_csv(here('data/az_locations_all.csv'))
-
-az_prediction_grid_nat_covs <- az_prediction_grid_nat_covs %>% select(,-c(1:5))
-
-az_prediction_grid_sf <- cbind(az_prediction_grid_sf, az_prediction_grid_nat_covs)
-
-az_prediction_grid_sf <- st_join(az_prediction_grid_sf, population_data, left = TRUE)
-
-
-
-az_prediction_grid_sf$distance_rd_primary <-
-  st_distance(az_prediction_grid_sf, az_rd_primary) %>% apply(1, min)
-
-az_prediction_grid_sf$distance_rd_secondary <-
-  st_distance(az_prediction_grid_sf, az_rd_secondary) %>% apply(1, min)
-
-az_prediction_grid_sf$distance_rd_4wd <-
-  st_distance(az_prediction_grid_sf, az_rd_4wd) %>% apply(1, min)
-
-
-az_prediction_grid_sf <- az_prediction_grid_sf %>%
-  mutate(distance_rd_min_prisec = pmin(distance_rd_primary, 
-                                    distance_rd_secondary))
-
-az_prediction_grid_sf <- az_prediction_grid_sf %>%
-  mutate(distance_rd_min_all = pmin(distance_rd_primary, 
-                                    distance_rd_secondary,
-                                    distance_rd_4wd))
-
-az_prediction_grid_sf$distance_rd_min_isprisec <- as.integer(az_prediction_grid_sf$distance_rd_min_all ==                                                     az_prediction_grid_sf$distance_rd_min_prisec)
-
-```
-
-
+Using this data we can generate a plot of predictions from our model. The prediction values express probability that a large wildfire will occur if it were to start at the prediction point coordinates with the predictors used in the model (natural conditions, distances to roads), and population density for the captured data at those points. The visualization treats the prediction at that point as an approximation of other nearby points in the cell.
 
 
 ```{r predictionglm}
@@ -822,5 +796,111 @@ ggplot() +
   theme_minimal() +
   labs(title = "Predicted Values in Coconino County",
        fill = "Predicted Value")
+
+```
+
+Since natural factors like temperature and precipitation can vary year to year, we can modify these predictors to see what kind of effects it has on our predictions.
+
+
+```{r tempsweep, cache=TRUE}
+
+temp_sweep <- seq(-5, 5, by = 0.5)
+temp_prediction_list <- list()
+
+for (i in seq_along(temp_sweep)) {
+  temp_data <- coconino_grid_with_values
+  temp_data$Temp_Min_Buffered <- temp_data$Temp_Min_Buffered + temp_sweep[i]
+  
+  predictions <- predict(az_wf_spglm, type = "response", se.fit = TRUE, newdata = temp_data)
+  temp_data$predict_bin_spglm <- predictions$fit
+  
+  temp_prediction_list[[i]] <- temp_data
+}
+
+temp_prediction_sf <- do.call(rbind, temp_prediction_list)
+temp_prediction_sf$sweep_value <- rep(temp_sweep, each = nrow(coconino_grid_with_values))
+
+temp_prediction_sf <- st_transform(temp_prediction_sf, crs = 4326)
+
+
+```
+
+```{r precipsweep, cache=TRUE}
+
+precip_sweep <- seq(0.9, 1.1, by = 0.01)
+precip_prediction_list <- list()
+
+for (i in seq_along(precip_sweep)) {
+  precip_data <- coconino_grid_with_values
+  precip_data$Precipitation_Buffered <- precip_data$Precipitation_Buffered * precip_sweep[i]
+  
+  predictions <- predict(az_wf_spglm, type = "response", se.fit = TRUE, newdata = precip_data)
+  precip_data$predict_bin_spglm <- predictions$fit
+  
+  precip_prediction_list[[i]] <- precip_data
+}
+
+precip_prediction_sf <- do.call(rbind, precip_prediction_list)
+precip_prediction_sf$sweep_value <- rep(precip_sweep, each = nrow(coconino_grid_with_values))
+
+precip_prediction_sf <- st_transform(precip_prediction_sf, crs = 4326)
+
+```
+
+```{r genanimations, echo=FALSE, cache=TRUE}
+
+library(gganimate)
+library(gifski)
+
+```
+
+```{r temperatureanimation, cache=TRUE}
+
+# Temperature animation
+temp_animation <- ggplot() +
+  geom_sf(data = temp_prediction_sf, aes(fill = predict_bin_spglm), color = NA) +
+  geom_sf(data = coconino_sf, fill = NA, color = "black", size = 0.5) +
+  scale_fill_viridis_c(option = "B") +
+  theme_minimal() +
+  labs(title = "Predicted Values in Coconino County",
+       subtitle = "Temperature Change: {frame_time}°C",
+       fill = "Predicted Value") +
+  transition_time(sweep_value) +
+  ease_aes('linear')
+
+temp_animation
+
+
+```
+
+```{r precipanimation, cache=TRUE}
+
+# Precipitation animation
+precip_animation <- ggplot() +
+  geom_sf(data = precip_prediction_sf, aes(fill = predict_bin_spglm), color = NA) +
+  geom_sf(data = coconino_sf, fill = NA, color = "black", size = 0.5) +
+  scale_fill_viridis_c(option = "B") +
+  theme_minimal() +
+  labs(title = "Predicted Values in Coconino County",
+       subtitle = "Precipitation Change: {frame_time * 100 - 100}%",
+       fill = "Predicted Value") +
+  transition_time(sweep_value) +
+  ease_aes('linear')
+
+precip_animation
+
+```
+
+
+```{r renderanimations, message=FALSE, warning=FALSE, cache=TRUE, eval=FALSE}
+
+# Render temperature animation
+animate(temp_animation, nframes = 20, fps = 2, width = 1200, height = 900,
+        renderer = gifski_renderer("temp_animation.gif"))
+
+# Render precipitation animation
+animate(precip_animation, nframes = 20, fps = 2, width = 1200, height = 900,
+        renderer = gifski_renderer("precip_animation.gif"))
+
 
 ```
