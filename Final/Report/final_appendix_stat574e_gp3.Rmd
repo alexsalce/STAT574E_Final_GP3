@@ -551,7 +551,7 @@ ggmap(coconino_map) + labs(title = "Coconino County Naturally Caused Large Wildf
 
 ```{r rm2, echo=FALSE}
 
-rm(bkg_sf_cc_plot, wf_sf_cc_plot)
+rm(bkg_sf_cc_plot)
 
 ```
 
@@ -792,12 +792,15 @@ coconino_grid_with_values <- st_join(coconino_grid, predict_plot)
 ggplot() +
   geom_sf(data = coconino_grid_with_values, aes(fill = predict_bin_spglm), color = NA) +
   geom_sf(data = coconino_sf, fill = NA, color = "black", size = 0.5) +
+  geom_sf(data=wf_sf_cc_plot, shape = 21, size = 1.2, 
+          color = "orangered3", fill = "orangered3", inherit.aes = FALSE) +
   scale_fill_viridis_c(option = "B") +
   theme_minimal() +
-  labs(title = "Predicted Values in Coconino County",
+  labs(title = "Large Wildfire Probability Surface in Coconino County",
        fill = "Predicted Value")
 
 ```
+
 
 Since natural factors like temperature and precipitation can vary year to year, we can modify these predictors to see what kind of effects it has on our predictions.
 
@@ -862,8 +865,8 @@ temp_animation <- ggplot() +
   geom_sf(data = coconino_sf, fill = NA, color = "black", size = 0.5) +
   scale_fill_viridis_c(option = "B") +
   theme_minimal() +
-  labs(title = "Predicted Values in Coconino County",
-       subtitle = "Temperature Change: {frame_time}°C",
+  labs(title = "Large Wildfire Probability Surface in Coconino County",
+       subtitle = "Temperature Change: {round(frame_time, digits = 4)}°C",
        fill = "Predicted Value") +
   transition_time(sweep_value) +
   ease_aes('linear')
@@ -881,8 +884,8 @@ precip_animation <- ggplot() +
   geom_sf(data = coconino_sf, fill = NA, color = "black", size = 0.5) +
   scale_fill_viridis_c(option = "B") +
   theme_minimal() +
-  labs(title = "Predicted Values in Coconino County",
-       subtitle = "Precipitation Change: {frame_time * 100 - 100}%",
+  labs(title = "Large Wildfire Probability Surface in Coconino County",
+       subtitle = "Precipitation Change: {round(frame_time * 100 - 100, digits = 4)}%",
        fill = "Predicted Value") +
   transition_time(sweep_value) +
   ease_aes('linear')

@@ -1,6 +1,6 @@
 ---
 title: "Wildfire Incidence in Arizona"
-subtitle: "STAT574E Final Project"
+subtitle: "Group 3 | STAT574E Final Project"
 date: "12/11/2024"
 author: "Raymond Owino, Matthew Wallace, Alex Salce"
 format: 
