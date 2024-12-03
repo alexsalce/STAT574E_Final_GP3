@@ -7,28 +7,24 @@ format:
   revealjs:
     smaller: true
     scrollable: false
+    page-layout: full
     # auto-stretch: false
-editor: visual
+# editor: visual
 theme: simple
+# lightbox: true
 ---
 
 ## Wildfire Incidence in Arizona
 
-::: {#fig-elephants layout-ncol=2}
+::: {#fig-fires}
 
-![](images/museumfire.jpg){width=50%}
+![Wildifres in Arizona](images/wfires.JPEG){width=50%}
 
-![](images/tunnelfire.jpg){width=50%}
-
-
-
-
-Wildifres in Arizona
 :::
 
-Our project investigates different approaches to wildfire incidence data in Arizona, with a focus on Coconino County (Northern AZ). 
+Our project investigates different approaches to spatial statistical modeling of wildfire incidence data in Arizona, with a focus on Coconino County (Northern AZ). 
 
-## Wildfire Incidence Data
+## Data for Study: Wildfire Incidence Data
 
 :::: {.columns}
 
@@ -41,12 +37,13 @@ The "Wildfire Incidence" data we will be studying specifies coordinates for a fi
 
 ::: {.column width="50%"}
 
-::: {layout-nrow=2}
+::: {layout-nrow=2,#fig-wf}
 
 
-![](images/az_wf_small.png){width=275}
+![Fires under 1000 acres](images/az_wf_small.png){width=250}
 
-![](images/az_wf_lg.png){width=275}
+
+![Fires over 1000 acres](images/az_wf_lg.png){width=250}
 
 :::
 :::
@@ -70,7 +67,9 @@ The "Wildfire Incidence" data we will be studying specifies coordinates for a fi
 
 ::: {.column width="50%"}
 
-Our incidence data uses the full **National Interagency Fire Center** [Wildland Fire Incident Locations](https://data-nifc.opendata.arcgis.com/datasets/b4402f7887ca4ea9a6189443f220ef28_0/explore?location=-0.000000%2C0.000000%2C1.38) dataset, and 
+Our incidence data uses the full **National Interagency Fire Center** [Wildland Fire Incident Locations](https://data-nifc.opendata.arcgis.com/datasets/b4402f7887ca4ea9a6189443f220ef28_0/explore?location=-0.000000%2C0.000000%2C1.38) dataset. This dataset includes point locations and corresponding data for all wildland fires in the United States reported to the [IRWIN system](https://www.wildfire.gov/application/irwin-integrated-reporting-wildfire-information), which aggregates wildfire incidence data from around the country, and contains all IRWIN data since 2014 (it is still udpated daily).
+
+
 
 :::
 
@@ -78,17 +77,130 @@ Our incidence data uses the full **National Interagency Fire Center** [Wildland 
 
 ## Wildfire Incidence Data
 
-Studying wildfire incidence in AZ using two primary approaches to data
+:::: {.columns}
 
- - Continuous, fixed
- - Point process
+::: {.column width="50%"}
 
-### Filter
+:::{#figlogo}
 
-  - Coconino county
-  - Discard unknown cause
+![](images/nifclogo.png){width=75%}
 
-### Research Questions
+:::
+
+:::
+
+::: {.column width="50%"}
+
+There are over 300K records in this dataset, and just over 18K in Arizona.
+
+Refinement of this dataset utilized the following data attributes (of 96 columns) for incidence filtering & covariates.
+
+- `IncidentSize` | Size of the resulting wildfire in acres
+- `FireCause` | Human, Natural, Unknown, Undetermined
+- `FireDiscoveryDateTime` | Date & time of incident reporting
+- `IncidentTypeCategory` | WF (wildfire) or RX (prescribed burn)
+- `x` and `y` | Spatial coordinates in lat/lon
+
+
+:::
+
+::::
+
+## Wildfire Incidence Data - Continuous, Fixed Spatial Index
+
+This dataset offered us a unique opportunity to take multiple approaches to spatial statistical modeling. Using the available data attributes, we can treat our response data in two distinct ways
+
+ - **Continuous, fixed** - Using `x` and `y` as coordinates and `IncidentSize` as response, we can treat wildfire incidence as fixed, continuous data.
+ 
+. . .
+
+#### Modeling approach
+
+- **Spatial Linear Model** - Module 2, similar to Holland example in *Continuously indexed spatial data (geostatistics)*, or the `dioxane` analysis in HW2.
+
+$$
+\boldsymbol{\mathrm{y}}=\boldsymbol{\mathrm{X}}^{T}\boldsymbol{\beta}+\boldsymbol{e}\,\,\,\,\boldsymbol{e}\sim\mathrm{N}(\boldsymbol{0},\Sigma(\boldsymbol{\theta}))
+$$
+
+## Wildfire Incidence Data - Continuous, Fixed Spatial Index
+
+#### Spatial Linear Model Data
+
+::: {layout-ncol=3}
+
+![](images/dioxane.png)
+
+![](images/hollandsplm.png)
+
+![](images/az_wf_small.png)
+:::
+
+## Wildfire Incidence Data - Point Process 1
+
+This dataset offered us a unique opportunity to take multiple approaches to spatial statistical modeling. Using the available data attributes, we can treat our response data in two distinct ways
+
+ - **Point process** - Using `x` and `y` as coordinates and `IncidentSize` as a *threshold*, we can study "large wildfires" (`IncidentSize` $\geq 1000$ acres) as point process data.
+ 
+. . .
+
+
+#### Modeling approach
+
+- **Log-Gaussian Cox Process** Module 4, similar to Gorillas LGCP example in *Random spatial index (point pattern)*, or the `earthquakes_um` analysis of Kansas in HW4.
+
+$$
+\log(\lambda(u))=\mathrm{\boldsymbol{Z}}(u)\boldsymbol{\beta}+e(u),\,\,\,\,e(u)\sim\mathrm{N}(0,C(\boldsymbol{\theta})),\,\,\,\,C(u,u')=\sigma^{2}e^{-||u-u'||/h}
+$$
+
+## Wildfire Incidence Data - Point Process 1
+
+#### Log-Gaussian Point Process Model Data
+
+::: {layout-ncol=3}
+
+![](images/gorillas_lgcp.png)
+
+![](images/kansas.png)
+
+![](images/az_wf_lg_unmarked.png)
+:::
+
+## Wildfire Incidence Data - Point Process 2
+
+This dataset offered us a unique opportunity to take multiple approaches to spatial statistical modeling. Using the available data attributes, we can treat our response data in two distinct ways
+
+ - **Point process** - Using `x` and `y` as coordinates and `IncidentSize` as a *threshold*, we can study "large wildfires" (`IncidentSize` $\geq 1000$ acres) as point process data.
+ 
+. . .
+
+
+#### Modeling approach
+
+- **Binary GLM Spatial Logistic Regression** - 
+
+$$
+\mathrm{logit}(\lambda_{1}(\mathrm{\boldsymbol{s}}))=\boldsymbol{\mathrm{x}}(\mathrm{\boldsymbol{s}})^{T}\boldsymbol{\beta}+e(\mathrm{\boldsymbol{s}})+\log(\lambda_{0})
+$$
+
+## Wildfire Incidence Data - Point Process 2
+
+#### Binary GLM Spatial Logistic Regression Model Data
+
+::: {layout-ncol=3}
+
+![](images/gorillas_lgcp.png)
+
+![](images/kansas.png)
+
+![](images/az_wf_lg_unmarked.png)
+:::
+
+
+## Research Questions
+
+:::: {.columns}
+
+::: {.column width="40%"}
 
 (1) Does the proximity of a wildfire’s origin to a road influence its resulting size?
 
@@ -96,17 +208,43 @@ Studying wildfire incidence in AZ using two primary approaches to data
 
 (3) Are the patterns of human or non human caused fires spatially CSR, or do they exhibit an inhomogeneous spatial intensity?
 
+:::
 
-## Covariates
+::: {.column width="60%"}
 
-  - Roads
-  - Environmental
-    - Temp, Precipitation, Terrain, Plant cover (trees, brush, etc.)
+![Fires under 1000 acres](images/az_wf_small.png){width=250}
 
+:::
 
-
-```{r}
-1 + 1
-```
+::::
 
 
+
+
+## 
+
+
+## Modeling approach
+
+- **Spatial Linear Model** - use the continuous, fixed response data to fit a spatial linear model to predict resulting model size for input points and covariate data.
+
+$$
+\boldsymbol{\mathrm{y}}=\boldsymbol{\mathrm{X}}^{T}\boldsymbol{\beta}+\boldsymbol{e}\,\,\,\,\boldsymbol{e}\sim\mathrm{N}(\boldsymbol{0},\Sigma(\boldsymbol{\theta}))
+$$
+
+## Modeling approach
+
+- **Log-Gaussian Cox Process** Treat large wildfire ($\geq1000$ acres) incidence locations as arising from a random intensity surface and fit LGCP model accounting for fixed effects and spatial dependence
+
+$$
+\log(\lambda(u))=\mathrm{\boldsymbol{Z}}(u)\boldsymbol{\beta}+e(u),\,\,\,\,e(u)\sim\mathrm{N}(0,C(\boldsymbol{\theta})),\,\,\,\,C(u,u')=\sigma^{2}e^{-||u-u'||/h}
+$$
+
+
+## Modeling approach
+
+- **Binary GLM Spatial Logistic Regression** - Treat large wildfire incidence as realization of a point process $\lambda_1$ (response value$=1$) and generate constant background process $\lambda_0$ (response value$=0$). Perform binary logistic regression to model probability of large wildfire incidence for a point and chosen predctors
+
+$$
+\mathrm{logit}(\lambda_{1}(\mathrm{\boldsymbol{s}}))=\boldsymbol{\mathrm{x}}(\mathrm{\boldsymbol{s}})^{T}\boldsymbol{\beta}+e(\mathrm{\boldsymbol{s}})+\log(\lambda_{0})
+$$

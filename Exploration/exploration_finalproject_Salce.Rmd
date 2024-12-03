@@ -123,15 +123,6 @@ plot(az_counties_sf, add=T)
 plot(wfigs_az_sf$geometry, pch = 16, cex = 0.4, col = scales::alpha("darkred", 0.1), add = T)
 
 
-ggplot() +
-  geom_sf(data = arizona_sf) +
-  geom_sf(data = az_counties_sf, fill = "turquoise4") +
-  geom_sf(data = wfigs_az_sf[wfigs_az_sf$IncidentSize >= 1000,], aes(color = IncidentSize), size = 0.6, alpha = 0.5) +
-  # scale_color_gradientn(colors = brewer.pal(9, "YlOrRd")) +
-  scale_color_viridis_c(option = "C") +
-  ggtitle("Wildfires in Arizona 2014-2024") +
-  theme_minimal()
-
 ```
 
 ```{r fig.align='center', out.width="95%", tidy=TRUE, warning=FALSE, message=FALSE, results='hide', cache=TRUE, tidy.opts=list(width.cutoff=70)}
