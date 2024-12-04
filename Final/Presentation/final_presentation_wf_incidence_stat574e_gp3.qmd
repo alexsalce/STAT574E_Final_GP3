@@ -67,9 +67,13 @@ The "Wildfire Incidence" data we will be studying specifies coordinates for a fi
 
 ::: {.column width="50%"}
 
-Our incidence data uses the full **National Interagency Fire Center** [Wildland Fire Incident Locations](https://data-nifc.opendata.arcgis.com/datasets/b4402f7887ca4ea9a6189443f220ef28_0/explore?location=-0.000000%2C0.000000%2C1.38) dataset. This dataset includes point locations and corresponding data for all wildland fires in the United States reported to the [IRWIN system](https://www.wildfire.gov/application/irwin-integrated-reporting-wildfire-information), which aggregates wildfire incidence data from around the country, and contains all IRWIN data since 2014 (it is still udpated daily).
+Our incidence data uses the **National Interagency Fire Center** [Wildland Fire Incident Locations](https://data-nifc.opendata.arcgis.com/datasets/b4402f7887ca4ea9a6189443f220ef28_0/explore?location=-0.000000%2C0.000000%2C1.38) dataset. 
 
+This dataset includes point locations and corresponding data for all wildland fires in the United States reported to the [IRWIN system](https://www.wildfire.gov/application/irwin-integrated-reporting-wildfire-information), which aggregates wildfire incidence data from around the country. 
 
+The dataset has all IRWIN data entries since 2014 (it is still updated daily).
+
+There are over 300K records in this dataset, and just over 18K in Arizona.
 
 :::
 
@@ -90,8 +94,6 @@ Our incidence data uses the full **National Interagency Fire Center** [Wildland 
 :::
 
 ::: {.column width="50%"}
-
-There are over 300K records in this dataset, and just over 18K in Arizona.
 
 Refinement of this dataset utilized the following data attributes (of 96 columns) for incidence filtering & covariates.
 
@@ -139,7 +141,7 @@ $$
 
 This dataset offered us a unique opportunity to take multiple approaches to spatial statistical modeling. Using the available data attributes, we can treat our response data in two distinct ways
 
- - **Point process** - Using `x` and `y` as coordinates and `IncidentSize` as a *threshold*, we can study "large wildfires" (`IncidentSize` $\geq 1000$ acres) as point process data.
+ - **Point process** - Using `x` and `y` as coordinates and `IncidentSize` as a *threshold*, we can study "large wildfires" (`IncidentSize` $\geq 1000$ acres) as point process data. We can also filter by `FireCause` (Human or Natural).
  
 . . .
 
@@ -169,14 +171,14 @@ $$
 
 This dataset offered us a unique opportunity to take multiple approaches to spatial statistical modeling. Using the available data attributes, we can treat our response data in two distinct ways
 
- - **Point process** - Using `x` and `y` as coordinates and `IncidentSize` as a *threshold*, we can study "large wildfires" (`IncidentSize` $\geq 1000$ acres) as point process data.
+ - **Point process** - Using `x` and `y` as coordinates and `IncidentSize` as a *threshold*, we can study "large wildfires" (`IncidentSize` $\geq 1000$ acres) as point process data. We can also filter by `FireCause` (Human or Natural).
  
 . . .
 
 
 #### Modeling approach
 
-- **Binary GLM Spatial Logistic Regression** - 
+- **Binary GLM Spatial Logistic Regression** - Module 5, similar to Gorillas Logistic Regression GLM example in *Non-Gaussian spatial data*.
 
 $$
 \mathrm{logit}(\lambda_{1}(\mathrm{\boldsymbol{s}}))=\boldsymbol{\mathrm{x}}(\mathrm{\boldsymbol{s}})^{T}\boldsymbol{\beta}+e(\mathrm{\boldsymbol{s}})+\log(\lambda_{0})
@@ -186,13 +188,11 @@ $$
 
 #### Binary GLM Spatial Logistic Regression Model Data
 
-::: {layout-ncol=3}
+::: {layout-ncol=2}
 
-![](images/gorillas_lgcp.png)
+![](images/gorillas_binary.png)
 
-![](images/kansas.png)
-
-![](images/az_wf_lg_unmarked.png)
+![](images/az_wf_cc_binary.png)
 :::
 
 

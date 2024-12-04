@@ -387,7 +387,10 @@ Raymond Owino, Matthew Wallace, Alex Salce
 <p><img data-src="images/nifclogo.png" style="width:75.0%"></p>
 </div>
 </div><div class="column" style="width:50%;">
-<p>Our incidence data uses the full <strong>National Interagency Fire Center</strong> <a href="https://data-nifc.opendata.arcgis.com/datasets/b4402f7887ca4ea9a6189443f220ef28_0/explore?location=-0.000000%2C0.000000%2C1.38">Wildland Fire Incident Locations</a> dataset. This dataset includes point locations and corresponding data for all wildland fires in the United States reported to the <a href="https://www.wildfire.gov/application/irwin-integrated-reporting-wildfire-information">IRWIN system</a>, which aggregates wildfire incidence data from around the country, and contains all IRWIN data since 2014 (it is still udpated daily).</p>
+<p>Our incidence data uses the <strong>National Interagency Fire Center</strong> <a href="https://data-nifc.opendata.arcgis.com/datasets/b4402f7887ca4ea9a6189443f220ef28_0/explore?location=-0.000000%2C0.000000%2C1.38">Wildland Fire Incident Locations</a> dataset.</p>
+<p>This dataset includes point locations and corresponding data for all wildland fires in the United States reported to the <a href="https://www.wildfire.gov/application/irwin-integrated-reporting-wildfire-information">IRWIN system</a>, which aggregates wildfire incidence data from around the country.</p>
+<p>The dataset has all IRWIN data entries since 2014 (it is still updated daily).</p>
+<p>There are over 300K records in this dataset, and just over 18K in Arizona.</p>
 </div></div>
 </section>
 <section id="wildfire-incidence-data-1" class="slide level2">
@@ -398,7 +401,6 @@ Raymond Owino, Matthew Wallace, Alex Salce
 <p><img data-src="images/nifclogo.png" style="width:75.0%"></p>
 </div>
 </div><div class="column" style="width:50%;">
-<p>There are over 300K records in this dataset, and just over 18K in Arizona.</p>
 <p>Refinement of this dataset utilized the following data attributes (of 96 columns) for incidence filtering &amp; covariates.</p>
 <ul>
 <li><code>IncidentSize</code> | Size of the resulting wildfire in acres</li>
@@ -449,7 +451,7 @@ Raymond Owino, Matthew Wallace, Alex Salce
 <h2>Wildfire Incidence Data - Point Process 1</h2>
 <p>This dataset offered us a unique opportunity to take multiple approaches to spatial statistical modeling. Using the available data attributes, we can treat our response data in two distinct ways</p>
 <ul>
-<li><strong>Point process</strong> - Using <code>x</code> and <code>y</code> as coordinates and <code>IncidentSize</code> as a <em>threshold</em>, we can study “large wildfires” (<code>IncidentSize</code> <span class="math inline">\(\geq 1000\)</span> acres) as point process data.</li>
+<li><strong>Point process</strong> - Using <code>x</code> and <code>y</code> as coordinates and <code>IncidentSize</code> as a <em>threshold</em>, we can study “large wildfires” (<code>IncidentSize</code> <span class="math inline">\(\geq 1000\)</span> acres) as point process data. We can also filter by <code>FireCause</code> (Human or Natural).</li>
 </ul>
 <div class="fragment">
 <h4 id="modeling-approach-1">Modeling approach</h4>
@@ -485,12 +487,12 @@ Raymond Owino, Matthew Wallace, Alex Salce
 <h2>Wildfire Incidence Data - Point Process 2</h2>
 <p>This dataset offered us a unique opportunity to take multiple approaches to spatial statistical modeling. Using the available data attributes, we can treat our response data in two distinct ways</p>
 <ul>
-<li><strong>Point process</strong> - Using <code>x</code> and <code>y</code> as coordinates and <code>IncidentSize</code> as a <em>threshold</em>, we can study “large wildfires” (<code>IncidentSize</code> <span class="math inline">\(\geq 1000\)</span> acres) as point process data.</li>
+<li><strong>Point process</strong> - Using <code>x</code> and <code>y</code> as coordinates and <code>IncidentSize</code> as a <em>threshold</em>, we can study “large wildfires” (<code>IncidentSize</code> <span class="math inline">\(\geq 1000\)</span> acres) as point process data. We can also filter by <code>FireCause</code> (Human or Natural).</li>
 </ul>
 <div class="fragment">
 <h4 id="modeling-approach-2">Modeling approach</h4>
 <ul>
-<li><strong>Binary GLM Spatial Logistic Regression</strong> -</li>
+<li><strong>Binary GLM Spatial Logistic Regression</strong> - Module 5, similar to Gorillas Logistic Regression GLM example in <em>Non-Gaussian spatial data</em>.</li>
 </ul>
 <p><span class="math display">\[
 \mathrm{logit}(\lambda_{1}(\mathrm{\boldsymbol{s}}))=\boldsymbol{\mathrm{x}}(\mathrm{\boldsymbol{s}})^{T}\boldsymbol{\beta}+e(\mathrm{\boldsymbol{s}})+\log(\lambda_{0})
@@ -503,16 +505,13 @@ Raymond Owino, Matthew Wallace, Alex Salce
 <div>
 
 </div>
-<div class="quarto-layout-panel" data-layout-ncol="3">
+<div class="quarto-layout-panel" data-layout-ncol="2">
 <div class="quarto-layout-row">
-<div class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
-<p><img data-src="images/gorillas_lgcp.png"></p>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img data-src="images/gorillas_binary.png"></p>
 </div>
-<div class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
-<p><img data-src="images/kansas.png"></p>
-</div>
-<div class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
-<p><img data-src="images/az_wf_lg_unmarked.png"></p>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img data-src="images/az_wf_cc_binary.png"></p>
 </div>
 </div>
 </div>

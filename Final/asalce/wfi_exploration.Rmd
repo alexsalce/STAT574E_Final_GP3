@@ -378,14 +378,15 @@ wfigs_az_lg_sf_coconino <- st_intersection(wfigs_az_lg_sf, coconino)
 
 ggplot() +
   geom_sf(data = arizona_sf) +
-  geom_sf(data = az_counties_sf, fill = "turquoise4") +
-  # geom_sf(data = az_rd_primary, color="green") +
-  # geom_sf(data = az_rd_secondary, color="blue") +
-  # geom_sf(data = az_rd_4wd, color="blue", linewidth=0.1) +
-  geom_sf(data = wfigs_az_sf[wfigs_az_sf$IncidentSize >= 1000,], size = 0.6, alpha = 0.75, color="orangered") +
-  # scale_color_gradientn(colors = brewer.pal(9, "YlOrRd")) +
+  geom_sf(data = az_counties_sf, fill = "gray85") +
+  geom_sf(data = az_rd_primary, color="black", linewidth=0.4) +
+  geom_sf(data = az_rd_secondary, color="gray15", linewidth=0.3) +
+  # geom_sf(data = az_rd_4wd, color="gray50", linewidth=0.1) +
+  geom_sf(data = wfigs_az_sf[wfigs_az_sf$IncidentSize >= 1000,], size = 0.85, alpha = 0.75, color="orangered") +
+  # geom_sf(aes(col=log(IncidentSize)),data = wfigs_az_sf[wfigs_az_sf$IncidentSize >= 1000,], size = 0.8, alpha = 0.75) +
+  scale_color_gradientn(colors = brewer.pal(9, "YlOrRd")) +
   # scale_color_viridis_c(option = "D") +
-  ggtitle("Large Wildfires in Arizona 2014-2024") +
+  # ggtitle("Large Wildfires in Arizona 2014-2024") +
   theme_minimal()
 
 

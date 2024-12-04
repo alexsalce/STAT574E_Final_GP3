@@ -723,6 +723,8 @@ summary(az_wf_spglm)
 
 kable(AIC(az_wf_spglm), caption = "Model AIC")
 
+kable(confint(az_wf_spglm))
+
 ```
 
 To use our model for predictions, we had to weigh the challenges for acquiring data for our predictors with the time it takes to extract the data (some processing took a lot of time). Below is code that generates a grid of points in Coconino county, and gives us a total of 272 points evenly spaced across the county.
