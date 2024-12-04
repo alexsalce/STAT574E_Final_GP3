@@ -16,36 +16,23 @@ theme: simple
 
 ## Wildfire Incidence in Arizona
 
-::: {#fig-fires}
+:::: {.columns}
 
-![Wildifres in Arizona](images/wfires.JPEG){width=50%}
-
-:::
+::: {.column width="40%"}
 
 Our project investigates different approaches to spatial statistical modeling of wildfire incidence data in Arizona, with a focus on Coconino County (Northern AZ). 
 
-## Data for Study: Wildfire Incidence Data
-
-:::: {.columns}
-
-::: {.column width="50%"}
 The "Wildfire Incidence" data we will be studying specifies coordinates for a fire's origin, and its resulting size in acres.
 
-![](images/wildfires_all_plot.png){width=75%}
 
 :::
 
-::: {.column width="50%"}
+::: {.column width="60%"}
 
-::: {layout-nrow=2,#fig-wf}
+![](images/wfires.JPEG){width=70% fig-align="center"}
 
+![](images/wildfires_all_plot.png){width=30% fig-align="center" .lightbox}
 
-![Fires under 1000 acres](images/az_wf_small.png){width=250}
-
-
-![Fires over 1000 acres](images/az_wf_lg.png){width=250}
-
-:::
 :::
 
 ::::
@@ -181,7 +168,11 @@ This dataset offered us a unique opportunity to take multiple approaches to spat
 - **Binary GLM Spatial Logistic Regression** - Module 5, similar to Gorillas Logistic Regression GLM example in *Non-Gaussian spatial data*.
 
 $$
-\mathrm{logit}(\lambda_{1}(\mathrm{\boldsymbol{s}}))=\boldsymbol{\mathrm{x}}(\mathrm{\boldsymbol{s}})^{T}\boldsymbol{\beta}+e(\mathrm{\boldsymbol{s}})+\log(\lambda_{0})
+\mathrm{logit}(\lambda_{1}(\mathrm{\boldsymbol{s}}))=\boldsymbol{\mathrm{x}}(\mathrm{\boldsymbol{s}})^{T}\boldsymbol{\beta}+e(\mathrm{\boldsymbol{s}})+\log(\lambda_{0}),
+$$ 
+
+$$
+Y(\boldsymbol{s}) \sim \mathrm{Bern}(p(\boldsymbol{s})),\,\,\,\, \mathrm{E}[ Y (\boldsymbol{s}) ] = p(\boldsymbol{s}) = \frac{\lambda_{1}(\boldsymbol{s})}{\lambda_{0}(\boldsymbol{s})+\lambda_{1}(\boldsymbol{s})}
 $$
 
 ## Wildfire Incidence Data - Point Process 2

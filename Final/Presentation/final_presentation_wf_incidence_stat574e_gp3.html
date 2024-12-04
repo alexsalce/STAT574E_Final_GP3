@@ -7,7 +7,10 @@
 <link href="final_presentation_wf_incidence_stat574e_gp3_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="final_presentation_wf_incidence_stat574e_gp3_files/libs/quarto-html/light-border.css" rel="stylesheet">
 <link href="final_presentation_wf_incidence_stat574e_gp3_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
-<link href="final_presentation_wf_incidence_stat574e_gp3_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+<link href="final_presentation_wf_incidence_stat574e_gp3_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="final_presentation_wf_incidence_stat574e_gp3_files/libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="final_presentation_wf_incidence_stat574e_gp3_files/libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="final_presentation_wf_incidence_stat574e_gp3_files/libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.5.57">
 
   <meta name="author" content="Raymond Owino, Matthew Wallace, Alex Salce">
@@ -342,40 +345,20 @@ Raymond Owino, Matthew Wallace, Alex Salce
 </section>
 <section id="wildfire-incidence-in-arizona" class="slide level2">
 <h2>Wildfire Incidence in Arizona</h2>
-
-<img data-src="images/wfires.JPEG" style="width:50.0%" class="r-stretch quarto-figure-center"><p class="caption">Wildifres in Arizona</p><p>Our project investigates different approaches to spatial statistical modeling of wildfire incidence data in Arizona, with a focus on Coconino County (Northern AZ).</p>
-</section>
-<section id="data-for-study-wildfire-incidence-data" class="slide level2">
-<h2>Data for Study: Wildfire Incidence Data</h2>
 <div class="columns">
-<div class="column" style="width:50%;">
+<div class="column" style="width:40%;">
+<p>Our project investigates different approaches to spatial statistical modeling of wildfire incidence data in Arizona, with a focus on Coconino County (Northern AZ).</p>
 <p>The “Wildfire Incidence” data we will be studying specifies coordinates for a fire’s origin, and its resulting size in acres.</p>
-<p><img data-src="images/wildfires_all_plot.png" style="width:75.0%"></p>
-</div><div class="column" style="width:50%;">
-<div>
-
-</div>
-<div class="quarto-layout-panel" data-layout-nrow="2,#fig-wf">
-<div class="quarto-layout-row">
-<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
+</div><div class="column" style="width:60%;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="images/az_wf_small.png" width="250"></p>
-<figcaption>Fires under 1000 acres</figcaption>
+<p><img data-src="images/wfires.JPEG" class="quarto-figure quarto-figure-center" style="width:70.0%"></p>
 </figure>
 </div>
-</div>
-</div>
-<div class="quarto-layout-row">
-<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="images/az_wf_lg.png" width="250"></p>
-<figcaption>Fires over 1000 acres</figcaption>
+<p><a href="images/wildfires_all_plot.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img data-src="images/wildfires_all_plot.png" class="quarto-figure quarto-figure-center" style="width:30.0%"></a></p>
 </figure>
-</div>
-</div>
-</div>
 </div>
 </div></div>
 </section>
@@ -495,7 +478,10 @@ Raymond Owino, Matthew Wallace, Alex Salce
 <li><strong>Binary GLM Spatial Logistic Regression</strong> - Module 5, similar to Gorillas Logistic Regression GLM example in <em>Non-Gaussian spatial data</em>.</li>
 </ul>
 <p><span class="math display">\[
-\mathrm{logit}(\lambda_{1}(\mathrm{\boldsymbol{s}}))=\boldsymbol{\mathrm{x}}(\mathrm{\boldsymbol{s}})^{T}\boldsymbol{\beta}+e(\mathrm{\boldsymbol{s}})+\log(\lambda_{0})
+\mathrm{logit}(\lambda_{1}(\mathrm{\boldsymbol{s}}))=\boldsymbol{\mathrm{x}}(\mathrm{\boldsymbol{s}})^{T}\boldsymbol{\beta}+e(\mathrm{\boldsymbol{s}})+\log(\lambda_{0}),
+\]</span></p>
+<p><span class="math display">\[
+Y(\boldsymbol{s}) \sim \mathrm{Bern}(p(\boldsymbol{s})),\,\,\,\, \mathrm{E}[ Y (\boldsymbol{s}) ] = p(\boldsymbol{s}) = \frac{\lambda_{1}(\boldsymbol{s})}{\lambda_{0}(\boldsymbol{s})+\lambda_{1}(\boldsymbol{s})}
 \]</span></p>
 </div>
 </section>
@@ -966,6 +952,38 @@ Raymond Owino, Matthew Wallace, Alex Salce
       }
     });
     </script>
+    <script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","openEffect":"zoom","descPosition":"bottom","loop":false,"selector":".lightbox"});
+    (function() {
+      let previousOnload = window.onload;
+      window.onload = () => {
+        if (previousOnload) {
+          previousOnload();
+        }
+        lightboxQuarto.on('slide_before_load', (data) => {
+          const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+          const href = trigger.getAttribute('href');
+          if (href !== null) {
+            const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+            if (imgEl !== null) {
+              const srcAttr = imgEl.getAttribute("src");
+              if (srcAttr && srcAttr.startsWith("data:")) {
+                slideConfig.href = srcAttr;
+              }
+            }
+          } 
+        });
+      
+        lightboxQuarto.on('slide_after_load', (data) => {
+          const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(slideNode);
+          }
+        });
+      
+      };
+      
+    })();
+              </script>
     
 
 </body></html>
