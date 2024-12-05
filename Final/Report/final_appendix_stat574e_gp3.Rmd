@@ -385,7 +385,8 @@ rm(az_fires_rx, wf_size_threshold)
 
 # az_county_intersections <- st_intersection(az_counties_sf, rbind(az_fires_wf_hum, az_fires_wf_nat))
 
-az_county_intersections <- st_intersection(az_counties_sf, az_fires_wf_nat)
+# az_county_intersections <- st_intersection(az_counties_sf, az_fires_wf_nat)
+az_county_intersections <- st_intersection(az_counties_sf, wfigs_az_sf[wfigs_az_sf$FireCause=="Human"|wfigs_az_sf$FireCause=="Natural",])
 
 county_counts <- az_county_intersections %>%
   group_by(NAME) %>%
@@ -400,7 +401,7 @@ ggplot(az_counties_with_counts) +
   geom_sf(aes(fill = count)) +
   scale_fill_viridis_c(name = "Point Count") +
   theme_minimal() +
-  labs(title = "Number of Points per County in Arizona")
+  labs(title = "Wildfire Incidence per County in Arizona")
 
 rm(county_counts, az_counties_with_counts, az_county_intersections)
 
@@ -554,7 +555,7 @@ coconino_map <- get_stadiamap(bbox = az_cc_bbox, zoom = 8)
 
 # plot
 ggmap(coconino_map) + labs(title = "Coconino County Naturally Caused Large Wildfire Incidence", subtitle = "Background realization marked with X") + theme_minimal() +
-  geom_sf(data = coconino_plot, fill = NA, color = "black", size = 5, inherit.aes = FALSE) +
+  geom_sf(data = coconino_plot, fill = "gray70", alpha = 0.5, color = "black", size = 5, inherit.aes = FALSE) +
   geom_sf(data=wf_sf_cc_plot, shape = 21, size = 0.9, 
           color = "orangered3", fill = "orangered3", inherit.aes = FALSE) +
   geom_sf(data=bkg_sf_cc_plot, shape = 4, size = 1.1, color = "red4", inherit.aes = FALSE)

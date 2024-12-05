@@ -2,39 +2,41 @@
 title: "Wildfire Incidence in Arizona"
 subtitle: "Group 3 | STAT574E Final Project"
 date: "12/11/2024"
-author: "Raymond Owino, Matthew Wallace, Alex Salce"
+author: "Raymond Owino, Alex Salce, Matthew Wallace"
 format: 
   revealjs:
     smaller: true
     scrollable: false
     page-layout: full
-    # auto-stretch: false
-# editor: visual
+    auto-stretch: true
 theme: simple
-# lightbox: true
+css: custom.css
 ---
 
 ## Wildfire Incidence in Arizona
 
 :::: {.columns}
 
-::: {.column width="40%"}
-
+::: {.column width="60%"}
 Our project investigates different approaches to spatial statistical modeling of wildfire incidence data in Arizona, with a focus on Coconino County (Northern AZ). 
 
 The "Wildfire Incidence" data we will be studying specifies coordinates for a fire's origin, and its resulting size in acres.
 
 Overall practical goal: modeling wildfire incidence to aid in prediction/assessment of wildfire risks in AZ based on relevant information.
-
-
 :::
 
-::: {.column width="60%"}
-
-![](images/wfires.JPEG){width=70% fig-align="center"}
-
-![](images/wildfires_all_plot.png){width=30% fig-align="center" .lightbox}
-
+::: {.column width="40%"}
+<div style="display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 2fr 1fr; gap: 5px;">
+  <div style="grid-column: 1 / span 2;">
+![](images/wfires.JPEG){width=100% .lightbox}
+  </div>
+  <div>
+![](images/wildfires_all_plot.png){width=70% .lightbox}
+  </div>
+  <div>
+![](images/az_cc_wf.png){width=70% .lightbox}
+  </div>
+</div>
 :::
 
 ::::
@@ -149,12 +151,14 @@ $$
 
 ::: {layout-ncol=3}
 
-![](images/gorillas_lgcp.png){.lightbox}
+![](images/gorillas_lgcp.png){.lightbox width=30%}
 
-![](images/kansas.png){.lightbox}
+![](images/kansas.png){.lightbox width=30%}
 
-![](images/az_wf_lg_unmarked.png){.lightbox}
+![](images/az_wf_lg_unmarked.png){.lightbox width=20%}
+
 :::
+![](images/az_cc_wf_lg.png){.lightbox width=18% fig-align="right"}
 
 ## Wildfire Incidence Data - Point Process 2
 
@@ -173,9 +177,11 @@ $$
 \mathrm{logit}(\lambda_{1}(\mathrm{\boldsymbol{s}}))=\boldsymbol{\mathrm{x}}(\mathrm{\boldsymbol{s}})^{T}\boldsymbol{\beta}+e(\mathrm{\boldsymbol{s}})+\log(\lambda_{0}),
 $$ 
 
+::: {.smallmath}
 $$
 Y(\boldsymbol{s}) \sim \mathrm{Bern}(p(\boldsymbol{s})),\,\,\,\, \mathrm{E}[ Y (\boldsymbol{s}) ] = p(\boldsymbol{s}) = \frac{\lambda_{1}(\boldsymbol{s})}{\lambda_{0}(\boldsymbol{s})+\lambda_{1}(\boldsymbol{s})}
 $$
+:::
 
 ## Wildfire Incidence Data - Point Process 2
 
@@ -189,11 +195,11 @@ $$
 :::
 
 
-## Research Questions
+## Research Questions (1)
 
 
 
-#### (1) Does the proximity of a wildfire’s origin to a road influence its resulting size?
+#### Does the proximity of a wildfire’s origin to a road influence its resulting size?
 
 
 ::: {#fig-rdprox layout-ncol=2}
@@ -206,42 +212,80 @@ Reasearch question 1 framework
 
 :::
 
-Data explorations showed some clear wildfire patterns near roads (the outlines are visible). We wanted to include the distance to the nearest major roads (and "remote" roads) as usable predictors. For each point, the `roads()` function in the `tigris` package and `st_distance()` function in the `sf` package helped us generate this data.
+Data explorations showed some clear wildfire patterns near roads (the outlines are visible). We wanted to include the distance in meters to the nearest major roads (and "remote" roads) as usable predictors. For each point, the `roads()` function in the `tigris` package to generate `sf` objects for AZ roads, and `st_distance()` function in the `sf` package helped us generate this data to be used as a covariate.
 
 
 
-## Research Questions
+## Research Questions (2)
 
 
-#### (2) Can spatial natural/human factors serve as useful predictors in modeling resulting wildfire size?
+#### Can environmental or human factors be useful predictors in modeling resulting wildfire size?
 
 
 ::: {#fig-rdprox layout-ncol=2}
 
-![All wildfires](images/az_rd_proximity1.png){#fig-wfpoints width=40% .lightbox}
+*Add images like screenshots of GIS here*
 
-![Proximity to major roads](images/az_rd_proximity2.png){#fig-wfpointsrds width=40% .lightbox}
 
-Reasearch question 2 framework
+Research question 2 framework
 
 :::
 
-Lorem Ipsum
+Raymond to update this slide with environmental covariates, quick summary of what the data you got was and where it came from/units
 
 
-## Research Questions
+## Research Questions (2)
+
+
+#### Can environmental or human factors be useful predictors in modeling resulting wildfire size?
+
+
+::: {#fig-rdprox layout-ncol=2}
+
+*Add images like population density maps from exploration*
+
+
+Research question 2 framework
+
+:::
+
+Matt to update this slide with population density data details (packages, units, etc) 
+
+
+## Research Questions (3)
+
+#### Are the patterns of human or non human caused fires spatially CSR, or do they exhibit an inhomogeneous spatial intensity?
 
 :::: {.columns}
 
 ::: {.column width="40%"}
 
-(3) Are the patterns of human or non human caused fires spatially CSR, or do they exhibit an inhomogeneous spatial intensity?
+Matt to update this slide
 
 :::
 
 ::: {.column width="60%"}
 
-![Fires under 1000 acres](images/az_wf_small.png){width=250}
+*Add screenshots, like F(r), G(r), K(r) curve just as examples, maybe an intensity map. Only for high leve visual
+
+:::
+
+::::
+
+## Modeling - Coconino County
+:::: {.columns}
+
+::: {.column width="40%"}
+
+We opted to focus our modeling efforts on Coconino County based on some inital model fits, and overall size of the dataset. 
+
+Coconino County is home to national forests like Coconino, Kaibab, and Apache-Sitgreaves, and has the most wildfire incidence in the state by a good margin.
+
+:::
+
+::: {.column width="60%"}
+
+![](images/az_wf_countcounty.png){width=85% fig-align="center"}
 
 :::
 
@@ -249,7 +293,8 @@ Lorem Ipsum
 
 
 
-## Modeling approach
+
+## Spatial Linear Model approach
 
 - **Spatial Linear Model** - use the continuous, fixed response data to fit a spatial linear model to predict resulting model size for input points and covariate data.
 
@@ -257,19 +302,199 @@ $$
 \boldsymbol{\mathrm{y}}=\boldsymbol{\mathrm{X}}^{T}\boldsymbol{\beta}+\boldsymbol{e}\,\,\,\,\boldsymbol{e}\sim\mathrm{N}(\boldsymbol{0},\Sigma(\boldsymbol{\theta}))
 $$
 
-## Modeling approach
+- How you landed on the model you did (AIC, other analysis)
+- Any data filtering you did, variable transformations
+- Point estimates and Confidence  intervals on fixed effects
+- Fit parameters for spatial variance (nugget, range, sill)
+    - de (sill), ie (nugget), range (range)
+
+- `loocv`, diagnostic plots?
+- Visuals (ESV, relevant exploration images, etc)
+- What might be the practical applications of this model? 
+
+## LGCP Modeling Approach
+
+### *Make sure to include CSR analysis to address RQ3*
 
 - **Log-Gaussian Cox Process** Treat large wildfire ($\geq1000$ acres) incidence locations as arising from a random intensity surface and fit LGCP model accounting for fixed effects and spatial dependence
 
 $$
 \log(\lambda(u))=\mathrm{\boldsymbol{Z}}(u)\boldsymbol{\beta}+e(u),\,\,\,\,e(u)\sim\mathrm{N}(0,C(\boldsymbol{\theta})),\,\,\,\,C(u,u')=\sigma^{2}e^{-||u-u'||/h}
 $$
+<span style="font-size: 0.8em;">
+- Visuals of the data you're investigating (plots of points on coco county)
+- F, G, K plots with model and CIs plotted for most interesting plots
+  - is data CSR? For what filters (human cause/natural cause, >=1000 acres, etc)
+- How you landed on the model you did (AIC, other analysis)
+- Any data filtering you did, variable transformations
+- Point estimates and Confidence  intervals on fixed effects
+- Fit parameters for spatial variance (nugget, range, sill)
+- Prediction intensity surface
+</span>
 
+## Binary GLM Spatial approach
 
-## Modeling approach
+:::: {.columns}
 
-- **Binary GLM Spatial Logistic Regression** - Treat large wildfire incidence as realization of a point process $\lambda_1$ (response value$=1$) and generate constant background process $\lambda_0$ (response value$=0$). Perform binary logistic regression to model probability of large wildfire incidence for a point and chosen predctors
+::: {.column width="40%"}
 
+We now want to study risk of occurence of large wildfire (`Indidentsize`$\geq 1000$ acres) spatially in terms of probabilities. We will also restrict occurrences to `FireCause=="Natural"`. 
+
+To build the model, we filter the data and treat large wildfire incident locations as a realization of a point process with intensity surface $\lambda_1(\mathrm{\boldsymbol{s}})$. For these points, we assign a response value of $Y(\boldsymbol{s})=1$ (`Wildfires`).
+
+:::
+
+::: {.column width="60%"}
+
+::: {.smallmath}
 $$
-\mathrm{logit}(\lambda_{1}(\mathrm{\boldsymbol{s}}))=\boldsymbol{\mathrm{x}}(\mathrm{\boldsymbol{s}})^{T}\boldsymbol{\beta}+e(\mathrm{\boldsymbol{s}})+\log(\lambda_{0})
+\mathrm{logit}(\lambda_{1}(\mathrm{\boldsymbol{s}}))=\boldsymbol{\mathrm{x}}(\mathrm{\boldsymbol{s}})^{T}\boldsymbol{\beta}+\underset{\text{spatial effect}}{\underbrace{e(\mathrm{\boldsymbol{s}})}}+\log(\lambda_{0}),
+$$ 
+:::
+
+::: {.smallmath}
 $$
+Y(\boldsymbol{s}) \sim \mathrm{Bern}(p(\boldsymbol{s})),
+$$
+:::
+
+::: {.smallmath}
+$$
+\mathrm{E}[ Y (\boldsymbol{s}) ] = p(\boldsymbol{s}) = \frac{\lambda_{1}(\boldsymbol{s})}{\lambda_{0}(\boldsymbol{s})+\lambda_{1}(\boldsymbol{s})}
+$$
+:::
+
+![](images/az_wf_cc_binary_1s.png){width=75% fig-align="center" .lightbox}
+
+:::
+
+::::
+
+
+## Binary GLM Spatial approach
+
+:::: {.columns}
+
+::: {.column width="40%"}
+
+Next we generate a background realization of a known constant Poisson process $\lambda_0$, which represent locations that a large wildfire could have happened but did not. For these points, we assign a response value of $Y(\boldsymbol{s})=0$  (`Wildfires`).
+
+:::
+
+::: {.column width="60%"}
+
+::: {.smallmath}
+$$
+\mathrm{logit}(\lambda_{1}(\mathrm{\boldsymbol{s}}))=\boldsymbol{\mathrm{x}}(\mathrm{\boldsymbol{s}})^{T}\boldsymbol{\beta}+\underset{\text{spatial effect}}{\underbrace{e(\mathrm{\boldsymbol{s}})}}+\log(\lambda_{0}),
+$$ 
+:::
+
+::: {.smallmath}
+$$
+Y(\boldsymbol{s}) \sim \mathrm{Bern}(p(\boldsymbol{s})),
+$$
+:::
+
+::: {.smallmath}
+$$
+\mathrm{E}[ Y (\boldsymbol{s}) ] = p(\boldsymbol{s}) = \frac{\lambda_{1}(\boldsymbol{s})}{\lambda_{0}(\boldsymbol{s})+\lambda_{1}(\boldsymbol{s})}
+$$
+:::
+
+
+![](images/az_wf_cc_binary_0s.png){width=75% fig-align="center" .lightbox}
+
+:::
+
+::::
+
+
+## Binary GLM Spatial approach
+
+Our model can then be built using selected covariates we desire for predictors and performing a binary logistic regression. The resulting prediction model will return the probability of the occurrence of a large wildfire for a given input location and corresponding values for the model's chosen covariates.
+
+![](images/az_wf_cc_binary.png){width=45% fig-align="center" .lightbox}
+
+## Binary GLM Spatial approach
+
+##### Model Selection
+
+The selection of covariates of the model utilized a semi-automated process that minimized AIC. There were some issues with model convergence for some spatial covariance fits, and AIC did not necessarily favor significant predictors in the end.
+
+```r
+spglm_formula <- Wildfires ~  I(sqrt(distance_rd_min_isprisec)) + pop.density +
+  Precipitation_Buffered * Temp_Min_Buffered + I(get_season(FireDiscoveryDateTime)) +
+  mean_grass * mean_forest
+
+az_wf_spcov <- spcov_initial("wave")
+
+az_wf_spglm <- spglm(spglm_formula, data = model_data_sf, 
+                     family = binomial, spcov_initial = az_wf_spcov)
+```
+::: {.smallmath}
+*The best AIC model tested utilized square root minimum distance from major roads, population density data at the coordinates, interactions of environmental factors, and season.*
+:::
+
+## Binary GLM Spatial approach
+
+### Model Summary Quick Look
+
+```r
+Call:
+spglm(formula = spglm_formula, family = binomial, data = model_data_sf, 
+    spcov_initial = az_wf_spcov)
+
+Deviance Residuals:
+     Min       1Q   Median       3Q      Max 
+-2.76222 -0.37074 -0.03625  0.38495  2.66905 
+
+Coefficients (fixed):
+                                           Estimate Std. Error z value Pr(>|z|)  
+(Intercept)                              -7.131e-01  3.440e+00  -0.207   0.8358  
+I(sqrt(distance_rd_min_isprisec))        -1.399e+00  8.098e-01  -1.728   0.0840 .
+pop.density                              -1.033e+05  1.533e+05  -0.674   0.5005  
+Precipitation_Buffered                   -9.784e-02  2.120e+00  -0.046   0.9632  
+Temp_Min_Buffered                        -1.184e+00  7.955e-01  -1.488   0.1366  
+I(get_season(FireDiscoveryDateTime))      5.897e-01  3.785e-01   1.558   0.1192  
+mean_grass                                1.102e+00  1.740e+00   0.633   0.5265  
+mean_forest                               1.449e+00  1.226e+00   1.182   0.2371  
+Precipitation_Buffered:Temp_Min_Buffered  4.499e-01  5.347e-01   0.841   0.4001  
+mean_grass:mean_forest                    1.530e+01  9.179e+00   1.666   0.0957 .
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Pseudo R-squared: 0.3781
+
+Coefficients (wave spatial covariance):
+       de        ie     range 
+3.039e+00 3.669e-02 3.853e+04 
+
+Coefficients (Dispersion for binomial family):
+dispersion 
+         1 
+```
+
+## Binary GLM Spatial approach
+
+### CIs Quick Look
+
+```r
+> confint(az_wf_spglm)
+                                                 2.5 %       97.5 %
+(Intercept)                              -7.455904e+00 6.029728e+00
+I(sqrt(distance_rd_min_isprisec))        -2.986637e+00 1.876885e-01
+pop.density                              -4.037031e+05 1.971749e+05
+Precipitation_Buffered                   -4.252564e+00 4.056891e+00
+Temp_Min_Buffered                        -2.743386e+00 3.751041e-01
+I(get_season(FireDiscoveryDateTime))     -1.520621e-01 1.331504e+00
+mean_grass                               -2.307784e+00 4.511212e+00
+mean_forest                              -9.531052e-01 3.850823e+00
+Precipitation_Buffered:Temp_Min_Buffered -5.980621e-01 1.497803e+00
+mean_grass:mean_forest                   -2.695953e+00 3.328631e+01
+```
+
+## Binary GLM Spatial approach
+
+### Predictions
+
+Due to some challenges we faced with the computational time/energy to recover realistic data for covariates, we 

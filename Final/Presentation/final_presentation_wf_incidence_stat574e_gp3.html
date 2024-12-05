@@ -13,7 +13,7 @@
 <link href="final_presentation_wf_incidence_stat574e_gp3_files/libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.5.57">
 
-  <meta name="author" content="Raymond Owino, Matthew Wallace, Alex Salce">
+  <meta name="author" content="Raymond Owino, Alex Salce, Matthew Wallace">
   <meta name="dcterms.date" content="2024-12-11">
   <title>Wildfire Incidence in Arizona</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -33,8 +33,74 @@
       margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
       vertical-align: middle;
     }
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; font-weight: bold; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
   <link rel="stylesheet" href="final_presentation_wf_incidence_stat574e_gp3_files/libs/revealjs/dist/theme/quarto.css">
+  <link rel="stylesheet" href="custom.css">
   <link href="final_presentation_wf_incidence_stat574e_gp3_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="final_presentation_wf_incidence_stat574e_gp3_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="final_presentation_wf_incidence_stat574e_gp3_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -336,7 +402,7 @@
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
 <div class="quarto-title-author-name">
-Raymond Owino, Matthew Wallace, Alex Salce 
+Raymond Owino, Alex Salce, Matthew Wallace 
 </div>
 </div>
 </div>
@@ -346,20 +412,21 @@ Raymond Owino, Matthew Wallace, Alex Salce
 <section id="wildfire-incidence-in-arizona" class="slide level2">
 <h2>Wildfire Incidence in Arizona</h2>
 <div class="columns">
-<div class="column" style="width:40%;">
+<div class="column" style="width:60%;">
 <p>Our project investigates different approaches to spatial statistical modeling of wildfire incidence data in Arizona, with a focus on Coconino County (Northern AZ).</p>
 <p>The “Wildfire Incidence” data we will be studying specifies coordinates for a fire’s origin, and its resulting size in acres.</p>
 <p>Overall practical goal: modeling wildfire incidence to aid in prediction/assessment of wildfire risks in AZ based on relevant information.</p>
-</div><div class="column" style="width:60%;">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="images/wfires.JPEG" class="quarto-figure quarto-figure-center" style="width:70.0%"></p>
-</figure>
+</div><div class="column" style="width:40%;">
+<div style="display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 2fr 1fr; gap: 5px;">
+<div style="grid-column: 1 / span 2;">
+<a href="images/wfires.JPEG" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img data-src="images/wfires.JPEG" style="width:100.0%"></a>
 </div>
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><a href="images/wildfires_all_plot.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img data-src="images/wildfires_all_plot.png" class="quarto-figure quarto-figure-center" style="width:30.0%"></a></p>
-</figure>
+<div>
+<a href="images/wildfires_all_plot.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img data-src="images/wildfires_all_plot.png" style="width:70.0%"></a>
+</div>
+<div>
+<a href="images/az_cc_wf.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img data-src="images/az_cc_wf.png" style="width:70.0%"></a>
+</div>
 </div>
 </div></div>
 </section>
@@ -420,13 +487,13 @@ Raymond Owino, Matthew Wallace, Alex Salce
 <div class="quarto-layout-panel" data-layout-ncol="3">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
-<p><a href="images/dioxane.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img data-src="images/dioxane.png"></a></p>
+<p><a href="images/dioxane.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img data-src="images/dioxane.png"></a></p>
 </div>
 <div class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
-<p><a href="images/hollandsplm.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img data-src="images/hollandsplm.png"></a></p>
+<p><a href="images/hollandsplm.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img data-src="images/hollandsplm.png"></a></p>
 </div>
 <div class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
-<p><a href="images/az_wf_small.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img data-src="images/az_wf_small.png"></a></p>
+<p><a href="images/az_wf_small.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6"><img data-src="images/az_wf_small.png"></a></p>
 </div>
 </div>
 </div>
@@ -455,16 +522,21 @@ Raymond Owino, Matthew Wallace, Alex Salce
 </div>
 <div class="quarto-layout-panel" data-layout-ncol="3">
 <div class="quarto-layout-row">
-<div class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
-<p><a href="images/gorillas_lgcp.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img data-src="images/gorillas_lgcp.png"></a></p>
+<div class="quarto-layout-cell" style="flex-basis: 37.5%;justify-content: center;">
+<p><a href="images/gorillas_lgcp.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7"><img data-src="images/gorillas_lgcp.png"></a></p>
 </div>
-<div class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
-<p><a href="images/kansas.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6"><img data-src="images/kansas.png"></a></p>
+<div class="quarto-layout-cell" style="flex-basis: 37.5%;justify-content: center;">
+<p><a href="images/kansas.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8"><img data-src="images/kansas.png"></a></p>
 </div>
-<div class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
-<p><a href="images/az_wf_lg_unmarked.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7"><img data-src="images/az_wf_lg_unmarked.png"></a></p>
+<div class="quarto-layout-cell" style="flex-basis: 25.0%;justify-content: center;">
+<p><a href="images/az_wf_lg_unmarked.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9"><img data-src="images/az_wf_lg_unmarked.png"></a></p>
 </div>
 </div>
+</div>
+<div class="quarto-figure quarto-figure-right">
+<figure>
+<p><a href="images/az_cc_wf_lg.png" class="lightbox" data-gallery="quarto-lightbox-gallery-10"><img data-src="images/az_cc_wf_lg.png" class="quarto-figure quarto-figure-right" style="width:18.0%"></a></p>
+</figure>
 </div>
 </section>
 <section id="wildfire-incidence-data---point-process-2" class="slide level2">
@@ -481,9 +553,11 @@ Raymond Owino, Matthew Wallace, Alex Salce
 <p><span class="math display">\[
 \mathrm{logit}(\lambda_{1}(\mathrm{\boldsymbol{s}}))=\boldsymbol{\mathrm{x}}(\mathrm{\boldsymbol{s}})^{T}\boldsymbol{\beta}+e(\mathrm{\boldsymbol{s}})+\log(\lambda_{0}),
 \]</span></p>
+<div class="smallmath">
 <p><span class="math display">\[
 Y(\boldsymbol{s}) \sim \mathrm{Bern}(p(\boldsymbol{s})),\,\,\,\, \mathrm{E}[ Y (\boldsymbol{s}) ] = p(\boldsymbol{s}) = \frac{\lambda_{1}(\boldsymbol{s})}{\lambda_{0}(\boldsymbol{s})+\lambda_{1}(\boldsymbol{s})}
 \]</span></p>
+</div>
 </div>
 </section>
 <section id="wildfire-incidence-data---point-process-2-1" class="slide level2">
@@ -495,17 +569,17 @@ Y(\boldsymbol{s}) \sim \mathrm{Bern}(p(\boldsymbol{s})),\,\,\,\, \mathrm{E}[ Y (
 <div class="quarto-layout-panel" data-layout-ncol="2">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<p><a href="images/gorillas_binary.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8"><img data-src="images/gorillas_binary.png"></a></p>
+<p><a href="images/gorillas_binary.png" class="lightbox" data-gallery="quarto-lightbox-gallery-11"><img data-src="images/gorillas_binary.png"></a></p>
 </div>
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<p><a href="images/az_wf_cc_binary.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9"><img data-src="images/az_wf_cc_binary.png"></a></p>
+<p><a href="images/az_wf_cc_binary.png" class="lightbox" data-gallery="quarto-lightbox-gallery-12"><img data-src="images/az_wf_cc_binary.png"></a></p>
 </div>
 </div>
 </div>
 </section>
-<section id="research-questions" class="slide level2">
-<h2>Research Questions</h2>
-<h4 id="does-the-proximity-of-a-wildfires-origin-to-a-road-influence-its-resulting-size">(1) Does the proximity of a wildfire’s origin to a road influence its resulting size?</h4>
+<section id="research-questions-1" class="slide level2">
+<h2>Research Questions (1)</h2>
+<h4 id="does-the-proximity-of-a-wildfires-origin-to-a-road-influence-its-resulting-size">Does the proximity of a wildfire’s origin to a road influence its resulting size?</h4>
 <div id="fig-rdprox" class="quarto-layout-panel">
 <figure class="quarto-float quarto-float-fig">
 <div aria-describedby="fig-rdprox-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -541,90 +615,239 @@ Figure&nbsp;1: Reasearch question 1 framework
 </figcaption>
 </figure>
 </div>
-<p>Data explorations showed some clear wildfire patterns near roads (the outlines are visible). We wanted to include the distance to the nearest major roads (and “remote” roads) as usable predictors. For each point, the <code>roads()</code> function in the <code>tigris</code> package and <code>st_distance()</code> function in the <code>sf</code> package helped us generate this data.</p>
+<p>Data explorations showed some clear wildfire patterns near roads (the outlines are visible). We wanted to include the distance in meters to the nearest major roads (and “remote” roads) as usable predictors. For each point, the <code>roads()</code> function in the <code>tigris</code> package to generate <code>sf</code> objects for AZ roads, and <code>st_distance()</code> function in the <code>sf</code> package helped us generate this data to be used as a covariate.</p>
 </section>
-<section id="research-questions-1" class="slide level2">
-<h2>Research Questions</h2>
-<h4 id="can-spatial-naturalhuman-factors-serve-as-useful-predictors-in-modeling-resulting-wildfire-size">(2) Can spatial natural/human factors serve as useful predictors in modeling resulting wildfire size?</h4>
+<section id="research-questions-2" class="slide level2">
+<h2>Research Questions (2)</h2>
+<h4 id="can-environmental-or-human-factors-be-useful-predictors-in-modeling-resulting-wildfire-size">Can environmental or human factors be useful predictors in modeling resulting wildfire size?</h4>
 <div id="fig-rdprox" class="quarto-layout-panel">
 <figure class="quarto-float quarto-float-fig">
 <div aria-describedby="fig-rdprox-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="quarto-layout-row">
-<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-rdprox" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div id="fig-wfpoints" class="lightbox quarto-float quarto-figure quarto-figure-center">
-<figure class="quarto-float quarto-subfloat-fig">
-<div aria-describedby="fig-wfpoints-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/az_rd_proximity1.png" class="lightbox" data-gallery="fig-rdprox" title="Figure&nbsp;2&nbsp;(a): All wildfires"><img data-src="images/az_rd_proximity1.png" style="width:40.0%" data-ref-parent="fig-rdprox"></a>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-wfpoints-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-(a) All wildfires
-</figcaption>
-</figure>
-</div>
-</div>
-<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-rdprox" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div id="fig-wfpointsrds" class="lightbox quarto-float quarto-figure quarto-figure-center">
-<figure class="quarto-float quarto-subfloat-fig">
-<div aria-describedby="fig-wfpointsrds-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/az_rd_proximity2.png" class="lightbox" data-gallery="fig-rdprox" title="Figure&nbsp;2&nbsp;(b): Proximity to major roads"><img data-src="images/az_rd_proximity2.png" style="width:40.0%" data-ref-parent="fig-rdprox"></a>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-wfpointsrds-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-(b) Proximity to major roads
-</figcaption>
-</figure>
-</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<p><em>Add images like screenshots of GIS here</em></p>
 </div>
 </div>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-rdprox-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2: Reasearch question 2 framework
+Figure&nbsp;2: Research question 2 framework
 </figcaption>
 </figure>
 </div>
-<p>Lorem Ipsum</p>
+<p>Raymond to update this slide with environmental covariates, quick summary of what the data you got was and where it came from/units</p>
 </section>
-<section id="research-questions-2" class="slide level2">
-<h2>Research Questions</h2>
+<section id="research-questions-2-1" class="slide level2">
+<h2>Research Questions (2)</h2>
+<h4 id="can-environmental-or-human-factors-be-useful-predictors-in-modeling-resulting-wildfire-size-1">Can environmental or human factors be useful predictors in modeling resulting wildfire size?</h4>
+<div id="fig-rdprox" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig">
+<div aria-describedby="fig-rdprox-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<p><em>Add images like population density maps from exploration</em></p>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-rdprox-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: Research question 2 framework
+</figcaption>
+</figure>
+</div>
+<p>Matt to update this slide with population density data details (packages, units, etc)</p>
+</section>
+<section id="research-questions-3" class="slide level2">
+<h2>Research Questions (3)</h2>
+<h4 id="are-the-patterns-of-human-or-non-human-caused-fires-spatially-csr-or-do-they-exhibit-an-inhomogeneous-spatial-intensity">Are the patterns of human or non human caused fires spatially CSR, or do they exhibit an inhomogeneous spatial intensity?</h4>
 <div class="columns">
 <div class="column" style="width:40%;">
-<ol start="3" type="1">
-<li>Are the patterns of human or non human caused fires spatially CSR, or do they exhibit an inhomogeneous spatial intensity?</li>
-</ol>
+<p>Matt to update this slide</p>
+</div><div class="column" style="width:60%;">
+<p>*Add screenshots, like F(r), G(r), K(r) curve just as examples, maybe an intensity map. Only for high leve visual</p>
+</div></div>
+</section>
+<section id="modeling---coconino-county" class="slide level2">
+<h2>Modeling - Coconino County</h2>
+<div class="columns">
+<div class="column" style="width:40%;">
+<p>We opted to focus our modeling efforts on Coconino County based on some inital model fits, and overall size of the dataset.</p>
+<p>Coconino County is home to national forests like Coconino, Kaibab, and Apache-Sitgreaves, and has the most wildfire incidence in the state by a good margin.</p>
 </div><div class="column" style="width:60%;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="images/az_wf_small.png" width="250"></p>
-<figcaption>Fires under 1000 acres</figcaption>
+<p><img data-src="images/az_wf_countcounty.png" class="quarto-figure quarto-figure-center" style="width:85.0%"></p>
 </figure>
 </div>
 </div></div>
 </section>
-<section id="modeling-approach-3" class="slide level2">
-<h2>Modeling approach</h2>
+<section id="spatial-linear-model-approach" class="slide level2">
+<h2>Spatial Linear Model approach</h2>
 <ul>
 <li><strong>Spatial Linear Model</strong> - use the continuous, fixed response data to fit a spatial linear model to predict resulting model size for input points and covariate data.</li>
 </ul>
 <p><span class="math display">\[
 \boldsymbol{\mathrm{y}}=\boldsymbol{\mathrm{X}}^{T}\boldsymbol{\beta}+\boldsymbol{e}\,\,\,\,\boldsymbol{e}\sim\mathrm{N}(\boldsymbol{0},\Sigma(\boldsymbol{\theta}))
 \]</span></p>
+<ul>
+<li>How you landed on the model you did (AIC, other analysis)</li>
+<li>Any data filtering you did, variable transformations</li>
+<li>Point estimates and Confidence intervals on fixed effects</li>
+<li>Fit parameters for spatial variance (nugget, range, sill)
+<ul>
+<li>de (sill), ie (nugget), range (range)</li>
+</ul></li>
+<li><code>loocv</code>, diagnostic plots?</li>
+<li>Visuals (ESV, relevant exploration images, etc)</li>
+<li>What might be the practical applications of this model?</li>
+</ul>
 </section>
-<section id="modeling-approach-4" class="slide level2">
-<h2>Modeling approach</h2>
+<section id="lgcp-modeling-approach" class="slide level2">
+<h2>LGCP Modeling Approach</h2>
+<h3 id="make-sure-to-include-csr-analysis-to-address-rq3"><em>Make sure to include CSR analysis to address RQ3</em></h3>
 <ul>
 <li><strong>Log-Gaussian Cox Process</strong> Treat large wildfire (<span class="math inline">\(\geq1000\)</span> acres) incidence locations as arising from a random intensity surface and fit LGCP model accounting for fixed effects and spatial dependence</li>
 </ul>
 <p><span class="math display">\[
 \log(\lambda(u))=\mathrm{\boldsymbol{Z}}(u)\boldsymbol{\beta}+e(u),\,\,\,\,e(u)\sim\mathrm{N}(0,C(\boldsymbol{\theta})),\,\,\,\,C(u,u')=\sigma^{2}e^{-||u-u'||/h}
-\]</span></p>
+\]</span> <span style="font-size: 0.8em;"> - Visuals of the data you’re investigating (plots of points on coco county) - F, G, K plots with model and CIs plotted for most interesting plots - is data CSR? For what filters (human cause/natural cause, &gt;=1000 acres, etc) - How you landed on the model you did (AIC, other analysis) - Any data filtering you did, variable transformations - Point estimates and Confidence intervals on fixed effects - Fit parameters for spatial variance (nugget, range, sill) - Prediction intensity surface </span></p>
 </section>
-<section id="modeling-approach-5" class="slide level2">
-<h2>Modeling approach</h2>
-<ul>
-<li><strong>Binary GLM Spatial Logistic Regression</strong> - Treat large wildfire incidence as realization of a point process <span class="math inline">\(\lambda_1\)</span> (response value<span class="math inline">\(=1\)</span>) and generate constant background process <span class="math inline">\(\lambda_0\)</span> (response value<span class="math inline">\(=0\)</span>). Perform binary logistic regression to model probability of large wildfire incidence for a point and chosen predctors</li>
-</ul>
+<section id="binary-glm-spatial-approach" class="slide level2">
+<h2>Binary GLM Spatial approach</h2>
+<div class="columns">
+<div class="column" style="width:40%;">
+<p>We now want to study risk of occurence of large wildfire (<code>Indidentsize</code><span class="math inline">\(\geq 1000\)</span> acres) spatially in terms of probabilities. We will also restrict occurrences to <code>FireCause=="Natural"</code>.</p>
+<p>To build the model, we filter the data and treat large wildfire incident locations as a realization of a point process with intensity surface <span class="math inline">\(\lambda_1(\mathrm{\boldsymbol{s}})\)</span>. For these points, we assign a response value of <span class="math inline">\(Y(\boldsymbol{s})=1\)</span> (<code>Wildfires</code>).</p>
+</div><div class="column" style="width:60%;">
+<div class="smallmath">
 <p><span class="math display">\[
-\mathrm{logit}(\lambda_{1}(\mathrm{\boldsymbol{s}}))=\boldsymbol{\mathrm{x}}(\mathrm{\boldsymbol{s}})^{T}\boldsymbol{\beta}+e(\mathrm{\boldsymbol{s}})+\log(\lambda_{0})
+\mathrm{logit}(\lambda_{1}(\mathrm{\boldsymbol{s}}))=\boldsymbol{\mathrm{x}}(\mathrm{\boldsymbol{s}})^{T}\boldsymbol{\beta}+\underset{\text{spatial effect}}{\underbrace{e(\mathrm{\boldsymbol{s}})}}+\log(\lambda_{0}),
 \]</span></p>
+</div>
+<div class="smallmath">
+<p><span class="math display">\[
+Y(\boldsymbol{s}) \sim \mathrm{Bern}(p(\boldsymbol{s})),
+\]</span></p>
+</div>
+<div class="smallmath">
+<p><span class="math display">\[
+\mathrm{E}[ Y (\boldsymbol{s}) ] = p(\boldsymbol{s}) = \frac{\lambda_{1}(\boldsymbol{s})}{\lambda_{0}(\boldsymbol{s})+\lambda_{1}(\boldsymbol{s})}
+\]</span></p>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><a href="images/az_wf_cc_binary_1s.png" class="lightbox" data-gallery="quarto-lightbox-gallery-15"><img data-src="images/az_wf_cc_binary_1s.png" class="quarto-figure quarto-figure-center" style="width:75.0%"></a></p>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="binary-glm-spatial-approach-1" class="slide level2">
+<h2>Binary GLM Spatial approach</h2>
+<div class="columns">
+<div class="column" style="width:40%;">
+<p>Next we generate a background realization of a known constant Poisson process <span class="math inline">\(\lambda_0\)</span>, which represent locations that a large wildfire could have happened but did not. For these points, we assign a response value of <span class="math inline">\(Y(\boldsymbol{s})=0\)</span> (<code>Wildfires</code>).</p>
+</div><div class="column" style="width:60%;">
+<div class="smallmath">
+<p><span class="math display">\[
+\mathrm{logit}(\lambda_{1}(\mathrm{\boldsymbol{s}}))=\boldsymbol{\mathrm{x}}(\mathrm{\boldsymbol{s}})^{T}\boldsymbol{\beta}+\underset{\text{spatial effect}}{\underbrace{e(\mathrm{\boldsymbol{s}})}}+\log(\lambda_{0}),
+\]</span></p>
+</div>
+<div class="smallmath">
+<p><span class="math display">\[
+Y(\boldsymbol{s}) \sim \mathrm{Bern}(p(\boldsymbol{s})),
+\]</span></p>
+</div>
+<div class="smallmath">
+<p><span class="math display">\[
+\mathrm{E}[ Y (\boldsymbol{s}) ] = p(\boldsymbol{s}) = \frac{\lambda_{1}(\boldsymbol{s})}{\lambda_{0}(\boldsymbol{s})+\lambda_{1}(\boldsymbol{s})}
+\]</span></p>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><a href="images/az_wf_cc_binary_0s.png" class="lightbox" data-gallery="quarto-lightbox-gallery-16"><img data-src="images/az_wf_cc_binary_0s.png" class="quarto-figure quarto-figure-center" style="width:75.0%"></a></p>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="binary-glm-spatial-approach-2" class="slide level2">
+<h2>Binary GLM Spatial approach</h2>
+<p>Our model can then be built using selected covariates we desire for predictors and performing a binary logistic regression. The resulting prediction model will return the probability of the occurrence of a large wildfire for a given input location and corresponding values for the model’s chosen covariates.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><a href="images/az_wf_cc_binary.png" class="lightbox" data-gallery="quarto-lightbox-gallery-17"><img data-src="images/az_wf_cc_binary.png" class="quarto-figure quarto-figure-center" style="width:45.0%"></a></p>
+</figure>
+</div>
+</section>
+<section id="binary-glm-spatial-approach-3" class="slide level2">
+<h2>Binary GLM Spatial approach</h2>
+<h5 id="model-selection">Model Selection</h5>
+<p>The selection of covariates of the model utilized a semi-automated process that minimized AIC. There were some issues with model convergence for some spatial covariance fits, and AIC did not necessarily favor significant predictors in the end.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a>spglm_formula <span class="ot">&lt;-</span> Wildfires <span class="sc">~</span>  <span class="fu">I</span>(<span class="fu">sqrt</span>(distance_rd_min_isprisec)) <span class="sc">+</span> pop.density <span class="sc">+</span></span>
+<span id="cb1-2"><a href=""></a>  Precipitation_Buffered <span class="sc">*</span> Temp_Min_Buffered <span class="sc">+</span> <span class="fu">I</span>(<span class="fu">get_season</span>(FireDiscoveryDateTime)) <span class="sc">+</span></span>
+<span id="cb1-3"><a href=""></a>  mean_grass <span class="sc">*</span> mean_forest</span>
+<span id="cb1-4"><a href=""></a></span>
+<span id="cb1-5"><a href=""></a>az_wf_spcov <span class="ot">&lt;-</span> <span class="fu">spcov_initial</span>(<span class="st">"wave"</span>)</span>
+<span id="cb1-6"><a href=""></a></span>
+<span id="cb1-7"><a href=""></a>az_wf_spglm <span class="ot">&lt;-</span> <span class="fu">spglm</span>(spglm_formula, <span class="at">data =</span> model_data_sf, </span>
+<span id="cb1-8"><a href=""></a>                     <span class="at">family =</span> binomial, <span class="at">spcov_initial =</span> az_wf_spcov)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="smallmath">
+<p><em>The best AIC model tested utilized square root minimum distance from major roads, population density data at the coordinates, interactions of environmental factors, and season.</em></p>
+</div>
+</section>
+<section id="binary-glm-spatial-approach-4" class="slide level2">
+<h2>Binary GLM Spatial approach</h2>
+<h3 id="model-summary-quick-look">Model Summary Quick Look</h3>
+<div class="sourceCode" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href=""></a>Call<span class="sc">:</span></span>
+<span id="cb2-2"><a href=""></a><span class="fu">spglm</span>(<span class="at">formula =</span> spglm_formula, <span class="at">family =</span> binomial, <span class="at">data =</span> model_data_sf, </span>
+<span id="cb2-3"><a href=""></a>    <span class="at">spcov_initial =</span> az_wf_spcov)</span>
+<span id="cb2-4"><a href=""></a></span>
+<span id="cb2-5"><a href=""></a>Deviance Residuals<span class="sc">:</span></span>
+<span id="cb2-6"><a href=""></a>     Min       <span class="dv">1</span>Q   Median       <span class="dv">3</span>Q      Max </span>
+<span id="cb2-7"><a href=""></a><span class="sc">-</span><span class="fl">2.76222</span> <span class="sc">-</span><span class="fl">0.37074</span> <span class="sc">-</span><span class="fl">0.03625</span>  <span class="fl">0.38495</span>  <span class="fl">2.66905</span> </span>
+<span id="cb2-8"><a href=""></a></span>
+<span id="cb2-9"><a href=""></a><span class="fu">Coefficients</span> (fixed)<span class="sc">:</span></span>
+<span id="cb2-10"><a href=""></a>                                           Estimate Std. Error z value <span class="fu">Pr</span>(<span class="sc">&gt;</span><span class="er">|</span>z<span class="sc">|</span>)  </span>
+<span id="cb2-11"><a href=""></a>(Intercept)                              <span class="sc">-</span><span class="fl">7.131e-01</span>  <span class="fl">3.440e+00</span>  <span class="sc">-</span><span class="fl">0.207</span>   <span class="fl">0.8358</span>  </span>
+<span id="cb2-12"><a href=""></a><span class="fu">I</span>(<span class="fu">sqrt</span>(distance_rd_min_isprisec))        <span class="sc">-</span><span class="fl">1.399e+00</span>  <span class="fl">8.098e-01</span>  <span class="sc">-</span><span class="fl">1.728</span>   <span class="fl">0.0840</span> .</span>
+<span id="cb2-13"><a href=""></a>pop.density                              <span class="sc">-</span><span class="fl">1.033e+05</span>  <span class="fl">1.533e+05</span>  <span class="sc">-</span><span class="fl">0.674</span>   <span class="fl">0.5005</span>  </span>
+<span id="cb2-14"><a href=""></a>Precipitation_Buffered                   <span class="sc">-</span><span class="fl">9.784e-02</span>  <span class="fl">2.120e+00</span>  <span class="sc">-</span><span class="fl">0.046</span>   <span class="fl">0.9632</span>  </span>
+<span id="cb2-15"><a href=""></a>Temp_Min_Buffered                        <span class="sc">-</span><span class="fl">1.184e+00</span>  <span class="fl">7.955e-01</span>  <span class="sc">-</span><span class="fl">1.488</span>   <span class="fl">0.1366</span>  </span>
+<span id="cb2-16"><a href=""></a><span class="fu">I</span>(<span class="fu">get_season</span>(FireDiscoveryDateTime))      <span class="fl">5.897e-01</span>  <span class="fl">3.785e-01</span>   <span class="fl">1.558</span>   <span class="fl">0.1192</span>  </span>
+<span id="cb2-17"><a href=""></a>mean_grass                                <span class="fl">1.102e+00</span>  <span class="fl">1.740e+00</span>   <span class="fl">0.633</span>   <span class="fl">0.5265</span>  </span>
+<span id="cb2-18"><a href=""></a>mean_forest                               <span class="fl">1.449e+00</span>  <span class="fl">1.226e+00</span>   <span class="fl">1.182</span>   <span class="fl">0.2371</span>  </span>
+<span id="cb2-19"><a href=""></a>Precipitation_Buffered<span class="sc">:</span>Temp_Min_Buffered  <span class="fl">4.499e-01</span>  <span class="fl">5.347e-01</span>   <span class="fl">0.841</span>   <span class="fl">0.4001</span>  </span>
+<span id="cb2-20"><a href=""></a>mean_grass<span class="sc">:</span>mean_forest                    <span class="fl">1.530e+01</span>  <span class="fl">9.179e+00</span>   <span class="fl">1.666</span>   <span class="fl">0.0957</span> .</span>
+<span id="cb2-21"><a href=""></a><span class="sc">---</span></span>
+<span id="cb2-22"><a href=""></a>Signif. codes<span class="sc">:</span>  <span class="dv">0</span> ‘<span class="sc">**</span><span class="er">*</span>’ <span class="fl">0.001</span> ‘<span class="sc">**</span>’ <span class="fl">0.01</span> ‘<span class="sc">*</span>’ <span class="fl">0.05</span> ‘.’ <span class="fl">0.1</span> ‘ ’ <span class="dv">1</span></span>
+<span id="cb2-23"><a href=""></a></span>
+<span id="cb2-24"><a href=""></a>Pseudo R<span class="sc">-</span>squared<span class="sc">:</span> <span class="fl">0.3781</span></span>
+<span id="cb2-25"><a href=""></a></span>
+<span id="cb2-26"><a href=""></a><span class="fu">Coefficients</span> (wave spatial covariance)<span class="sc">:</span></span>
+<span id="cb2-27"><a href=""></a>       de        ie     range </span>
+<span id="cb2-28"><a href=""></a><span class="fl">3.039e+00</span> <span class="fl">3.669e-02</span> <span class="fl">3.853e+04</span> </span>
+<span id="cb2-29"><a href=""></a></span>
+<span id="cb2-30"><a href=""></a><span class="fu">Coefficients</span> (Dispersion <span class="cf">for</span> binomial family)<span class="sc">:</span></span>
+<span id="cb2-31"><a href=""></a>dispersion </span>
+<span id="cb2-32"><a href=""></a>         <span class="dv">1</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="binary-glm-spatial-approach-5" class="slide level2">
+<h2>Binary GLM Spatial approach</h2>
+<h3 id="cis-quick-look">CIs Quick Look</h3>
+<div class="sourceCode" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a><span class="sc">&gt;</span> <span class="fu">confint</span>(az_wf_spglm)</span>
+<span id="cb3-2"><a href=""></a>                                                 <span class="fl">2.5</span> <span class="sc">%       97.5 %</span></span>
+<span id="cb3-3"><a href=""></a>(Intercept)                              <span class="sc">-</span><span class="fl">7.455904e+00</span> <span class="fl">6.029728e+00</span></span>
+<span id="cb3-4"><a href=""></a><span class="fu">I</span>(<span class="fu">sqrt</span>(distance_rd_min_isprisec))        <span class="sc">-</span><span class="fl">2.986637e+00</span> <span class="fl">1.876885e-01</span></span>
+<span id="cb3-5"><a href=""></a>pop.density                              <span class="sc">-</span><span class="fl">4.037031e+05</span> <span class="fl">1.971749e+05</span></span>
+<span id="cb3-6"><a href=""></a>Precipitation_Buffered                   <span class="sc">-</span><span class="fl">4.252564e+00</span> <span class="fl">4.056891e+00</span></span>
+<span id="cb3-7"><a href=""></a>Temp_Min_Buffered                        <span class="sc">-</span><span class="fl">2.743386e+00</span> <span class="fl">3.751041e-01</span></span>
+<span id="cb3-8"><a href=""></a><span class="fu">I</span>(<span class="fu">get_season</span>(FireDiscoveryDateTime))     <span class="sc">-</span><span class="fl">1.520621e-01</span> <span class="fl">1.331504e+00</span></span>
+<span id="cb3-9"><a href=""></a>mean_grass                               <span class="sc">-</span><span class="fl">2.307784e+00</span> <span class="fl">4.511212e+00</span></span>
+<span id="cb3-10"><a href=""></a>mean_forest                              <span class="sc">-</span><span class="fl">9.531052e-01</span> <span class="fl">3.850823e+00</span></span>
+<span id="cb3-11"><a href=""></a>Precipitation_Buffered<span class="sc">:</span>Temp_Min_Buffered <span class="sc">-</span><span class="fl">5.980621e-01</span> <span class="fl">1.497803e+00</span></span>
+<span id="cb3-12"><a href=""></a>mean_grass<span class="sc">:</span>mean_forest                   <span class="sc">-</span><span class="fl">2.695953e+00</span> <span class="fl">3.328631e+01</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="binary-glm-spatial-approach-6" class="slide level2">
+<h2>Binary GLM Spatial approach</h2>
+<h3 id="predictions">Predictions</h3>
+<p>Due to some challenges we faced with the computational time/energy to recover realistic data for covariates, we</p>
 <div class="quarto-auto-generated-content">
 <div class="footer footer-default">
 
@@ -1028,7 +1251,7 @@ Figure&nbsp;2: Reasearch question 2 framework
       }
     });
     </script>
-    <script>var lightboxQuarto = GLightbox({"selector":".lightbox","openEffect":"zoom","descPosition":"bottom","loop":false,"closeEffect":"zoom"});
+    <script>var lightboxQuarto = GLightbox({"openEffect":"zoom","closeEffect":"zoom","loop":false,"descPosition":"bottom","selector":".lightbox"});
     (function() {
       let previousOnload = window.onload;
       window.onload = () => {

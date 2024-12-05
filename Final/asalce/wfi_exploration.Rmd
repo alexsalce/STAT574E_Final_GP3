@@ -399,13 +399,81 @@ ggplot() +
 # Create the base plot
 ggplot() +
   geom_sf(data = arizona_sf) +
+  geom_sf(data = az_counties_sf, fill = "gray85") +
+  geom_sf(data = coconino_sf, fill = "aquamarine3") +
+  geom_sf(data = wfigs_az_sf_thresh, color="orangered", size=0.6, alpha=0.75) +
+  # geom_sf(data = az_rd_primary, color="black", linewidth=0.2) +
+  # geom_sf(data = az_rd_secondary, color="gray15", linewidth=0.1) +
+  ggtitle("Wildfires in Arizona 2014-2024") +
+  theme_minimal()
+
+wfigs_cc_sf <- st_intersection(wfigs_az_sf, coconino_sf)
+
+ggplot() +
+  geom_sf(data = coconino_sf) +
   # geom_sf(data = az_counties_sf, fill = "gray85") +
-  geom_sf(data = az_fires_wf, color="orangered", size=0.1, alpha=0.25) +
+  geom_sf(data = wfigs_cc_sf, color="orangered", size=0.25, alpha=0.25) +
   # geom_sf(data = az_rd_primary, color="black", linewidth=0.2) +
   # geom_sf(data = az_rd_secondary, color="gray15", linewidth=0.1) +
   theme_minimal()
   
 
 
+
+```
+
+
+```{r builddataspglmppp, cache=TRUE, warning=FALSE, message=FALSE}
+
+# set seed to 219 for report!
+set.seed(219)
+
+# set seed to 20 for predictions!
+# set.seed(20)
+
+# pick df of interest
+
+az_fires_wf_spglm <- az_fires_wf_nat
+
+
+az_fires_wf_spglm_ppp <- as.ppp(az_fires_wf_spglm)
+
+background <- rpoispp((az_fires_wf_spglm_ppp$n) / area(as.owin(az_fires_wf_spglm_ppp)),
+                      win = as.owin(coconino_sf))
+
+df <- data.frame(x = background$x, y = background$y)
+
+background_sf <- st_as_sf(df, coords = c("x", "y"), crs = "EPSG:32612")
+
+```
+
+```{r azccplotppp}
+
+wf_sf_cc_plot <- st_as_sf(as.data.frame(az_fires_wf_spglm_ppp), coords = c("x", "y"), crs="EPSG:32612")
+
+wf_sf_cc_plot <- st_transform(wf_sf_cc_plot, crs = 4326)
+
+bkg_sf_cc_plot <- st_as_sf(as.data.frame(background), coords = c("x", "y"), crs="EPSG:32612")
+
+bkg_sf_cc_plot <- st_transform(bkg_sf_cc_plot, crs = 4326)
+
+coconino_plot <- coconino_sf %>% st_transform(4326)
+az_cc_bbox <- st_bbox(coconino_plot)
+
+az_cc_bbox <- c(
+  left = az_cc_bbox["xmin"][[1]]-1,
+  bottom = az_cc_bbox["ymin"][[1]]-1,
+  right = az_cc_bbox["xmax"][[1]]+1,
+  top = az_cc_bbox["ymax"][[1]]+1
+)
+
+coconino_map <- get_stadiamap(bbox = az_cc_bbox, zoom = 8)
+
+# plot
+ggmap(coconino_map) + labs(title = "Coconino County Naturally Caused Large Wildfire Incidence", subtitle = "Background process Y(s)=0 points") + theme_minimal() +
+  geom_sf(data = coconino_plot, fill = "gray70", alpha = 0.5, color = "black", size = 5, inherit.aes = FALSE) +
+  # geom_sf(data=wf_sf_cc_plot, shape = 21, size = 0.9, 
+          # color = "orangered3", fill = "orangered3", inherit.aes = FALSE) +
+  geom_sf(data=bkg_sf_cc_plot, shape = 4, size = 1.1, color = "red4", inherit.aes = FALSE)
 
 ```
