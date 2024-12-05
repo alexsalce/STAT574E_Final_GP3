@@ -38,6 +38,7 @@ load(here('data/wfigs_az_sf_EPSG32612.RData'))
 load(here('data/az_rd_4WD_EPSG32612.RData'))
 load(here('data/az_rd_primary_EPSG32612.RData'))
 load(here('data/az_rd_secondary_EPSG32612.RData'))
+load(here('data/naz_forests_sf_EPSG32612.RData'))
 
 
 #NOTE: all sf object data uses CRS ESPG:32612
@@ -60,6 +61,13 @@ arizona_sf <- st_transform(arizona_sf, crs = "EPSG:32612")
 
 az_counties_sf <- counties(state = "AZ", cb = TRUE)
 az_counties_sf <- st_transform(az_counties_sf, crs = "EPSG:32612")
+
+# make national forest objects
+
+coconino_nf_sf <- naz_forests_sf[naz_forests_sf$FORESTNAME=="Coconino National Forest",]
+
+kaibab_nf_sf <- naz_forests_sf[naz_forests_sf$FORESTNAME=="Kaibab National Forest",]
+
 
 ```
 First, we are going to load the `sf` object for the state of Arizona and project to `EPSG:32612`.
@@ -406,6 +414,10 @@ coconino_sf <- az_counties_sf %>%
 
 #filter large wildfire data to only Coconino County
 az_fires_wf <- st_intersection(az_fires_wf[az_fires_wf$FireCause=="Human" | az_fires_wf$FireCause == "Natural",], coconino_sf)
+
+#filter naz national forest sf objects
+naz_forests_sf <- st_intersection(naz_forests_sf, coconino_sf)
+
 
 ```
 
@@ -772,6 +784,10 @@ az_prediction_grid_sf$predict_bin_spglm <- az_wf_predict_spglm$fit
 
 predict_plot <- st_transform(az_prediction_grid_sf, crs = 4326)
 
+#national forest geometry for plots
+
+naz_nf_plot <- st_transform(naz_forests_sf, crs = 4326 )
+
 
 #generate pixel grid
 
@@ -794,6 +810,9 @@ coconino_grid_with_values <- st_join(coconino_grid, predict_plot)
 ggplot() +
   geom_sf(data = coconino_grid_with_values, aes(fill = predict_bin_spglm), color = NA) +
   geom_sf(data = coconino_sf, fill = NA, color = "black", size = 0.5) +
+  geom_sf(data = naz_nf_plot, fill = "turquoise", alpha = 0.5, color = NA) +
+  # geom_sf(data = coco_nf_plot, fill = "lawngreen", alpha = 0.5, color = NA) +
+  # geom_sf(data = kaibab_nf_plot, fill = "green4", alpha = 0.5, color = NA) +
   geom_sf(data=wf_sf_cc_plot, shape = 21, size = 1.2, 
           color = "orangered3", fill = "orangered3", inherit.aes = FALSE) +
   scale_fill_viridis_c(option = "B") +

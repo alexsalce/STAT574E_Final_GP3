@@ -24,6 +24,8 @@ Our project investigates different approaches to spatial statistical modeling of
 
 The "Wildfire Incidence" data we will be studying specifies coordinates for a fire's origin, and its resulting size in acres.
 
+Overall practical goal: modeling wildfire incidence to aid in prediction/assessment of wildfire risks in AZ based on relevant information.
+
 
 :::
 
@@ -38,7 +40,7 @@ The "Wildfire Incidence" data we will be studying specifies coordinates for a fi
 ::::
 
  
-## Wildfire Incidence Data
+## Wildfire Incidence Dataset
 
 :::: {.columns}
 
@@ -66,7 +68,7 @@ There are over 300K records in this dataset, and just over 18K in Arizona.
 
 ::::
 
-## Wildfire Incidence Data
+## Wildfire Incidence Dataset
 
 :::: {.columns}
 
@@ -117,11 +119,11 @@ $$
 
 ::: {layout-ncol=3}
 
-![](images/dioxane.png)
+![](images/dioxane.png){.lightbox}
 
-![](images/hollandsplm.png)
+![](images/hollandsplm.png){.lightbox}
 
-![](images/az_wf_small.png)
+![](images/az_wf_small.png){.lightbox}
 :::
 
 ## Wildfire Incidence Data - Point Process 1
@@ -147,11 +149,11 @@ $$
 
 ::: {layout-ncol=3}
 
-![](images/gorillas_lgcp.png)
+![](images/gorillas_lgcp.png){.lightbox}
 
-![](images/kansas.png)
+![](images/kansas.png){.lightbox}
 
-![](images/az_wf_lg_unmarked.png)
+![](images/az_wf_lg_unmarked.png){.lightbox}
 :::
 
 ## Wildfire Incidence Data - Point Process 2
@@ -181,10 +183,50 @@ $$
 
 ::: {layout-ncol=2}
 
-![](images/gorillas_binary.png)
+![](images/gorillas_binary.png){.lightbox}
 
-![](images/az_wf_cc_binary.png)
+![](images/az_wf_cc_binary.png){.lightbox}
 :::
+
+
+## Research Questions
+
+
+
+#### (1) Does the proximity of a wildfire’s origin to a road influence its resulting size?
+
+
+::: {#fig-rdprox layout-ncol=2}
+
+![All wildfires](images/az_rd_proximity1.png){#fig-wfpoints width=40% .lightbox}
+
+![Proximity to major roads](images/az_rd_proximity2.png){#fig-wfpointsrds width=40% .lightbox}
+
+Reasearch question 1 framework
+
+:::
+
+Data explorations showed some clear wildfire patterns near roads (the outlines are visible). We wanted to include the distance to the nearest major roads (and "remote" roads) as usable predictors. For each point, the `roads()` function in the `tigris` package and `st_distance()` function in the `sf` package helped us generate this data.
+
+
+
+## Research Questions
+
+
+#### (2) Can spatial natural/human factors serve as useful predictors in modeling resulting wildfire size?
+
+
+::: {#fig-rdprox layout-ncol=2}
+
+![All wildfires](images/az_rd_proximity1.png){#fig-wfpoints width=40% .lightbox}
+
+![Proximity to major roads](images/az_rd_proximity2.png){#fig-wfpointsrds width=40% .lightbox}
+
+Reasearch question 2 framework
+
+:::
+
+Lorem Ipsum
 
 
 ## Research Questions
@@ -192,10 +234,6 @@ $$
 :::: {.columns}
 
 ::: {.column width="40%"}
-
-(1) Does the proximity of a wildfire’s origin to a road influence its resulting size?
-
-(2) Can spatial natural/human factors serve as useful predictors in modeling resulting wildfire size?
 
 (3) Are the patterns of human or non human caused fires spatially CSR, or do they exhibit an inhomogeneous spatial intensity?
 
@@ -209,10 +247,6 @@ $$
 
 ::::
 
-
-
-
-## 
 
 
 ## Modeling approach

@@ -381,6 +381,19 @@ az_prediction_grid_sf$distance_rd_min_isprisec <- as.integer(az_prediction_grid_
 
 
 ################################
-# #
+# READ IN NATIONAL FOREST SHP  #
 ################################
 
+# # Read the shapefile into R
+# forests <- st_read(here('data/Forest_Administrative_Boundaries_(Feature_Layer).shp'))
+#
+# naz_forests <- forests[forests$FORESTNAME=="Coconino National Forest" |
+#                          forests$FORESTNAME=="Kaibab National Forest" |
+#                          forests$FORESTNAME=="Apache-Sitgreaves National Forests"|
+#                          forests$FORESTNAME=="Prescott National Forest",]
+
+
+
+################################
+#  #
+################################

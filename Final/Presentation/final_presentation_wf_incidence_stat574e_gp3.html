@@ -349,6 +349,7 @@ Raymond Owino, Matthew Wallace, Alex Salce
 <div class="column" style="width:40%;">
 <p>Our project investigates different approaches to spatial statistical modeling of wildfire incidence data in Arizona, with a focus on Coconino County (Northern AZ).</p>
 <p>The “Wildfire Incidence” data we will be studying specifies coordinates for a fire’s origin, and its resulting size in acres.</p>
+<p>Overall practical goal: modeling wildfire incidence to aid in prediction/assessment of wildfire risks in AZ based on relevant information.</p>
 </div><div class="column" style="width:60%;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -362,8 +363,8 @@ Raymond Owino, Matthew Wallace, Alex Salce
 </div>
 </div></div>
 </section>
-<section id="wildfire-incidence-data" class="slide level2">
-<h2>Wildfire Incidence Data</h2>
+<section id="wildfire-incidence-dataset" class="slide level2">
+<h2>Wildfire Incidence Dataset</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
 <div id="figlogo">
@@ -376,8 +377,8 @@ Raymond Owino, Matthew Wallace, Alex Salce
 <p>There are over 300K records in this dataset, and just over 18K in Arizona.</p>
 </div></div>
 </section>
-<section id="wildfire-incidence-data-1" class="slide level2">
-<h2>Wildfire Incidence Data</h2>
+<section id="wildfire-incidence-dataset-1" class="slide level2">
+<h2>Wildfire Incidence Dataset</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
 <div id="figlogo">
@@ -419,13 +420,13 @@ Raymond Owino, Matthew Wallace, Alex Salce
 <div class="quarto-layout-panel" data-layout-ncol="3">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
-<p><img data-src="images/dioxane.png"></p>
+<p><a href="images/dioxane.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img data-src="images/dioxane.png"></a></p>
 </div>
 <div class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
-<p><img data-src="images/hollandsplm.png"></p>
+<p><a href="images/hollandsplm.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img data-src="images/hollandsplm.png"></a></p>
 </div>
 <div class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
-<p><img data-src="images/az_wf_small.png"></p>
+<p><a href="images/az_wf_small.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img data-src="images/az_wf_small.png"></a></p>
 </div>
 </div>
 </div>
@@ -455,13 +456,13 @@ Raymond Owino, Matthew Wallace, Alex Salce
 <div class="quarto-layout-panel" data-layout-ncol="3">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
-<p><img data-src="images/gorillas_lgcp.png"></p>
+<p><a href="images/gorillas_lgcp.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img data-src="images/gorillas_lgcp.png"></a></p>
 </div>
 <div class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
-<p><img data-src="images/kansas.png"></p>
+<p><a href="images/kansas.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6"><img data-src="images/kansas.png"></a></p>
 </div>
 <div class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
-<p><img data-src="images/az_wf_lg_unmarked.png"></p>
+<p><a href="images/az_wf_lg_unmarked.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7"><img data-src="images/az_wf_lg_unmarked.png"></a></p>
 </div>
 </div>
 </div>
@@ -494,22 +495,100 @@ Y(\boldsymbol{s}) \sim \mathrm{Bern}(p(\boldsymbol{s})),\,\,\,\, \mathrm{E}[ Y (
 <div class="quarto-layout-panel" data-layout-ncol="2">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<p><img data-src="images/gorillas_binary.png"></p>
+<p><a href="images/gorillas_binary.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8"><img data-src="images/gorillas_binary.png"></a></p>
 </div>
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<p><img data-src="images/az_wf_cc_binary.png"></p>
+<p><a href="images/az_wf_cc_binary.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9"><img data-src="images/az_wf_cc_binary.png"></a></p>
 </div>
 </div>
 </div>
 </section>
 <section id="research-questions" class="slide level2">
 <h2>Research Questions</h2>
+<h4 id="does-the-proximity-of-a-wildfires-origin-to-a-road-influence-its-resulting-size">(1) Does the proximity of a wildfire’s origin to a road influence its resulting size?</h4>
+<div id="fig-rdprox" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig">
+<div aria-describedby="fig-rdprox-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-rdprox" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-wfpoints" class="lightbox quarto-float quarto-figure quarto-figure-center">
+<figure class="quarto-float quarto-subfloat-fig">
+<div aria-describedby="fig-wfpoints-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/az_rd_proximity1.png" class="lightbox" data-gallery="fig-rdprox" title="Figure&nbsp;1&nbsp;(a): All wildfires"><img data-src="images/az_rd_proximity1.png" style="width:40.0%" data-ref-parent="fig-rdprox"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-wfpoints-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) All wildfires
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-rdprox" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-wfpointsrds" class="lightbox quarto-float quarto-figure quarto-figure-center">
+<figure class="quarto-float quarto-subfloat-fig">
+<div aria-describedby="fig-wfpointsrds-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/az_rd_proximity2.png" class="lightbox" data-gallery="fig-rdprox" title="Figure&nbsp;1&nbsp;(b): Proximity to major roads"><img data-src="images/az_rd_proximity2.png" style="width:40.0%" data-ref-parent="fig-rdprox"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-wfpointsrds-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Proximity to major roads
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-rdprox-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Reasearch question 1 framework
+</figcaption>
+</figure>
+</div>
+<p>Data explorations showed some clear wildfire patterns near roads (the outlines are visible). We wanted to include the distance to the nearest major roads (and “remote” roads) as usable predictors. For each point, the <code>roads()</code> function in the <code>tigris</code> package and <code>st_distance()</code> function in the <code>sf</code> package helped us generate this data.</p>
+</section>
+<section id="research-questions-1" class="slide level2">
+<h2>Research Questions</h2>
+<h4 id="can-spatial-naturalhuman-factors-serve-as-useful-predictors-in-modeling-resulting-wildfire-size">(2) Can spatial natural/human factors serve as useful predictors in modeling resulting wildfire size?</h4>
+<div id="fig-rdprox" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig">
+<div aria-describedby="fig-rdprox-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-rdprox" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-wfpoints" class="lightbox quarto-float quarto-figure quarto-figure-center">
+<figure class="quarto-float quarto-subfloat-fig">
+<div aria-describedby="fig-wfpoints-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/az_rd_proximity1.png" class="lightbox" data-gallery="fig-rdprox" title="Figure&nbsp;2&nbsp;(a): All wildfires"><img data-src="images/az_rd_proximity1.png" style="width:40.0%" data-ref-parent="fig-rdprox"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-wfpoints-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) All wildfires
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-rdprox" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-wfpointsrds" class="lightbox quarto-float quarto-figure quarto-figure-center">
+<figure class="quarto-float quarto-subfloat-fig">
+<div aria-describedby="fig-wfpointsrds-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/az_rd_proximity2.png" class="lightbox" data-gallery="fig-rdprox" title="Figure&nbsp;2&nbsp;(b): Proximity to major roads"><img data-src="images/az_rd_proximity2.png" style="width:40.0%" data-ref-parent="fig-rdprox"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-wfpointsrds-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Proximity to major roads
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-rdprox-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Reasearch question 2 framework
+</figcaption>
+</figure>
+</div>
+<p>Lorem Ipsum</p>
+</section>
+<section id="research-questions-2" class="slide level2">
+<h2>Research Questions</h2>
 <div class="columns">
 <div class="column" style="width:40%;">
-<ol type="1">
-<li><p>Does the proximity of a wildfire’s origin to a road influence its resulting size?</p></li>
-<li><p>Can spatial natural/human factors serve as useful predictors in modeling resulting wildfire size?</p></li>
-<li><p>Are the patterns of human or non human caused fires spatially CSR, or do they exhibit an inhomogeneous spatial intensity?</p></li>
+<ol start="3" type="1">
+<li>Are the patterns of human or non human caused fires spatially CSR, or do they exhibit an inhomogeneous spatial intensity?</li>
 </ol>
 </div><div class="column" style="width:60%;">
 <div class="quarto-figure quarto-figure-center">
@@ -519,9 +598,6 @@ Y(\boldsymbol{s}) \sim \mathrm{Bern}(p(\boldsymbol{s})),\,\,\,\, \mathrm{E}[ Y (
 </figure>
 </div>
 </div></div>
-</section>
-<section id="section" class="slide level2">
-<h2></h2>
 </section>
 <section id="modeling-approach-3" class="slide level2">
 <h2>Modeling approach</h2>
@@ -952,7 +1028,7 @@ Y(\boldsymbol{s}) \sim \mathrm{Bern}(p(\boldsymbol{s})),\,\,\,\, \mathrm{E}[ Y (
       }
     });
     </script>
-    <script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","openEffect":"zoom","descPosition":"bottom","loop":false,"selector":".lightbox"});
+    <script>var lightboxQuarto = GLightbox({"selector":".lightbox","openEffect":"zoom","descPosition":"bottom","loop":false,"closeEffect":"zoom"});
     (function() {
       let previousOnload = window.onload;
       window.onload = () => {
