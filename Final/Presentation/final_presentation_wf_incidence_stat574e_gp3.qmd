@@ -216,61 +216,27 @@ Data explorations showed some clear wildfire patterns near roads (the outlines a
 
 
 
-## Research Questions (2)
+## Research Questions (2) (Environmental data)
 
 
 #### Can environmental or human factors be useful predictors in modeling resulting wildfire size?
 
-
-::: {#fig-rdprox layout-ncol=2}
-
-*Add images like screenshots of GIS here*
+Raymond collected our Environmental data to help address research question 2 in our models.
 
 
-Research question 2 framework
-
-:::
-
-Raymond to update this slide with environmental covariates, quick summary of what the data you got was and where it came from/units
-
-
-## Research Questions (2)
+## Research Questions (2) (Census data)
 
 
 #### Can environmental or human factors be useful predictors in modeling resulting wildfire size?
 
-
-::: {#fig-rdprox layout-ncol=2}
-
-*Add images like population density maps from exploration*
-
-
-Research question 2 framework
-
-:::
-
-Matt to update this slide with population density data details (packages, units, etc) 
+Matt collected census data to address research question 2 in our models.
 
 
 ## Research Questions (3)
 
 #### Are the patterns of human or non human caused fires spatially CSR, or do they exhibit an inhomogeneous spatial intensity?
 
-:::: {.columns}
-
-::: {.column width="40%"}
-
-Matt to update this slide
-
-:::
-
-::: {.column width="60%"}
-
-*Add screenshots, like F(r), G(r), K(r) curve just as examples, maybe an intensity map. Only for high leve visual
-
-:::
-
-::::
+Matt's LGCP models address research question 3.
 
 ## Modeling - Coconino County
 :::: {.columns}
@@ -366,7 +332,7 @@ $$
 $$
 :::
 
-![](images/az_wf_cc_binary_1s.png){width=75% fig-align="center" .lightbox}
+![$n=66$ incidence points](images/az_wf_cc_binary_1s.png){width=55% fig-align="center" .lightbox}
 
 :::
 
@@ -408,8 +374,8 @@ $$
 $$
 :::
 
+![$n=73$ background points](images/az_wf_cc_binary_0s.png){width=45% fig-align="center" .lightbox}
 
-![](images/az_wf_cc_binary_0s.png){width=75% fig-align="center" .lightbox}
 
 :::
 
@@ -420,7 +386,7 @@ $$
 
 Our model can then be built using selected covariates we desire for predictors and performing a binary logistic regression. The resulting prediction model will return the probability of the occurrence of a large wildfire for a given input location and corresponding values for the model's chosen covariates.
 
-![$n=73$ background points](images/az_wf_cc_binary.png){width=45% fig-align="center" .lightbox}
+![66 incidence points, 73 background points](images/az_wf_cc_binary.png){width=45% fig-align="center" .lightbox}
 
 ## Binary GLM Spatial approach
 
@@ -429,7 +395,7 @@ Our model can then be built using selected covariates we desire for predictors a
 The selection of covariates of the model utilized a semi-automated process that minimized AIC. There were some issues with model convergence for some spatial covariance fits, and AIC did not necessarily favor significant predictors in the end.
 
 ```r
-spglm_formula <- Wildfires ~  I(sqrt(distance_rd_min_isprisec)) + pop.density +
+spglm_formula <- Wildfires ~  I(sqrt(distance_rd_min_isprisec)) + I(log(pop.density)) +
   Precipitation_Buffered * Temp_Min_Buffered + I(get_season(FireDiscoveryDateTime)) +
   mean_grass * mean_forest
 
@@ -439,7 +405,7 @@ az_wf_spglm <- spglm(spglm_formula, data = model_data_sf,
                      family = binomial, spcov_initial = az_wf_spcov)
 ```
 ::: {.smallmath}
-*The best AIC model tested utilized square root minimum distance from major roads, population density data at the coordinates, interactions of environmental factors, and season.*
+*The best AIC model tested utilized square root minimum distance from major roads, log population density data at the coordinates, interactions of environmental factors, and season.*
 :::
 
 ## Binary GLM Spatial approach
@@ -603,6 +569,8 @@ More background process points? Predictors correlated? Spatial confounding?
 ## Conclusions and Future Research
 
 Each of these models at least demonstrate proof-of-concept as means to help us better understand how to predict wildfire size or where we are at higher risk of a large wildfire occurring in Coconino County, and could be easily generalized elsewhere with the tools we have learned. 
+
+We found that envrionmental and human factors can help to improve our models (RQs 1 & 2), and that approaching the data as point patterns can help us to determine that fires aren't spatially random, and we can use models to help inform fire mitigation efforts by understanding wildfire risk spatially (RQ 3).
 
 ::: {#fig-sweeps layout-ncol=3}
 

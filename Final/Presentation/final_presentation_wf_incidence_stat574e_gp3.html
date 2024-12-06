@@ -617,53 +617,20 @@ Figure&nbsp;1: Reasearch question 1 framework
 </div>
 <p>Data explorations showed some clear wildfire patterns near roads (the outlines are visible). We wanted to include the distance in meters to the nearest major roads (and “remote” roads) as usable predictors. For each point, the <code>roads()</code> function in the <code>tigris</code> package to generate <code>sf</code> objects for AZ roads, and <code>st_distance()</code> function in the <code>sf</code> package helped us generate this data to be used as a covariate.</p>
 </section>
-<section id="research-questions-2" class="slide level2">
-<h2>Research Questions (2)</h2>
+<section id="research-questions-2-environmental-data" class="slide level2">
+<h2>Research Questions (2) (Environmental data)</h2>
 <h4 id="can-environmental-or-human-factors-be-useful-predictors-in-modeling-resulting-wildfire-size">Can environmental or human factors be useful predictors in modeling resulting wildfire size?</h4>
-<div id="fig-rdprox" class="quarto-layout-panel">
-<figure class="quarto-float quarto-float-fig">
-<div aria-describedby="fig-rdprox-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="quarto-layout-row">
-<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
-<p><em>Add images like screenshots of GIS here</em></p>
-</div>
-</div>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-rdprox-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2: Research question 2 framework
-</figcaption>
-</figure>
-</div>
-<p>Raymond to update this slide with environmental covariates, quick summary of what the data you got was and where it came from/units</p>
+<p>Raymond collected our Environmental data to help address research question 2 in our models.</p>
 </section>
-<section id="research-questions-2-1" class="slide level2">
-<h2>Research Questions (2)</h2>
+<section id="research-questions-2-census-data" class="slide level2">
+<h2>Research Questions (2) (Census data)</h2>
 <h4 id="can-environmental-or-human-factors-be-useful-predictors-in-modeling-resulting-wildfire-size-1">Can environmental or human factors be useful predictors in modeling resulting wildfire size?</h4>
-<div id="fig-rdprox" class="quarto-layout-panel">
-<figure class="quarto-float quarto-float-fig">
-<div aria-describedby="fig-rdprox-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="quarto-layout-row">
-<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
-<p><em>Add images like population density maps from exploration</em></p>
-</div>
-</div>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-rdprox-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;3: Research question 2 framework
-</figcaption>
-</figure>
-</div>
-<p>Matt to update this slide with population density data details (packages, units, etc)</p>
+<p>Matt collected census data to address research question 2 in our models.</p>
 </section>
 <section id="research-questions-3" class="slide level2">
 <h2>Research Questions (3)</h2>
 <h4 id="are-the-patterns-of-human-or-non-human-caused-fires-spatially-csr-or-do-they-exhibit-an-inhomogeneous-spatial-intensity">Are the patterns of human or non human caused fires spatially CSR, or do they exhibit an inhomogeneous spatial intensity?</h4>
-<div class="columns">
-<div class="column" style="width:40%;">
-<p>Matt to update this slide</p>
-</div><div class="column" style="width:60%;">
-<p>*Add screenshots, like F(r), G(r), K(r) curve just as examples, maybe an intensity map. Only for high leve visual</p>
-</div></div>
+<p>Matt’s LGCP models address research question 3.</p>
 </section>
 <section id="modeling---coconino-county" class="slide level2">
 <h2>Modeling - Coconino County</h2>
@@ -735,7 +702,12 @@ Y(\boldsymbol{s}) \sim \mathrm{Bern}(p(\boldsymbol{s})),
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><a href="images/az_wf_cc_binary_1s.png" class="lightbox" data-gallery="quarto-lightbox-gallery-15"><img data-src="images/az_wf_cc_binary_1s.png" class="quarto-figure quarto-figure-center" style="width:75.0%"></a></p>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><a href="images/az_wf_cc_binary_1s.png" class="lightbox" data-gallery="quarto-lightbox-gallery-15" title="n=66 incidence points"><img data-src="images/az_wf_cc_binary_1s.png" class="quarto-figure quarto-figure-center" style="width:55.0%" alt="n=66 incidence points"></a></p>
+</figure>
+</div>
+<figcaption><span class="math inline">\(n=66\)</span> incidence points</figcaption>
 </figure>
 </div>
 </div></div>
@@ -765,7 +737,12 @@ Y(\boldsymbol{s}) \sim \mathrm{Bern}(p(\boldsymbol{s})),
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><a href="images/az_wf_cc_binary_0s.png" class="lightbox" data-gallery="quarto-lightbox-gallery-16"><img data-src="images/az_wf_cc_binary_0s.png" class="quarto-figure quarto-figure-center" style="width:75.0%"></a></p>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><a href="images/az_wf_cc_binary_0s.png" class="lightbox" data-gallery="quarto-lightbox-gallery-16" title="n=73 background points"><img data-src="images/az_wf_cc_binary_0s.png" class="quarto-figure quarto-figure-center" style="width:45.0%" alt="n=73 background points"></a></p>
+</figure>
+</div>
+<figcaption><span class="math inline">\(n=73\)</span> background points</figcaption>
 </figure>
 </div>
 </div></div>
@@ -777,10 +754,10 @@ Y(\boldsymbol{s}) \sim \mathrm{Bern}(p(\boldsymbol{s})),
 <figure>
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><a href="images/az_wf_cc_binary.png" class="lightbox" data-gallery="quarto-lightbox-gallery-17" title="n=73 background points"><img data-src="images/az_wf_cc_binary.png" class="quarto-figure quarto-figure-center" style="width:45.0%" alt="n=73 background points"></a></p>
+<p><a href="images/az_wf_cc_binary.png" class="lightbox" data-gallery="quarto-lightbox-gallery-17" title="66 incidence points, 73 background points"><img data-src="images/az_wf_cc_binary.png" class="quarto-figure quarto-figure-center" style="width:45.0%" alt="66 incidence points, 73 background points"></a></p>
 </figure>
 </div>
-<figcaption><span class="math inline">\(n=73\)</span> background points</figcaption>
+<figcaption>66 incidence points, 73 background points</figcaption>
 </figure>
 </div>
 </section>
@@ -788,7 +765,7 @@ Y(\boldsymbol{s}) \sim \mathrm{Bern}(p(\boldsymbol{s})),
 <h2>Binary GLM Spatial approach</h2>
 <h5 id="model-selection">Model Selection</h5>
 <p>The selection of covariates of the model utilized a semi-automated process that minimized AIC. There were some issues with model convergence for some spatial covariance fits, and AIC did not necessarily favor significant predictors in the end.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a>spglm_formula <span class="ot">&lt;-</span> Wildfires <span class="sc">~</span>  <span class="fu">I</span>(<span class="fu">sqrt</span>(distance_rd_min_isprisec)) <span class="sc">+</span> pop.density <span class="sc">+</span></span>
+<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a>spglm_formula <span class="ot">&lt;-</span> Wildfires <span class="sc">~</span>  <span class="fu">I</span>(<span class="fu">sqrt</span>(distance_rd_min_isprisec)) <span class="sc">+</span> <span class="fu">I</span>(<span class="fu">log</span>(pop.density)) <span class="sc">+</span></span>
 <span id="cb1-2"><a href=""></a>  Precipitation_Buffered <span class="sc">*</span> Temp_Min_Buffered <span class="sc">+</span> <span class="fu">I</span>(<span class="fu">get_season</span>(FireDiscoveryDateTime)) <span class="sc">+</span></span>
 <span id="cb1-3"><a href=""></a>  mean_grass <span class="sc">*</span> mean_forest</span>
 <span id="cb1-4"><a href=""></a></span>
@@ -797,7 +774,7 @@ Y(\boldsymbol{s}) \sim \mathrm{Bern}(p(\boldsymbol{s})),
 <span id="cb1-7"><a href=""></a>az_wf_spglm <span class="ot">&lt;-</span> <span class="fu">spglm</span>(spglm_formula, <span class="at">data =</span> model_data_sf, </span>
 <span id="cb1-8"><a href=""></a>                     <span class="at">family =</span> binomial, <span class="at">spcov_initial =</span> az_wf_spcov)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="smallmath">
-<p><em>The best AIC model tested utilized square root minimum distance from major roads, population density data at the coordinates, interactions of environmental factors, and season.</em></p>
+<p><em>The best AIC model tested utilized square root minimum distance from major roads, log population density data at the coordinates, interactions of environmental factors, and season.</em></p>
 </div>
 </section>
 <section id="binary-glm-spatial-approach-4" class="slide level2">
@@ -865,7 +842,7 @@ Y(\boldsymbol{s}) \sim \mathrm{Bern}(p(\boldsymbol{s})),
 <div id="fig-ci1" class="lightbox quarto-float quarto-figure quarto-figure-center" data-fig-align="center">
 <figure class="quarto-float quarto-subfloat-fig">
 <div aria-describedby="fig-ci1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/spglm_bin_CI1.png" class="lightbox" data-gallery="fig-CIs" title="Figure&nbsp;4&nbsp;(a): CIs (all but pop.density)"><img data-src="images/spglm_bin_CI1.png" class="quarto-figure quarto-figure-center" style="width:34.0%" data-ref-parent="fig-CIs"></a>
+<a href="images/spglm_bin_CI1.png" class="lightbox" data-gallery="fig-CIs" title="Figure&nbsp;2&nbsp;(a): CIs (all but pop.density)"><img data-src="images/spglm_bin_CI1.png" class="quarto-figure quarto-figure-center" style="width:34.0%" data-ref-parent="fig-CIs"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-ci1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 (a) CIs (all but <code>pop.density</code>)
@@ -874,7 +851,7 @@ Y(\boldsymbol{s}) \sim \mathrm{Bern}(p(\boldsymbol{s})),
 </div>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-CIs-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;4: Confidence Intervals
+Figure&nbsp;2: Confidence Intervals
 </figcaption>
 </figure>
 </div>
@@ -916,7 +893,7 @@ Figure&nbsp;4: Confidence Intervals
 <div id="fig-wfpoints" class="lightbox quarto-float quarto-figure quarto-figure-center">
 <figure class="quarto-float quarto-subfloat-fig">
 <div aria-describedby="fig-wfpoints-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/predict_surface_tempsweep.gif" class="lightbox" data-gallery="fig-sweeps" title="Figure&nbsp;5&nbsp;(a): +/- 5°C Temp_Min_Buffered sweep"><img data-src="images/predict_surface_tempsweep.gif" style="width:75.0%" data-ref-parent="fig-sweeps"></a>
+<a href="images/predict_surface_tempsweep.gif" class="lightbox" data-gallery="fig-sweeps" title="Figure&nbsp;3&nbsp;(a): +/- 5°C Temp_Min_Buffered sweep"><img data-src="images/predict_surface_tempsweep.gif" style="width:75.0%" data-ref-parent="fig-sweeps"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-wfpoints-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 (a) +/- 5°C <code>Temp_Min_Buffered</code> sweep
@@ -928,7 +905,7 @@ Figure&nbsp;4: Confidence Intervals
 <div id="fig-wfpointsrds" class="lightbox quarto-float quarto-figure quarto-figure-center">
 <figure class="quarto-float quarto-subfloat-fig">
 <div aria-describedby="fig-wfpointsrds-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/predict_surface_precipsweep.gif" class="lightbox" data-gallery="fig-sweeps" title="Figure&nbsp;5&nbsp;(b): +/- 10% Precipitation_Buffered sweep"><img data-src="images/predict_surface_precipsweep.gif" style="width:75.0%" data-ref-parent="fig-sweeps"></a>
+<a href="images/predict_surface_precipsweep.gif" class="lightbox" data-gallery="fig-sweeps" title="Figure&nbsp;3&nbsp;(b): +/- 10% Precipitation_Buffered sweep"><img data-src="images/predict_surface_precipsweep.gif" style="width:75.0%" data-ref-parent="fig-sweeps"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-wfpointsrds-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 (b) +/- 10% <code>Precipitation_Buffered</code> sweep
@@ -939,7 +916,7 @@ Figure&nbsp;4: Confidence Intervals
 </div>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sweeps-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;5: Prediction surface for adjusting annual min temperature and precipitation
+Figure&nbsp;3: Prediction surface for adjusting annual min temperature and precipitation
 </figcaption>
 </figure>
 </div>
@@ -948,6 +925,7 @@ Figure&nbsp;5: Prediction surface for adjusting annual min temperature and preci
 <section id="conclusions-and-future-research" class="slide level2">
 <h2>Conclusions and Future Research</h2>
 <p>Each of these models at least demonstrate proof-of-concept as means to help us better understand how to predict wildfire size or where we are at higher risk of a large wildfire occurring in Coconino County, and could be easily generalized elsewhere with the tools we have learned.</p>
+<p>We found that envrionmental and human factors can help to improve our models (RQs 1 &amp; 2), and that approaching the data as point patterns can help us to determine that fires aren’t spatially random, and we can use models to help inform fire mitigation efforts by understanding wildfire risk spatially (RQ 3).</p>
 <div id="fig-sweeps" class="quarto-layout-panel">
 <figure class="quarto-float quarto-float-fig">
 <div aria-describedby="fig-sweeps-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -956,7 +934,7 @@ Figure&nbsp;5: Prediction surface for adjusting annual min temperature and preci
 <div id="fig-splmconc" class="lightbox quarto-float quarto-figure quarto-figure-center">
 <figure class="quarto-float quarto-subfloat-fig">
 <div aria-describedby="fig-splmconc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/az_wf_small.png" class="lightbox" data-gallery="fig-sweeps" title="Figure&nbsp;6&nbsp;(a): Spatial Linear Model"><img data-src="images/az_wf_small.png" data-ref-parent="fig-sweeps"></a>
+<a href="images/az_wf_small.png" class="lightbox" data-gallery="fig-sweeps" title="Figure&nbsp;4&nbsp;(a): Spatial Linear Model"><img data-src="images/az_wf_small.png" data-ref-parent="fig-sweeps"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-splmconc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 (a) Spatial Linear Model
@@ -968,7 +946,7 @@ Figure&nbsp;5: Prediction surface for adjusting annual min temperature and preci
 <div id="fig-lgcpconc" class="lightbox quarto-float quarto-figure quarto-figure-center">
 <figure class="quarto-float quarto-subfloat-fig">
 <div aria-describedby="fig-lgcpconc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/az_cc_wf.png" class="lightbox" data-gallery="fig-sweeps" title="Figure&nbsp;6&nbsp;(b): Log-Gaussian Cox Process"><img data-src="images/az_cc_wf.png" data-ref-parent="fig-sweeps"></a>
+<a href="images/az_cc_wf.png" class="lightbox" data-gallery="fig-sweeps" title="Figure&nbsp;4&nbsp;(b): Log-Gaussian Cox Process"><img data-src="images/az_cc_wf.png" data-ref-parent="fig-sweeps"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-lgcpconc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 (b) Log-Gaussian Cox Process
@@ -980,7 +958,7 @@ Figure&nbsp;5: Prediction surface for adjusting annual min temperature and preci
 <div id="fig-binaryglmconc" class="lightbox quarto-float quarto-figure quarto-figure-center">
 <figure class="quarto-float quarto-subfloat-fig">
 <div aria-describedby="fig-binaryglmconc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/predict_surface_overlayanimation.gif" class="lightbox" data-gallery="fig-sweeps" title="Figure&nbsp;6&nbsp;(c): Binary Spatial GLM"><img data-src="images/predict_surface_overlayanimation.gif" data-ref-parent="fig-sweeps"></a>
+<a href="images/predict_surface_overlayanimation.gif" class="lightbox" data-gallery="fig-sweeps" title="Figure&nbsp;4&nbsp;(c): Binary Spatial GLM"><img data-src="images/predict_surface_overlayanimation.gif" data-ref-parent="fig-sweeps"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-binaryglmconc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 (c) Binary Spatial GLM
@@ -991,7 +969,7 @@ Figure&nbsp;5: Prediction surface for adjusting annual min temperature and preci
 </div>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-sweeps-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;6
+Figure&nbsp;4
 </figcaption>
 </figure>
 </div>
@@ -1415,7 +1393,7 @@ Figure&nbsp;6
       }
     });
     </script>
-    <script>var lightboxQuarto = GLightbox({"descPosition":"bottom","loop":false,"closeEffect":"zoom","selector":".lightbox","openEffect":"zoom"});
+    <script>var lightboxQuarto = GLightbox({"descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox","closeEffect":"zoom"});
     (function() {
       let previousOnload = window.onload;
       window.onload = () => {
