@@ -827,6 +827,8 @@ ggplot() +
 Since natural factors like temperature and precipitation can vary year to year, we can modify these predictors to see what kind of effects it has on our predictions.
 
 
+##### Predictor Sweep Animations
+
 ```{r tempsweep, cache=TRUE}
 
 temp_sweep <- seq(-5, 5, by = 0.5)
