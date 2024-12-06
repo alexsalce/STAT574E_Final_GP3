@@ -851,10 +851,10 @@ coconino_grid_with_values <- st_join(coconino_grid, predict_plot)
 ggplot() +
   geom_sf(data = coconino_grid_with_values, aes(fill = predict_bin_spglm), color = NA) +
   geom_sf(data = coconino_sf, fill = NA, color = "black", size = 0.5) +
-  geom_sf(data = naz_nf_plot, fill = "turquoise", alpha = 0.5, color = NA) +
+  # geom_sf(data = naz_nf_plot, fill = "turquoise", alpha = 0.5, color = NA) +
   # geom_sf(data = coco_nf_plot, fill = "lawngreen", alpha = 0.5, color = NA) +
   # geom_sf(data = kaibab_nf_plot, fill = "green4", alpha = 0.5, color = NA) +
-  geom_sf(data=wf_sf_cc_plot, shape = 21, size = 1.2, 
+  geom_sf(data=wf_sf_cc_plot, shape = 21, size = 1.2,
           color = "orangered3", fill = "orangered3", inherit.aes = FALSE) +
   scale_fill_viridis_c(option = "B") +
   theme_minimal() +
@@ -868,6 +868,60 @@ Since natural factors like temperature and precipitation can vary year to year, 
 
 
 ##### Predictor Sweep Animations
+
+```{r predmapoverlayanim}
+
+library(animation)
+
+
+plot1 <- ggplot() +
+  geom_sf(data = coconino_grid_with_values, aes(fill = predict_bin_spglm), color = NA) +
+  geom_sf(data = coconino_sf, fill = NA, color = "black", size = 0.5) +
+  scale_fill_viridis_c(option = "B") +
+  theme_minimal() +
+  labs(title = "Large Wildfire Probability Surface in Coconino County",
+       fill = "Predicted Value")
+
+plot2 <- ggplot() +
+  geom_sf(data = coconino_grid_with_values, aes(fill = predict_bin_spglm), color = NA) +
+  geom_sf(data = coconino_sf, fill = NA, color = "black", size = 0.5) +
+  geom_sf(data=wf_sf_cc_plot, shape = 21, size = 1.2,
+          color = "orangered3", fill = "orangered3", inherit.aes = FALSE) +
+  scale_fill_viridis_c(option = "B") +
+  theme_minimal() +
+  labs(title = "Large Wildfire Probability Surface in Coconino County",
+       fill = "Predicted Value")
+
+plot3 <- ggplot() +
+  geom_sf(data = coconino_grid_with_values, aes(fill = predict_bin_spglm), color = NA) +
+  geom_sf(data = coconino_sf, fill = NA, color = "black", size = 0.5) +
+  geom_sf(data = naz_nf_plot, fill = "turquoise", alpha = 0.5, color = NA) +
+  geom_sf(data=wf_sf_cc_plot, shape = 21, size = 1.2,
+          color = "orangered3", fill = "orangered3", inherit.aes = FALSE) +
+  scale_fill_viridis_c(option = "B") +
+  theme_minimal() +
+  labs(title = "Large Wildfire Probability Surface in Coconino County",
+       fill = "Predicted Value")
+
+# Create a function to save each plot
+save_plot <- function(plot, filename) {
+  ggsave(filename, plot, width = 12, height = 9)
+}
+
+# Save each plot as a separate PNG file
+save_plot(plot1, "plot1.png")
+save_plot(plot2, "plot2.png")
+save_plot(plot3, "plot3.png")
+
+# Create the GIF
+ani.options(interval = 1)  # Set duration for each frame to 1 second
+im.convert(c("plot1.png", "plot2.png", "plot3.png"), output = "predict_surface_overlayanimation.gif")
+
+# Clean up temporary PNG files
+file.remove(c("plot1.png", "plot2.png", "plot3.png"))
+
+rm(save_plot, plot1, plot2, plot3)
+```
 
 ```{r tempsweep, cache=TRUE}
 

@@ -880,6 +880,19 @@ Figure&nbsp;4: Confidence Intervals
 <p>Due to some challenges we faced with the computational time/energy to recover realistic data for covariates, our ability to generate appropriate covariate data for predictions disallowed predictions with high resolution.</p>
 <p>We generated a grid of equally spaced points within Coconino County, amounting to 293 total points to use as prediction locations. All prediction covariate data was captured for <code>2023-12-31 12:00:00</code>.</p>
 </div></div>
+</section>
+<section id="binary-glm-spatial-approach-7" class="slide level2">
+<h2>Binary GLM Spatial approach</h2>
+<h3 id="predictions-1">Predictions</h3>
+<div class="columns">
+<div class="column" style="width:65%;">
+<div id="figgrid">
+<p><a href="images/predict_surface_overlayanimation.gif" class="lightbox" data-gallery="quarto-lightbox-gallery-19"><img data-src="images/predict_surface_overlayanimation.gif" style="width:110.0%"></a></p>
+</div>
+</div><div class="column" style="width:35%;">
+<p>This is the result prediction surface (treating each grid point prediction as representative probability for the pixel’s region), and the wildfire incidence points as well as the areas of national forests in the region overlayed.</p>
+<p>Not totally outrageous!</p>
+</div></div>
 <div class="quarto-auto-generated-content">
 <div class="footer footer-default">
 
@@ -1283,7 +1296,7 @@ Figure&nbsp;4: Confidence Intervals
       }
     });
     </script>
-    <script>var lightboxQuarto = GLightbox({"descPosition":"bottom","closeEffect":"zoom","openEffect":"zoom","loop":false,"selector":".lightbox"});
+    <script>var lightboxQuarto = GLightbox({"loop":false,"openEffect":"zoom","selector":".lightbox","closeEffect":"zoom","descPosition":"bottom"});
     (function() {
       let previousOnload = window.onload;
       window.onload = () => {

@@ -544,3 +544,30 @@ We generated a grid of equally spaced points within Coconino County, amounting t
 :::
 
 ::::
+
+## Binary GLM Spatial approach
+
+### Predictions
+
+:::: {.columns}
+
+::: {.column width="65%"}
+
+:::{#figgrid}
+
+![](images/predict_surface_overlayanimation.gif){.lightbox width=110%}
+
+
+:::
+
+:::
+
+::: {.column width="35%"}
+
+This is the result prediction surface (treating each grid point prediction as representative probability for the pixel's region), and the wildfire incidence points as well as the areas of national forests in the region overlayed.
+
+Not totally outrageous!
+
+:::
+
+::::
