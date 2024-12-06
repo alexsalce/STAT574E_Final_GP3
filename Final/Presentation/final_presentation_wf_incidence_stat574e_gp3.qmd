@@ -439,6 +439,10 @@ az_wf_spglm <- spglm(spglm_formula, data = model_data_sf,
 
 ### Model Summary Quick Look
 
+:::: {.columns}
+
+::: {.column width="80%"}
+
 ```r
 Call:
 spglm(formula = spglm_formula, family = binomial, data = model_data_sf, 
@@ -446,55 +450,97 @@ spglm(formula = spglm_formula, family = binomial, data = model_data_sf,
 
 Deviance Residuals:
      Min       1Q   Median       3Q      Max 
--2.76222 -0.37074 -0.03625  0.38495  2.66905 
+-2.79364 -0.37217 -0.03644  0.38603  2.67112 
 
 Coefficients (fixed):
-                                           Estimate Std. Error z value Pr(>|z|)  
-(Intercept)                              -7.131e-01  3.440e+00  -0.207   0.8358  
-I(sqrt(distance_rd_min_isprisec))        -1.399e+00  8.098e-01  -1.728   0.0840 .
-pop.density                              -1.033e+05  1.533e+05  -0.674   0.5005  
-Precipitation_Buffered                   -9.784e-02  2.120e+00  -0.046   0.9632  
-Temp_Min_Buffered                        -1.184e+00  7.955e-01  -1.488   0.1366  
-I(get_season(FireDiscoveryDateTime))      5.897e-01  3.785e-01   1.558   0.1192  
-mean_grass                                1.102e+00  1.740e+00   0.633   0.5265  
-mean_forest                               1.449e+00  1.226e+00   1.182   0.2371  
-Precipitation_Buffered:Temp_Min_Buffered  4.499e-01  5.347e-01   0.841   0.4001  
-mean_grass:mean_forest                    1.530e+01  9.179e+00   1.666   0.0957 .
+                                         Estimate Std. Error z value Pr(>|z|)  
+(Intercept)                              -2.31282    7.91520  -0.292   0.7701  
+I(sqrt(distance_rd_min_isprisec))        -1.32153    0.81237  -1.627   0.1038  
+I(log(pop.density))                      -0.10851    0.49135  -0.221   0.8252  
+Precipitation_Buffered                    0.06916    2.08641   0.033   0.9736  
+Temp_Min_Buffered                        -1.12366    0.78317  -1.435   0.1514  
+I(get_season(FireDiscoveryDateTime))      0.54990    0.37428   1.469   0.1418  
+mean_grass                                1.07408    1.74733   0.615   0.5388  
+mean_forest                               1.30509    1.21915   1.070   0.2844  
+Precipitation_Buffered:Temp_Min_Buffered  0.39667    0.52455   0.756   0.4495  
+mean_grass:mean_forest                   15.29506    9.16978   1.668   0.0953 .
 ---
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
-Pseudo R-squared: 0.3781
+Pseudo R-squared: 0.3684
 
 Coefficients (wave spatial covariance):
        de        ie     range 
-3.039e+00 3.669e-02 3.853e+04 
+2.832e+00 3.549e-02 3.554e+04 
 
 Coefficients (Dispersion for binomial family):
 dispersion 
          1 
 ```
+:::
+
+::: {.column width="20%"}
+
+$\sigma_{sill} = 2.832e+00$
+$\sigma_{nugget} = 3.549e-02$
+$\text{range} = 3.554e+04 \,\,(\sim\text{35.5 km})$
+
+:::
+
+::::
 
 ## Binary GLM Spatial approach
 
-### CIs Quick Look
+#### CIs Quick Look
 
 ```r
 > confint(az_wf_spglm)
-                                                 2.5 %       97.5 %
-(Intercept)                              -7.455904e+00 6.029728e+00
-I(sqrt(distance_rd_min_isprisec))        -2.986637e+00 1.876885e-01
-pop.density                              -4.037031e+05 1.971749e+05
-Precipitation_Buffered                   -4.252564e+00 4.056891e+00
-Temp_Min_Buffered                        -2.743386e+00 3.751041e-01
-I(get_season(FireDiscoveryDateTime))     -1.520621e-01 1.331504e+00
-mean_grass                               -2.307784e+00 4.511212e+00
-mean_forest                              -9.531052e-01 3.850823e+00
-Precipitation_Buffered:Temp_Min_Buffered -5.980621e-01 1.497803e+00
-mean_grass:mean_forest                   -2.695953e+00 3.328631e+01
+                                               2.5 %     97.5 %
+(Intercept)                              -17.8263262 13.2006939
+I(sqrt(distance_rd_min_isprisec))         -2.9137530  0.2706848
+I(log(pop.density))                       -1.0715342  0.8545142
+Precipitation_Buffered                    -4.0201412  4.1584522
+Temp_Min_Buffered                         -2.6586537  0.4113346
+I(get_season(FireDiscoveryDateTime))      -0.1836816  1.2834872
+mean_grass                                -2.3506191  4.4987742
+mean_forest                               -1.0844096  3.6945865
+Precipitation_Buffered:Temp_Min_Buffered  -0.6314373  1.4247793
+mean_grass:mean_forest                    -2.6773800 33.2675083
 ```
+
+
+::: {#fig-CIs}
+
+![CIs (all but `pop.density`)](images/spglm_bin_CI1.png){#fig-ci1 width=34% fig-align="center" .lightbox}
+
+Confidence Intervals
+:::
+
 
 ## Binary GLM Spatial approach
 
 ### Predictions
 
-Due to some challenges we faced with the computational time/energy to recover realistic data for covariates, we 
+
+
+:::: {.columns}
+
+::: {.column width="50%"}
+
+:::{#figgrid}
+
+![](images/pred_grid.png){width=75%}
+
+:::
+
+:::
+
+::: {.column width="50%"}
+
+Due to some challenges we faced with the computational time/energy to recover realistic data for covariates, our ability to generate appropriate covariate data for predictions disallowed predictions with high resolution. 
+
+We generated a grid of equally spaced points within Coconino County, amounting to 293 total points to use as prediction locations. All prediction covariate data was captured for `2023-12-31 12:00:00`.
+
+:::
+
+::::

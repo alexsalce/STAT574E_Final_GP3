@@ -558,7 +558,7 @@ ggmap(coconino_map) + labs(title = "Coconino County Naturally Caused Large Wildf
   geom_sf(data = coconino_plot, fill = "gray70", alpha = 0.5, color = "black", size = 5, inherit.aes = FALSE) +
   geom_sf(data=wf_sf_cc_plot, shape = 21, size = 0.9, 
           color = "orangered3", fill = "orangered3", inherit.aes = FALSE) +
-  geom_sf(data=bkg_sf_cc_plot, shape = 4, size = 1.1, color = "red4", inherit.aes = FALSE)
+  geom_sf(data=bkg_sf_cc_plot, shape = 4, size = 1.1, color = "navyblue", inherit.aes = FALSE)
 
 ```
 
@@ -653,7 +653,7 @@ formula_list <- list(
   as.formula("Wildfires ~  I(sqrt(distance_rd_min_isprisec)) +
   Precipitation_Buffered + Temp_Min_Buffered + I(get_season(FireDiscoveryDateTime)) +
   mean_grass * mean_forest"),
-  as.formula("Wildfires ~  I(sqrt(distance_rd_min_isprisec)) + pop.density +
+  as.formula("Wildfires ~  I(sqrt(distance_rd_min_isprisec)) + I(log(pop.density)) +
   Precipitation_Buffered * Temp_Min_Buffered +
   I(get_season(FireDiscoveryDateTime)) +
   mean_grass * mean_forest")
@@ -722,7 +722,7 @@ Using lots of methodical trial and error (there were many trial/error steps that
 
 # best AIC model
 
-spglm_formula <- Wildfires ~  I(sqrt(distance_rd_min_isprisec)) + pop.density +
+spglm_formula <- Wildfires ~  I(sqrt(distance_rd_min_isprisec)) + I(log(pop.density)) +
   Precipitation_Buffered * Temp_Min_Buffered + I(get_season(FireDiscoveryDateTime)) +
   mean_grass * mean_forest
 
@@ -736,11 +736,51 @@ summary(az_wf_spglm)
 
 kable(AIC(az_wf_spglm), caption = "Model AIC")
 
-kable(confint(az_wf_spglm))
+
+```
+
+```{r modelcis}
+
+az_wf_spglm_ci <- as.data.frame(confint(az_wf_spglm))
+
+colnames(az_wf_spglm_ci) <- c("lower", "upper")
+
+az_wf_spglm_ci$estimate <- az_wf_spglm$coefficients$fixed 
+
+az_wf_spglm_ci$variable <- rownames(az_wf_spglm_ci)
+
+kable(az_wf_spglm_ci)
+
+ggplot(az_wf_spglm_ci, aes(x = estimate, y = variable)) +
+  geom_point() +
+  geom_errorbarh(aes(xmin = lower, xmax = upper), height = 0.2) +
+  geom_vline(xintercept = 0, linetype = "dashed", color = "red") +
+  labs(title = "Confidence Intervals",
+       x = "Estimate",
+       y = "Variable") +
+  theme_minimal() +
+  theme(axis.text.y = element_text(hjust = 0))
+
+# 
+# ggplot(az_wf_spglm_ci[az_wf_spglm_ci$variable=="pop.density",], aes(x = estimate, y = variable)) +
+#   geom_point() +
+#   geom_errorbarh(aes(xmin = lower, xmax = upper), height = 0.2) +
+#   geom_vline(xintercept = 0, linetype = "dashed", color = "red") +
+#   labs(title = "Confidence Intervals",
+#        x = "Estimate",
+#        y = "Variable") +
+#   theme_minimal() +
+#   theme(axis.text.y = element_text(hjust = 0))
 
 ```
 
 To use our model for predictions, we had to weigh the challenges for acquiring data for our predictors with the time it takes to extract the data (some processing took a lot of time). Below is code that generates a grid of points in Coconino county, and gives us a total of 272 points evenly spaced across the county.
+
+```{r rm4}
+
+rm(az_wf_spglm_ci)
+
+```
 
 ```{r getpredictions, eval = FALSE}
 
