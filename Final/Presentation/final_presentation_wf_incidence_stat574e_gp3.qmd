@@ -340,7 +340,9 @@ $$
 
 We now want to study risk of occurence of large wildfire (`Indidentsize`$\geq 1000$ acres) spatially in terms of probabilities. We will also restrict occurrences to `FireCause=="Natural"`. 
 
-To build the model, we filter the data and treat large wildfire incident locations as a realization of a point process with intensity surface $\lambda_1(\mathrm{\boldsymbol{s}})$. For these points, we assign a response value of $Y(\boldsymbol{s})=1$ (`Wildfires`).
+To build the model, we filter the data and treat large wildfire incident locations as a realization of a point process with intensity surface $\lambda_1(\mathrm{\boldsymbol{s}})$. 
+
+For these points, we assign a response value of $Y(\boldsymbol{s})=1$ (`Wildfires`).
 
 :::
 
@@ -377,7 +379,12 @@ $$
 
 ::: {.column width="40%"}
 
-Next we generate a background realization of a known constant Poisson process $\lambda_0$, which represent locations that a large wildfire could have happened but did not. For these points, we assign a response value of $Y(\boldsymbol{s})=0$  (`Wildfires`).
+Next we generate a background realization of a known constant Poisson process $\lambda_0$, which represent locations that a large wildfire could have happened but did not (note incident date/time is randomly assigned 2014 to present). 
+
+We also collect all the covariate data at these points (time consuming).
+
+For these points, we assign a response value of $Y(\boldsymbol{s})=0$  (`Wildfires`).
+
 
 :::
 
@@ -413,7 +420,7 @@ $$
 
 Our model can then be built using selected covariates we desire for predictors and performing a binary logistic regression. The resulting prediction model will return the probability of the occurrence of a large wildfire for a given input location and corresponding values for the model's chosen covariates.
 
-![](images/az_wf_cc_binary.png){width=45% fig-align="center" .lightbox}
+![$n=73$ background points](images/az_wf_cc_binary.png){width=45% fig-align="center" .lightbox}
 
 ## Binary GLM Spatial approach
 
@@ -484,6 +491,10 @@ dispersion
 $\sigma_{sill} = 2.832e+00$
 $\sigma_{nugget} = 3.549e-02$
 $\text{range} = 3.554e+04 \,\,(\sim\text{35.5 km})$
+
+::: {.smallmath}
+*Reasonable spatial fit diagnostics!*
+:::
 
 :::
 
@@ -566,8 +577,58 @@ We generated a grid of equally spaced points within Coconino County, amounting t
 
 This is the result prediction surface (treating each grid point prediction as representative probability for the pixel's region), and the wildfire incidence points as well as the areas of national forests in the region overlayed.
 
-Not totally outrageous!
+**Not totally outrageous!**
 
 :::
 
 ::::
+
+## Binary GLM Spatial approach
+
+#### Well...maybe a little outrageous?
+
+::: {#fig-sweeps layout-ncol=2}
+
+![+/- 5°C `Temp_Min_Buffered` sweep](images/predict_surface_tempsweep.gif){#fig-wfpoints width=75% .lightbox}
+
+![+/- 10% `Precipitation_Buffered` sweep](images/predict_surface_precipsweep.gif){#fig-wfpointsrds width=75% .lightbox}
+
+Prediction surface for adjusting annual min temperature and precipitation
+
+:::
+
+More background process points? Predictors correlated? Spatial confounding?
+
+
+## Conclusions and Future Research
+
+Each of these models at least demonstrate proof-of-concept as means to help us better understand how to predict wildfire size or where we are at higher risk of a large wildfire occurring in Coconino County, and could be easily generalized elsewhere with the tools we have learned. 
+
+::: {#fig-sweeps layout-ncol=3}
+
+![Spatial Linear Model](images/az_wf_small.png){#fig-splmconc .lightbox}
+
+![Log-Gaussian Cox Process](images/az_cc_wf.png){#fig-lgcpconc .lightbox}
+
+![Binary Spatial GLM](images/predict_surface_overlayanimation.gif){#fig-binaryglmconc .lightbox}
+
+:::
+
+
+## Conclusions and Future Research
+
+With some extra refinement, they could feasibly aid in better allocation of resources for fire prevention, possible forecasting, and information that can be coupled with other ecological models.
+
+Some considerations for future model refinements.
+
+- Better methods for recovering covariate data for better predictions
+- Spatio-Temporal modeling?
+- More careful treatment of highly correlated predictors
+- More points for background realization for Binary model
+- Other model scoring/tuning
+
+There is also a lot more that can be done with this dataset, we encourage you to check it out!
+
+## Thank you! {.center}
+### Questions?
+

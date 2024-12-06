@@ -715,7 +715,8 @@ Figure&nbsp;3: Research question 2 framework
 <div class="columns">
 <div class="column" style="width:40%;">
 <p>We now want to study risk of occurence of large wildfire (<code>Indidentsize</code><span class="math inline">\(\geq 1000\)</span> acres) spatially in terms of probabilities. We will also restrict occurrences to <code>FireCause=="Natural"</code>.</p>
-<p>To build the model, we filter the data and treat large wildfire incident locations as a realization of a point process with intensity surface <span class="math inline">\(\lambda_1(\mathrm{\boldsymbol{s}})\)</span>. For these points, we assign a response value of <span class="math inline">\(Y(\boldsymbol{s})=1\)</span> (<code>Wildfires</code>).</p>
+<p>To build the model, we filter the data and treat large wildfire incident locations as a realization of a point process with intensity surface <span class="math inline">\(\lambda_1(\mathrm{\boldsymbol{s}})\)</span>.</p>
+<p>For these points, we assign a response value of <span class="math inline">\(Y(\boldsymbol{s})=1\)</span> (<code>Wildfires</code>).</p>
 </div><div class="column" style="width:60%;">
 <div class="smallmath">
 <p><span class="math display">\[
@@ -743,7 +744,9 @@ Y(\boldsymbol{s}) \sim \mathrm{Bern}(p(\boldsymbol{s})),
 <h2>Binary GLM Spatial approach</h2>
 <div class="columns">
 <div class="column" style="width:40%;">
-<p>Next we generate a background realization of a known constant Poisson process <span class="math inline">\(\lambda_0\)</span>, which represent locations that a large wildfire could have happened but did not. For these points, we assign a response value of <span class="math inline">\(Y(\boldsymbol{s})=0\)</span> (<code>Wildfires</code>).</p>
+<p>Next we generate a background realization of a known constant Poisson process <span class="math inline">\(\lambda_0\)</span>, which represent locations that a large wildfire could have happened but did not (note incident date/time is randomly assigned 2014 to present).</p>
+<p>We also collect all the covariate data at these points (time consuming).</p>
+<p>For these points, we assign a response value of <span class="math inline">\(Y(\boldsymbol{s})=0\)</span> (<code>Wildfires</code>).</p>
 </div><div class="column" style="width:60%;">
 <div class="smallmath">
 <p><span class="math display">\[
@@ -772,7 +775,12 @@ Y(\boldsymbol{s}) \sim \mathrm{Bern}(p(\boldsymbol{s})),
 <p>Our model can then be built using selected covariates we desire for predictors and performing a binary logistic regression. The resulting prediction model will return the probability of the occurrence of a large wildfire for a given input location and corresponding values for the model’s chosen covariates.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><a href="images/az_wf_cc_binary.png" class="lightbox" data-gallery="quarto-lightbox-gallery-17"><img data-src="images/az_wf_cc_binary.png" class="quarto-figure quarto-figure-center" style="width:45.0%"></a></p>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><a href="images/az_wf_cc_binary.png" class="lightbox" data-gallery="quarto-lightbox-gallery-17" title="n=73 background points"><img data-src="images/az_wf_cc_binary.png" class="quarto-figure quarto-figure-center" style="width:45.0%" alt="n=73 background points"></a></p>
+</figure>
+</div>
+<figcaption><span class="math inline">\(n=73\)</span> background points</figcaption>
 </figure>
 </div>
 </section>
@@ -831,6 +839,9 @@ Y(\boldsymbol{s}) \sim \mathrm{Bern}(p(\boldsymbol{s})),
 <span id="cb2-32"><a href=""></a>         <span class="dv">1</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div><div class="column" style="width:20%;">
 <p><span class="math inline">\(\sigma_{sill} = 2.832e+00\)</span> <span class="math inline">\(\sigma_{nugget} = 3.549e-02\)</span> <span class="math inline">\(\text{range} = 3.554e+04 \,\,(\sim\text{35.5 km})\)</span></p>
+<div class="smallmath">
+<p><em>Reasonable spatial fit diagnostics!</em></p>
+</div>
 </div></div>
 </section>
 <section id="binary-glm-spatial-approach-5" class="slide level2">
@@ -891,8 +902,116 @@ Figure&nbsp;4: Confidence Intervals
 </div>
 </div><div class="column" style="width:35%;">
 <p>This is the result prediction surface (treating each grid point prediction as representative probability for the pixel’s region), and the wildfire incidence points as well as the areas of national forests in the region overlayed.</p>
-<p>Not totally outrageous!</p>
+<p><strong>Not totally outrageous!</strong></p>
 </div></div>
+</section>
+<section id="binary-glm-spatial-approach-8" class="slide level2">
+<h2>Binary GLM Spatial approach</h2>
+<h4 id="wellmaybe-a-little-outrageous">Well…maybe a little outrageous?</h4>
+<div id="fig-sweeps" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig">
+<div aria-describedby="fig-sweeps-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-sweeps" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-wfpoints" class="lightbox quarto-float quarto-figure quarto-figure-center">
+<figure class="quarto-float quarto-subfloat-fig">
+<div aria-describedby="fig-wfpoints-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/predict_surface_tempsweep.gif" class="lightbox" data-gallery="fig-sweeps" title="Figure&nbsp;5&nbsp;(a): +/- 5°C Temp_Min_Buffered sweep"><img data-src="images/predict_surface_tempsweep.gif" style="width:75.0%" data-ref-parent="fig-sweeps"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-wfpoints-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) +/- 5°C <code>Temp_Min_Buffered</code> sweep
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-sweeps" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-wfpointsrds" class="lightbox quarto-float quarto-figure quarto-figure-center">
+<figure class="quarto-float quarto-subfloat-fig">
+<div aria-describedby="fig-wfpointsrds-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/predict_surface_precipsweep.gif" class="lightbox" data-gallery="fig-sweeps" title="Figure&nbsp;5&nbsp;(b): +/- 10% Precipitation_Buffered sweep"><img data-src="images/predict_surface_precipsweep.gif" style="width:75.0%" data-ref-parent="fig-sweeps"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-wfpointsrds-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) +/- 10% <code>Precipitation_Buffered</code> sweep
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sweeps-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5: Prediction surface for adjusting annual min temperature and precipitation
+</figcaption>
+</figure>
+</div>
+<p>More background process points? Predictors correlated? Spatial confounding?</p>
+</section>
+<section id="conclusions-and-future-research" class="slide level2">
+<h2>Conclusions and Future Research</h2>
+<p>Each of these models at least demonstrate proof-of-concept as means to help us better understand how to predict wildfire size or where we are at higher risk of a large wildfire occurring in Coconino County, and could be easily generalized elsewhere with the tools we have learned.</p>
+<div id="fig-sweeps" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig">
+<div aria-describedby="fig-sweeps-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-sweeps" style="flex-basis: 33.3%;justify-content: flex-start;">
+<div id="fig-splmconc" class="lightbox quarto-float quarto-figure quarto-figure-center">
+<figure class="quarto-float quarto-subfloat-fig">
+<div aria-describedby="fig-splmconc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/az_wf_small.png" class="lightbox" data-gallery="fig-sweeps" title="Figure&nbsp;6&nbsp;(a): Spatial Linear Model"><img data-src="images/az_wf_small.png" data-ref-parent="fig-sweeps"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-splmconc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Spatial Linear Model
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-sweeps" style="flex-basis: 33.3%;justify-content: flex-start;">
+<div id="fig-lgcpconc" class="lightbox quarto-float quarto-figure quarto-figure-center">
+<figure class="quarto-float quarto-subfloat-fig">
+<div aria-describedby="fig-lgcpconc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/az_cc_wf.png" class="lightbox" data-gallery="fig-sweeps" title="Figure&nbsp;6&nbsp;(b): Log-Gaussian Cox Process"><img data-src="images/az_cc_wf.png" data-ref-parent="fig-sweeps"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-lgcpconc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Log-Gaussian Cox Process
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-sweeps" style="flex-basis: 33.3%;justify-content: flex-start;">
+<div id="fig-binaryglmconc" class="lightbox quarto-float quarto-figure quarto-figure-center">
+<figure class="quarto-float quarto-subfloat-fig">
+<div aria-describedby="fig-binaryglmconc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/predict_surface_overlayanimation.gif" class="lightbox" data-gallery="fig-sweeps" title="Figure&nbsp;6&nbsp;(c): Binary Spatial GLM"><img data-src="images/predict_surface_overlayanimation.gif" data-ref-parent="fig-sweeps"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-binaryglmconc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(c) Binary Spatial GLM
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-sweeps-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="conclusions-and-future-research-1" class="slide level2">
+<h2>Conclusions and Future Research</h2>
+<p>With some extra refinement, they could feasibly aid in better allocation of resources for fire prevention, possible forecasting, and information that can be coupled with other ecological models.</p>
+<p>Some considerations for future model refinements.</p>
+<ul>
+<li>Better methods for recovering covariate data for better predictions</li>
+<li>Spatio-Temporal modeling?</li>
+<li>More careful treatment of highly correlated predictors</li>
+<li>More points for background realization for Binary model</li>
+<li>Other model scoring/tuning</li>
+</ul>
+<p>There is also a lot more that can be done with this dataset, we encourage you to check it out!</p>
+</section>
+<section id="thank-you" class="slide level2 center">
+<h2>Thank you!</h2>
+<h3 id="questions">Questions?</h3>
 <div class="quarto-auto-generated-content">
 <div class="footer footer-default">
 
@@ -1296,7 +1415,7 @@ Figure&nbsp;4: Confidence Intervals
       }
     });
     </script>
-    <script>var lightboxQuarto = GLightbox({"loop":false,"openEffect":"zoom","selector":".lightbox","closeEffect":"zoom","descPosition":"bottom"});
+    <script>var lightboxQuarto = GLightbox({"descPosition":"bottom","loop":false,"closeEffect":"zoom","selector":".lightbox","openEffect":"zoom"});
     (function() {
       let previousOnload = window.onload;
       window.onload = () => {
