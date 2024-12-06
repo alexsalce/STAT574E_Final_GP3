@@ -464,9 +464,9 @@ Raymond Owino, Alex Salce, Matthew Wallace
 </section>
 <section id="wildfire-incidence-data---continuous-fixed-spatial-index" class="slide level2">
 <h2>Wildfire Incidence Data - Continuous, Fixed Spatial Index</h2>
-<p>This dataset offered us a unique opportunity to take multiple approaches to spatial statistical modeling. Using the available data attributes, we can treat our response data in two distinct ways</p>
+<p>This dataset offered us a unique opportunity to take multiple approaches to spatial statistical modeling. Using the available data attributes, we can approach our data from different angles.</p>
 <ul>
-<li><strong>Continuous, fixed</strong> - Using <code>x</code> and <code>y</code> as coordinates and <code>IncidentSize</code> as response, we can treat wildfire incidence as fixed, continuous data.</li>
+<li><strong>Continuous, fixed</strong> - Treating <code>x</code> and <code>y</code> as coordinates as fixed and using <code>IncidentSize</code> as a continuous response, our data is geostatistical.</li>
 </ul>
 <div class="fragment">
 <h4 id="modeling-approach">Modeling approach</h4>
@@ -500,9 +500,9 @@ Raymond Owino, Alex Salce, Matthew Wallace
 </section>
 <section id="wildfire-incidence-data---point-process-1" class="slide level2">
 <h2>Wildfire Incidence Data - Point Process 1</h2>
-<p>This dataset offered us a unique opportunity to take multiple approaches to spatial statistical modeling. Using the available data attributes, we can treat our response data in two distinct ways</p>
+<p>This dataset offered us a unique opportunity to take multiple approaches to spatial statistical modeling. Using the available data attributes, we can approach our data from different angles.</p>
 <ul>
-<li><strong>Point process</strong> - Using <code>x</code> and <code>y</code> as coordinates and <code>IncidentSize</code> as a <em>threshold</em>, we can study “large wildfires” (<code>IncidentSize</code> <span class="math inline">\(\geq 1000\)</span> acres) as point process data. We can also filter by <code>FireCause</code> (Human or Natural).</li>
+<li><strong>Point process</strong> - Using <code>x</code> and <code>y</code> as coordinates and <code>IncidentSize</code> as a <em>threshold</em>, we can study “large wildfires” (<code>IncidentSize</code> <span class="math inline">\(\geq 1000\)</span> acres) as point process data.</li>
 </ul>
 <div class="fragment">
 <h4 id="modeling-approach-1">Modeling approach</h4>
@@ -541,14 +541,14 @@ Raymond Owino, Alex Salce, Matthew Wallace
 </section>
 <section id="wildfire-incidence-data---point-process-2" class="slide level2">
 <h2>Wildfire Incidence Data - Point Process 2</h2>
-<p>This dataset offered us a unique opportunity to take multiple approaches to spatial statistical modeling. Using the available data attributes, we can treat our response data in two distinct ways</p>
+<p>This dataset offered us a unique opportunity to take multiple approaches to spatial statistical modeling. Using the available data attributes, we can approach our data from different angles.</p>
 <ul>
-<li><strong>Point process</strong> - Using <code>x</code> and <code>y</code> as coordinates and <code>IncidentSize</code> as a <em>threshold</em>, we can study “large wildfires” (<code>IncidentSize</code> <span class="math inline">\(\geq 1000\)</span> acres) as point process data. We can also filter by <code>FireCause</code> (Human or Natural).</li>
+<li><strong>Point process</strong> - Using <code>x</code> and <code>y</code> as coordinates and <code>IncidentSize</code> as a <em>threshold</em>, we can study “large wildfires” (<code>IncidentSize</code> <span class="math inline">\(\geq 1000\)</span> acres) as point process data.</li>
 </ul>
 <div class="fragment">
 <h4 id="modeling-approach-2">Modeling approach</h4>
 <ul>
-<li><strong>Binary GLM Spatial Logistic Regression</strong> - Module 5, similar to Gorillas Logistic Regression GLM example in <em>Non-Gaussian spatial data</em>.</li>
+<li><strong>Binary Response GLM Spatial Logistic Regression</strong> - Module 5, similar to Gorillas Logistic Regression GLM example in <em>Non-Gaussian spatial data</em>.</li>
 </ul>
 <p><span class="math display">\[
 \mathrm{logit}(\lambda_{1}(\mathrm{\boldsymbol{s}}))=\boldsymbol{\mathrm{x}}(\mathrm{\boldsymbol{s}})^{T}\boldsymbol{\beta}+e(\mathrm{\boldsymbol{s}})+\log(\lambda_{0}),
@@ -1251,7 +1251,7 @@ Y(\boldsymbol{s}) \sim \mathrm{Bern}(p(\boldsymbol{s})),
       }
     });
     </script>
-    <script>var lightboxQuarto = GLightbox({"openEffect":"zoom","closeEffect":"zoom","loop":false,"descPosition":"bottom","selector":".lightbox"});
+    <script>var lightboxQuarto = GLightbox({"openEffect":"zoom","loop":false,"descPosition":"bottom","selector":".lightbox","closeEffect":"zoom"});
     (function() {
       let previousOnload = window.onload;
       window.onload = () => {

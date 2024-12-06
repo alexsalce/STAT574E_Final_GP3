@@ -101,9 +101,9 @@ Refinement of this dataset utilized the following data attributes (of 96 columns
 
 ## Wildfire Incidence Data - Continuous, Fixed Spatial Index
 
-This dataset offered us a unique opportunity to take multiple approaches to spatial statistical modeling. Using the available data attributes, we can treat our response data in two distinct ways
+This dataset offered us a unique opportunity to take multiple approaches to spatial statistical modeling. Using the available data attributes, we can approach our data from different angles.
 
- - **Continuous, fixed** - Using `x` and `y` as coordinates and `IncidentSize` as response, we can treat wildfire incidence as fixed, continuous data.
+ - **Continuous, fixed** - Treating `x` and `y` as coordinates as fixed and using `IncidentSize` as a continuous response, our data is geostatistical.
  
 . . .
 
@@ -130,9 +130,9 @@ $$
 
 ## Wildfire Incidence Data - Point Process 1
 
-This dataset offered us a unique opportunity to take multiple approaches to spatial statistical modeling. Using the available data attributes, we can treat our response data in two distinct ways
+This dataset offered us a unique opportunity to take multiple approaches to spatial statistical modeling. Using the available data attributes, we can approach our data from different angles.
 
- - **Point process** - Using `x` and `y` as coordinates and `IncidentSize` as a *threshold*, we can study "large wildfires" (`IncidentSize` $\geq 1000$ acres) as point process data. We can also filter by `FireCause` (Human or Natural).
+ - **Point process** - Using `x` and `y` as coordinates and `IncidentSize` as a *threshold*, we can study "large wildfires" (`IncidentSize` $\geq 1000$ acres) as point process data. 
  
 . . .
 
@@ -162,16 +162,16 @@ $$
 
 ## Wildfire Incidence Data - Point Process 2
 
-This dataset offered us a unique opportunity to take multiple approaches to spatial statistical modeling. Using the available data attributes, we can treat our response data in two distinct ways
+This dataset offered us a unique opportunity to take multiple approaches to spatial statistical modeling. Using the available data attributes, we can approach our data from different angles.
 
- - **Point process** - Using `x` and `y` as coordinates and `IncidentSize` as a *threshold*, we can study "large wildfires" (`IncidentSize` $\geq 1000$ acres) as point process data. We can also filter by `FireCause` (Human or Natural).
+ - **Point process** - Using `x` and `y` as coordinates and `IncidentSize` as a *threshold*, we can study "large wildfires" (`IncidentSize` $\geq 1000$ acres) as point process data.
  
 . . .
 
 
 #### Modeling approach
 
-- **Binary GLM Spatial Logistic Regression** - Module 5, similar to Gorillas Logistic Regression GLM example in *Non-Gaussian spatial data*.
+- **Binary Response Spatial Logistic Regression** - Module 5, similar to Gorillas Logistic Regression GLM example in *Non-Gaussian spatial data*.
 
 $$
 \mathrm{logit}(\lambda_{1}(\mathrm{\boldsymbol{s}}))=\boldsymbol{\mathrm{x}}(\mathrm{\boldsymbol{s}})^{T}\boldsymbol{\beta}+e(\mathrm{\boldsymbol{s}})+\log(\lambda_{0}),
