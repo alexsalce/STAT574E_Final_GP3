@@ -1,0 +1,55 @@
+---
+title: "Spatial Statistical Modeling of Wildfire Incidence in Arizona"
+subtitle: "STAT574E | Group 3"
+author: "Raymond Owino, Alex Salce, Matthew Wallace"
+date: "December 2024"
+output:
+  html_document:
+    df_print: paged
+    theme: cosmo
+  pdf_document: default
+header-includes:
+- \renewcommand*\familydefault{\sfdefault} %% this picks a sans serif font
+- \usepackage[T1]{fontenc}
+---
+
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+library(knitr)
+library(dplyr)
+library(readr)
+library(lubridate)
+library(ggplot2)
+
+```
+
+# Executive Summary
+
+The *[Wildland Fire Incident Locations](https://data-nifc.opendata.arcgis.com/datasets/nifc::wildland-fire-incident-locations/about)* dataset we selected for study (provided by the National Interagency Fire Center) contains spatial coordinates of a wildfire's origin and its resulting size in acreage (among several other useful attributes) for all wildfire incidence in the US as archived in the [IRWIN](https://www.wildfire.gov/application/irwin-integrated-reporting-wildfire-information) system. Our research goals included the study of factors that may influence the resulting size of a wildfire, and build spatial models that may aid as a tool for wildfire risk assessment and resource allocation, forecasting, and other possible applications. We were also interested whether wildfire incidence, when treated as a point pattern, occurs as a completely spatially random process, or if there really is inhomogeneity in spatial intensity for incidence and thus truly higher risk in some spatial regions than others.
+
+Attributes contained in the dataset allowed us to take three different approaches to spatial statistical modeling. Using the incident size as a continuous response, we built a spatial linear model that predicts wildfire size based on spatial and selected covariate inputs. Filtering the data using incident size as well as other incident attributes also allowed us to treat wildfire incidence data as a point process. We fit a Log-Gaussian Cox Process (LGCP) spatial model to study spatial intensity, as well as a binary response spatial logistic regression model to map spatially the regions of highest probability of large wildfire ($\geq 1000$ acres) incidence in the region of study.
+
+Our modeling efforts studied Coconino County (CC) in Northern Arizona, which has the highest overall wildfire incidence as compared to the rest of the state. We gathered data for incidence proximity to roads, environmental, and census data corresponding to spatial coordinates to use as covariates for our models to support our research questions. These covariates improved performance of our models by AIC metrics.  **Our LGCP model indicated that wildfires are not CSR, and there is thus greater risk of wildfire incidence in certain regions of CC**. These models require some further refinement but serve as a solid foundation and proof of concept for our real-world application goals.
+
+# Introduction
+
+
+# Exploratory Data Analysis
+
+
+# Statistical Analyses
+
+## Fixed, Continuous Response
+
+### Spatial Linear Model
+
+
+## Point Process
+
+### Log-Gaussian Cox Process
+
+### Binary Response GLM Logistic Regression
+
+
+# Conclusions
+
+
