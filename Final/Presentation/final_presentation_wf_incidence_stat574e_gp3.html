@@ -617,15 +617,10 @@ Figure&nbsp;1: Reasearch question 1 framework
 </div>
 <p>Data explorations showed some clear wildfire patterns near roads (the outlines are visible). We wanted to include the distance in meters to the nearest major roads (and “remote” roads) as usable predictors. For each point, the <code>roads()</code> function in the <code>tigris</code> package to generate <code>sf</code> objects for AZ roads, and <code>st_distance()</code> function in the <code>sf</code> package helped us generate this data to be used as a covariate.</p>
 </section>
-<section id="research-questions-2-environmental-data" class="slide level2">
-<h2>Research Questions (2) (Environmental data)</h2>
+<section id="research-questions-2" class="slide level2">
+<h2>Research Questions (2)</h2>
 <h4 id="can-environmental-or-human-factors-be-useful-predictors-in-modeling-resulting-wildfire-size">Can environmental or human factors be useful predictors in modeling resulting wildfire size?</h4>
-<p>Raymond collected our Environmental data to help address research question 2 in our models.</p>
-</section>
-<section id="research-questions-2-census-data" class="slide level2">
-<h2>Research Questions (2) (Census data)</h2>
-<h4 id="can-environmental-or-human-factors-be-useful-predictors-in-modeling-resulting-wildfire-size-1">Can environmental or human factors be useful predictors in modeling resulting wildfire size?</h4>
-<p>Matt collected census data to address research question 2 in our models.</p>
+<p>Raymond and Matt collected data to address environmental factors and human factors to address research question 2 (RQ2) in our modeling efforts.</p>
 </section>
 <section id="research-questions-3" class="slide level2">
 <h2>Research Questions (3)</h2>
@@ -842,10 +837,10 @@ Y(\boldsymbol{s}) \sim \mathrm{Bern}(p(\boldsymbol{s})),
 <div id="fig-ci1" class="lightbox quarto-float quarto-figure quarto-figure-center" data-fig-align="center">
 <figure class="quarto-float quarto-subfloat-fig">
 <div aria-describedby="fig-ci1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/spglm_bin_CI1.png" class="lightbox" data-gallery="fig-CIs" title="Figure&nbsp;2&nbsp;(a): CIs (all but pop.density)"><img data-src="images/spglm_bin_CI1.png" class="quarto-figure quarto-figure-center" style="width:34.0%" data-ref-parent="fig-CIs"></a>
+<a href="images/spglm_bin_CI1.png" class="lightbox" data-gallery="fig-CIs" title="Figure&nbsp;2&nbsp;(a): CIs for fixed effects"><img data-src="images/spglm_bin_CI1.png" class="quarto-figure quarto-figure-center" style="width:34.0%" data-ref-parent="fig-CIs"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-ci1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-(a) CIs (all but <code>pop.density</code>)
+(a) CIs for fixed effects
 </figcaption>
 </figure>
 </div>
@@ -1393,7 +1388,7 @@ Figure&nbsp;4
       }
     });
     </script>
-    <script>var lightboxQuarto = GLightbox({"descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox","closeEffect":"zoom"});
+    <script>var lightboxQuarto = GLightbox({"descPosition":"bottom","selector":".lightbox","openEffect":"zoom","closeEffect":"zoom","loop":false});
     (function() {
       let previousOnload = window.onload;
       window.onload = () => {
