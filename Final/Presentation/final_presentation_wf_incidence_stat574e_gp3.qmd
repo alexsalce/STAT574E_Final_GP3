@@ -258,21 +258,15 @@ Coconino County is home to national forests like Coconino, Kaibab, and Apache-Si
 
 ## Spatial Linear Model approach
 
-- **Spatial Linear Model** - use the continuous, fixed response data to fit a spatial linear model to predict resulting model size for input points and covariate data.
+ - **Continuous, fixed** - Treating `x` and `y` as coordinates as fixed and using `IncidentSize` as a continuous response, our data is geostatistical.
+
+#### Modeling approach
+
+- **Spatial Linear Model** - Module 2, similar to Holland example in *Continuously indexed spatial data (geostatistics)*, or the `dioxane` analysis in HW2.
 
 $$
 \boldsymbol{\mathrm{y}}=\boldsymbol{\mathrm{X}}^{T}\boldsymbol{\beta}+\boldsymbol{e}\,\,\,\,\boldsymbol{e}\sim\mathrm{N}(\boldsymbol{0},\Sigma(\boldsymbol{\theta}))
 $$
-
-- How you landed on the model you did (AIC, other analysis)
-- Any data filtering you did, variable transformations
-- Point estimates and Confidence  intervals on fixed effects
-- Fit parameters for spatial variance (nugget, range, sill)
-    - de (sill), ie (nugget), range (range)
-
-- `loocv`, diagnostic plots?
-- Visuals (ESV, relevant exploration images, etc)
-- What might be the practical applications of this model? 
 
 ## LGCP Modeling Approach
 
@@ -293,6 +287,25 @@ $$
 - Fit parameters for spatial variance (nugget, range, sill)
 - Prediction intensity surface
 </span>
+
+## Binary GLM Spatial approach
+
+ - **Point process** - Using `x` and `y` as coordinates and `IncidentSize` as a *threshold*, we can study "large wildfires" (`IncidentSize` $\geq 1000$ acres) as point process data.
+
+
+#### Modeling approach
+
+- **Binary Response Spatial Logistic Regression** - Module 5, similar to Gorillas Logistic Regression GLM example in *Non-Gaussian spatial data*.
+
+$$
+\mathrm{logit}(\lambda_{1}(\mathrm{\boldsymbol{s}}))=\boldsymbol{\mathrm{x}}(\mathrm{\boldsymbol{s}})^{T}\boldsymbol{\beta}+e(\mathrm{\boldsymbol{s}})+\log(\lambda_{0}),
+$$ 
+
+::: {.smallmath}
+$$
+Y(\boldsymbol{s}) \sim \mathrm{Bern}(p(\boldsymbol{s})),\,\,\,\, \mathrm{E}[ Y (\boldsymbol{s}) ] = p(\boldsymbol{s}) = \frac{\lambda_{1}(\boldsymbol{s})}{\lambda_{0}(\boldsymbol{s})+\lambda_{1}(\boldsymbol{s})}
+$$
+:::
 
 ## Binary GLM Spatial approach
 

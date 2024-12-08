@@ -646,23 +646,15 @@ Figure&nbsp;1: Roads and wildfires in AZ
 <section id="spatial-linear-model-approach" class="slide level2">
 <h2>Spatial Linear Model approach</h2>
 <ul>
-<li><strong>Spatial Linear Model</strong> - use the continuous, fixed response data to fit a spatial linear model to predict resulting model size for input points and covariate data.</li>
+<li><strong>Continuous, fixed</strong> - Treating <code>x</code> and <code>y</code> as coordinates as fixed and using <code>IncidentSize</code> as a continuous response, our data is geostatistical.</li>
+</ul>
+<h4 id="modeling-approach-3">Modeling approach</h4>
+<ul>
+<li><strong>Spatial Linear Model</strong> - Module 2, similar to Holland example in <em>Continuously indexed spatial data (geostatistics)</em>, or the <code>dioxane</code> analysis in HW2.</li>
 </ul>
 <p><span class="math display">\[
 \boldsymbol{\mathrm{y}}=\boldsymbol{\mathrm{X}}^{T}\boldsymbol{\beta}+\boldsymbol{e}\,\,\,\,\boldsymbol{e}\sim\mathrm{N}(\boldsymbol{0},\Sigma(\boldsymbol{\theta}))
 \]</span></p>
-<ul>
-<li>How you landed on the model you did (AIC, other analysis)</li>
-<li>Any data filtering you did, variable transformations</li>
-<li>Point estimates and Confidence intervals on fixed effects</li>
-<li>Fit parameters for spatial variance (nugget, range, sill)
-<ul>
-<li>de (sill), ie (nugget), range (range)</li>
-</ul></li>
-<li><code>loocv</code>, diagnostic plots?</li>
-<li>Visuals (ESV, relevant exploration images, etc)</li>
-<li>What might be the practical applications of this model?</li>
-</ul>
 </section>
 <section id="lgcp-modeling-approach" class="slide level2">
 <h2>LGCP Modeling Approach</h2>
@@ -675,6 +667,24 @@ Figure&nbsp;1: Roads and wildfires in AZ
 \]</span> <span style="font-size: 0.8em;"> - Visuals of the data you’re investigating (plots of points on coco county) - F, G, K plots with model and CIs plotted for most interesting plots - is data CSR? For what filters (human cause/natural cause, &gt;=1000 acres, etc) - How you landed on the model you did (AIC, other analysis) - Any data filtering you did, variable transformations - Point estimates and Confidence intervals on fixed effects - Fit parameters for spatial variance (nugget, range, sill) - Prediction intensity surface </span></p>
 </section>
 <section id="binary-glm-spatial-approach" class="slide level2">
+<h2>Binary GLM Spatial approach</h2>
+<ul>
+<li><strong>Point process</strong> - Using <code>x</code> and <code>y</code> as coordinates and <code>IncidentSize</code> as a <em>threshold</em>, we can study “large wildfires” (<code>IncidentSize</code> <span class="math inline">\(\geq 1000\)</span> acres) as point process data.</li>
+</ul>
+<h4 id="modeling-approach-4">Modeling approach</h4>
+<ul>
+<li><strong>Binary Response Spatial Logistic Regression</strong> - Module 5, similar to Gorillas Logistic Regression GLM example in <em>Non-Gaussian spatial data</em>.</li>
+</ul>
+<p><span class="math display">\[
+\mathrm{logit}(\lambda_{1}(\mathrm{\boldsymbol{s}}))=\boldsymbol{\mathrm{x}}(\mathrm{\boldsymbol{s}})^{T}\boldsymbol{\beta}+e(\mathrm{\boldsymbol{s}})+\log(\lambda_{0}),
+\]</span></p>
+<div class="smallmath">
+<p><span class="math display">\[
+Y(\boldsymbol{s}) \sim \mathrm{Bern}(p(\boldsymbol{s})),\,\,\,\, \mathrm{E}[ Y (\boldsymbol{s}) ] = p(\boldsymbol{s}) = \frac{\lambda_{1}(\boldsymbol{s})}{\lambda_{0}(\boldsymbol{s})+\lambda_{1}(\boldsymbol{s})}
+\]</span></p>
+</div>
+</section>
+<section id="binary-glm-spatial-approach-1" class="slide level2">
 <h2>Binary GLM Spatial approach</h2>
 <div class="columns">
 <div class="column" style="width:40%;">
@@ -709,7 +719,7 @@ Y(\boldsymbol{s}) \sim \mathrm{Bern}(p(\boldsymbol{s})),
 </div>
 </div></div>
 </section>
-<section id="binary-glm-spatial-approach-1" class="slide level2">
+<section id="binary-glm-spatial-approach-2" class="slide level2">
 <h2>Binary GLM Spatial approach</h2>
 <div class="columns">
 <div class="column" style="width:40%;">
@@ -744,7 +754,7 @@ Y(\boldsymbol{s}) \sim \mathrm{Bern}(p(\boldsymbol{s})),
 </div>
 </div></div>
 </section>
-<section id="binary-glm-spatial-approach-2" class="slide level2">
+<section id="binary-glm-spatial-approach-3" class="slide level2">
 <h2>Binary GLM Spatial approach</h2>
 <p>Our model can then be built using selected covariates we desire for predictors and performing a binary logistic regression. The resulting prediction model will return the probability of the occurrence of a large wildfire for a given input location and corresponding values for the model’s chosen covariates.</p>
 <div class="quarto-figure quarto-figure-center">
@@ -758,7 +768,7 @@ Y(\boldsymbol{s}) \sim \mathrm{Bern}(p(\boldsymbol{s})),
 </figure>
 </div>
 </section>
-<section id="binary-glm-spatial-approach-3" class="slide level2">
+<section id="binary-glm-spatial-approach-4" class="slide level2">
 <h2>Binary GLM Spatial approach</h2>
 <h5 id="model-selection">Model Selection</h5>
 <p>The selection of covariates of the model utilized a semi-automated process that minimized AIC. There were some issues with model convergence for some spatial covariance fits, and AIC did not necessarily favor significant predictors in the end.</p>
@@ -774,7 +784,7 @@ Y(\boldsymbol{s}) \sim \mathrm{Bern}(p(\boldsymbol{s})),
 <p><em>The best AIC model tested utilized square root minimum distance from major roads, log population density data at the coordinates, interactions of environmental factors, and season.</em></p>
 </div>
 </section>
-<section id="binary-glm-spatial-approach-4" class="slide level2">
+<section id="binary-glm-spatial-approach-5" class="slide level2">
 <h2>Binary GLM Spatial approach</h2>
 <h3 id="model-summary-quick-look">Model Summary Quick Look</h3>
 <div class="columns">
@@ -818,7 +828,7 @@ Y(\boldsymbol{s}) \sim \mathrm{Bern}(p(\boldsymbol{s})),
 </div>
 </div></div>
 </section>
-<section id="binary-glm-spatial-approach-5" class="slide level2">
+<section id="binary-glm-spatial-approach-6" class="slide level2">
 <h2>Binary GLM Spatial approach</h2>
 <h4 id="cis-quick-look">CIs Quick Look</h4>
 <div class="sourceCode" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a><span class="sc">&gt;</span> <span class="fu">confint</span>(az_wf_spglm)</span>
@@ -853,7 +863,7 @@ Figure&nbsp;2: Confidence Intervals
 </figure>
 </div>
 </section>
-<section id="binary-glm-spatial-approach-6" class="slide level2">
+<section id="binary-glm-spatial-approach-7" class="slide level2">
 <h2>Binary GLM Spatial approach</h2>
 <h3 id="predictions">Predictions</h3>
 <div class="columns">
@@ -866,7 +876,7 @@ Figure&nbsp;2: Confidence Intervals
 <p>We generated a grid of equally spaced points within Coconino County, amounting to 293 total points to use as prediction locations. All prediction covariate data was captured for <code>2023-12-31 12:00:00</code>.</p>
 </div></div>
 </section>
-<section id="binary-glm-spatial-approach-7" class="slide level2">
+<section id="binary-glm-spatial-approach-8" class="slide level2">
 <h2>Binary GLM Spatial approach</h2>
 <h3 id="predictions-1">Predictions</h3>
 <div class="columns">
@@ -879,7 +889,7 @@ Figure&nbsp;2: Confidence Intervals
 <p><strong>Not totally outrageous!</strong></p>
 </div></div>
 </section>
-<section id="binary-glm-spatial-approach-8" class="slide level2">
+<section id="binary-glm-spatial-approach-9" class="slide level2">
 <h2>Binary GLM Spatial approach</h2>
 <h4 id="wellmaybe-a-little-outrageous">Well…maybe a little outrageous?</h4>
 <div id="fig-sweeps" class="quarto-layout-panel">
@@ -1390,7 +1400,7 @@ Figure&nbsp;4
       }
     });
     </script>
-    <script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","selector":".lightbox","loop":false,"descPosition":"bottom","openEffect":"zoom"});
+    <script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","loop":false,"openEffect":"zoom","selector":".lightbox","descPosition":"bottom"});
     (function() {
       let previousOnload = window.onload;
       window.onload = () => {
