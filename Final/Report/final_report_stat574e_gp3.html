@@ -1699,22 +1699,61 @@ could be useful for these kinds of efforts, and our research questions
 aim to provide insight to what kinds of environmental and human factors
 can influence the size of a resulting wildfire based upon where it
 originates spatially.</p>
+<div id="wildfire-incidence-data" class="section level2">
+<h2>Wildfire Incidence Data</h2>
+<p>Accompanying this paper is <code>wfigs_az_sf_EPSG32612.RData</code>
+which imports <code>wfigs_az_sf</code> to the R environment, an
+<code>sf</code> object with 18089 observations of wildfire incidence in
+the state of Arizona as well as corresponding covariate data for each
+entry (to be discussed later). This data was originally acquired via <a href="https://data-nifc.opendata.arcgis.com/datasets/nifc::wildland-fire-incident-locations/about">Wildland
+Fire Incident Locations</a> from the National Interagency Fire Center.
+It contains spatial point data indicating the origin of each wildfire
+recorded in the <a href="https://www.wildfire.gov/application/irwin-integrated-reporting-wildfire-information">IRWIN</a>
+database, and includes many useful data attributes for each entry. The
+attributes from this dataset that we used were</p>
+<ul>
+<li><code>x</code> and <code>y</code> | Spatial coordinates in
+lat/lon</li>
+<li><code>IncidentSize</code> | Size of the resulting wildfire in
+acres</li>
+<li><code>FireCause</code> | Human, Natural, Unknown, Undetermined</li>
+<li><code>FireDiscoveryDateTime</code> | Date &amp; time of incident
+reporting</li>
+<li><code>IncidentTypeCategory</code> | WF (wildfire) or RX (prescribed
+burn)</li>
+</ul>
+<p>Other covariate data that was captured for each incidence point will
+be discussed later in the report.</p>
+</div>
 <div id="research-questions" class="section level2">
 <h2>Research Questions</h2>
-<p>Our research questions were driven in part by our findings during our
-explorations, as well as intentions of improving our models by
-supplementing our data with what we believed could be useful covariates
-for our models. Additionally, we want to evaluate spatial randomness for
-incidence to be sure what we are investigating is more than a completely
-spatially random process.</p>
-<div id="does-the-proximity-of-a-wildfires-origin-to-a-road-influence-its-resulting-size" class="section level3">
-<h3>Does the proximity of a wildfire’s origin to a road influence its
-resulting size?</h3>
+<p>Our research questions were driven by our curiosities about the ways
+in which we could approach modeling the data. We were also motivated in
+part by our findings during our explorations, and we wanted to evaluate
+whether real data we felt could influence wildfire size could serve as
+useful covariate information for our models. Additionally, we wanted to
+evaluate spatial randomness for different types of incidence to be sure
+what we are investigating is more than a completely spatially random
+process.</p>
+<div id="in-what-ways-can-we-approach-spatial-modeling-of-this-data-to-produce-useful-insights" class="section level3">
+<h3>In what ways can we approach spatial modeling of this data to
+produce useful insights?</h3>
+<p>During our data explorations, we rationalized different ways we could
+model the dataset. First, we could treat <code>IncidentSize</code> as
+continuous response data, and spatial coordinates as fixed observations,
+in order to build a spatial linear model. The model could be used to
+predict wildfire size if an incident were to be observed at a new
+location with corresponding covariate conditions.</p>
+<p>We could also use <code>IncidentSize</code>, as well as other data
+attributes, as filters to subset incidence of types that we would like
+to study, for example large, naturally caused wildfires</p>
+<div id="proximity-to-roads-major-or-backroads" class="section level4">
+<h4>Proximity to roads (major or backroads)</h4>
 <p>During data exploration, one</p>
 </div>
-<div id="can-environmental-or-human-factors-be-useful-predictors-in-modeling-resulting-wildfire-size" class="section level3">
-<h3>Can environmental or human factors be useful predictors in modeling
-resulting wildfire size?</h3>
+</div>
+<div id="can-we-find-useful-covariate-data-that-can-improve-our-models" class="section level3">
+<h3>Can we find useful covariate data that can improve our models?</h3>
 <p>.</p>
 </div>
 <div id="are-the-patterns-of-human-or-non-human-caused-fires-spatially-csr-or-do-they-exhibit-an-inhomogeneous-spatial-intensity" class="section level3">

@@ -4,11 +4,11 @@ subtitle: "STAT574E | Group 3"
 author: "Raymond Owino, Alex Salce, Matthew Wallace"
 date: "December 2024"
 output:
+  pdf_document:
+    extra_dependencies: ["wrapfig"]
   html_document:
     df_print: paged
     theme: cosmo
-  pdf_document:
-    extra_dependencies: ["wrapfig"]
 header-includes:
 - \renewcommand*\familydefault{\sfdefault} %% this picks a sans serif font
 - \usepackage[T1]{fontenc}
@@ -35,16 +35,32 @@ Our modeling efforts studied Coconino County (CC) in Northern Arizona, which has
 
 Wildfire incidence data describes the spatial origin of a wildfire, and is one of many ways that wildfires can be studied; it is also a type of data that lends itself well to be studied by methods in spatial statistical analyses. Spatial statistical models can be valuable in real applications for wildfire prevention, giving inferential insights into wildfire risk as well as tools to aid in resource allocation for mitigation efforts and planning. Our project seeks to build models that could be useful for these kinds of efforts, and our research questions aim to provide insight to what kinds of environmental and human factors can influence the size of a resulting wildfire based upon where it originates spatially.
 
+## Wildfire Incidence Data
+
+Accompanying this paper is `wfigs_az_sf_EPSG32612.RData` which imports `wfigs_az_sf` to the R environment, an `sf` object with 18089 observations of wildfire incidence in the state of Arizona as well as corresponding covariate data for each entry (to be discussed later). This data was originally acquired via [Wildland Fire Incident Locations](https://data-nifc.opendata.arcgis.com/datasets/nifc::wildland-fire-incident-locations/about) from the National Interagency Fire Center. It contains spatial point data indicating the origin of each wildfire recorded in the [IRWIN](https://www.wildfire.gov/application/irwin-integrated-reporting-wildfire-information) database, and includes many useful data attributes for each entry. The attributes from this dataset that we used were
+
+- `x` and `y` | Spatial coordinates in lat/lon
+- `IncidentSize` | Size of the resulting wildfire in acres
+- `FireCause` | Human, Natural, Unknown, Undetermined
+- `FireDiscoveryDateTime` | Date & time of incident reporting
+- `IncidentTypeCategory` | WF (wildfire) or RX (prescribed burn)
+
+Other covariate data that was captured for each incidence point will be discussed later in the report.
 
 ## Research Questions
 
-Our research questions were driven in part by our findings during our explorations, as well as intentions of improving our models by supplementing our data with what we believed could be useful covariates for our models. Additionally, we want to evaluate spatial randomness for incidence to be sure what we are investigating is more than a completely spatially random process.
+Our research questions were driven by our curiosities about the ways in which we could approach modeling  the data. We were also motivated in part by our findings during our explorations, and we wanted to evaluate whether real data we felt could influence wildfire size could serve as useful covariate information for our models. Additionally, we wanted to evaluate spatial randomness for different types of incidence to be sure what we are investigating is more than a completely spatially random process.
 
-### Does the proximity of a wildfire’s origin to a road influence its resulting size?
+### In what ways can we approach spatial modeling of this data to produce useful insights?
 
+During our data explorations, we rationalized different ways we could model the dataset. First, we could treat `IncidentSize` as continuous response data, and spatial coordinates as fixed observations, in order to build a spatial linear model. The model could be used to predict wildfire size if an incident were to be observed at a new location with corresponding covariate conditions.
+
+We could also use `IncidentSize`, as well as other data attributes, as filters to subset incidence of types that we would like to study, for example large, naturally caused wildfires
+
+#### Proximity to roads (major or backroads)
 During data exploration, one 
 
-### Can environmental or human factors be useful predictors in modeling resulting wildfire size?
+###  Can we find useful covariate data that can improve our models?
 
 .
 
