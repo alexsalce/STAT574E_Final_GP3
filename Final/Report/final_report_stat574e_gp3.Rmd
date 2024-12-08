@@ -4,10 +4,11 @@ subtitle: "STAT574E | Group 3"
 author: "Raymond Owino, Alex Salce, Matthew Wallace"
 date: "December 2024"
 output:
-  pdf_document: default
   html_document:
     df_print: paged
     theme: cosmo
+  pdf_document:
+    extra_dependencies: ["wrapfig"]
 header-includes:
 - \renewcommand*\familydefault{\sfdefault} %% this picks a sans serif font
 - \usepackage[T1]{fontenc}
@@ -36,11 +37,12 @@ Wildfire incidence data describes the spatial origin of a wildfire, and is one o
 
 
 ## Research Questions
-The research questions we chose to explore were the following.
+
+Our research questions were driven in part by our findings during our explorations, as well as intentions of improving our models by supplementing our data with what we believed could be useful covariates for our models. Additionally, we want to evaluate spatial randomness for incidence to be sure what we are investigating is more than a completely spatially random process.
 
 ### Does the proximity of a wildfire’s origin to a road influence its resulting size?
 
-.
+During data exploration, one 
 
 ### Can environmental or human factors be useful predictors in modeling resulting wildfire size?
 
