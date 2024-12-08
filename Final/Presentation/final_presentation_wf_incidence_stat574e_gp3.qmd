@@ -583,7 +583,7 @@ We found that envrionmental and human factors can help to improve our models (RQ
 
 ::: {#fig-sweeps layout-ncol=3}
 
-![Spatial Linear Model](images/az_wf_small.png){#fig-splmconc .lightbox}
+![Spatial Linear Model](images/splm.png){#fig-splmconc .lightbox}
 
 ![Log-Gaussian Cox Process](images/az_cc_wf.png){#fig-lgcpconc .lightbox}
 
