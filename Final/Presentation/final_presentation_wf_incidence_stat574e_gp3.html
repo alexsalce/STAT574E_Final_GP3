@@ -624,6 +624,37 @@ Figure&nbsp;1: Roads and wildfires in AZ
 <h4 id="can-we-find-useful-covariate-data-that-can-improve-our-models-2">Can we find useful covariate data that can improve our models?</h4>
 <p>Raymond and Matt collected data for environmental and human factors to address research question 2 (RQ2) in our modeling efforts.</p>
 </section>
+<section id="research-questions-2-3" class="slide level2">
+<h2>Research Questions (2)</h2>
+<h4 id="can-we-find-useful-covariate-data-that-can-improve-our-models-3">Can we find useful covariate data that can improve our models?</h4>
+<div id="fig-cap" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig">
+<div aria-describedby="fig-cap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><a href="images/popdensity_nat.png" class="lightbox" data-gallery="quarto-lightbox-gallery-15" title="Natural Wildfires"><img data-src="images/popdensity_nat.png" style="width:60.0%" data-fig-cap="Natural Wildfires"></a></p>
+<figcaption>Natural Wildfires</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><a href="images/popdensity_hum.png" class="lightbox" data-gallery="quarto-lightbox-gallery-16" title="Human Caused Wildfires"><img data-src="images/popdensity_hum.png" style="width:60.0%" data-fig-cap="Human Caused Wildfires"></a></p>
+<figcaption>Human Caused Wildfires</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Data retrieved from the <code>tidycensus</code> R package with <code>get_decennial</code> function. Plots show log population density for each tract in Arizona from 2010.
+</figcaption>
+</figure>
+</div>
+</section>
 <section id="research-questions-3" class="slide level2">
 <h2>Research Questions (3)</h2>
 <h4 id="are-the-patterns-of-human-or-non-human-caused-fires-spatially-csr-or-do-they-exhibit-an-inhomogeneous-spatial-intensity">Are the patterns of human or non human caused fires spatially CSR, or do they exhibit an inhomogeneous spatial intensity?</h4>
@@ -656,15 +687,236 @@ Figure&nbsp;1: Roads and wildfires in AZ
 \boldsymbol{\mathrm{y}}=\boldsymbol{\mathrm{X}}^{T}\boldsymbol{\beta}+\boldsymbol{e}\,\,\,\,\boldsymbol{e}\sim\mathrm{N}(\boldsymbol{0},\Sigma(\boldsymbol{\theta}))
 \]</span></p>
 </section>
-<section id="lgcp-modeling-approach" class="slide level2">
-<h2>LGCP Modeling Approach</h2>
-<h3 id="make-sure-to-include-csr-analysis-to-address-rq3"><em>Make sure to include CSR analysis to address RQ3</em></h3>
-<ul>
-<li><strong>Log-Gaussian Cox Process</strong> Treat large wildfire (<span class="math inline">\(\geq1000\)</span> acres) incidence locations as arising from a random intensity surface and fit LGCP model accounting for fixed effects and spatial dependence</li>
-</ul>
+<section id="log-gaussian-cox-process-approach" class="slide level2">
+<h2>Log-Gaussian Cox Process Approach</h2>
+<h4 id="prediction-surfaces">Prediction Surfaces</h4>
+<div id="fig-cap" class="lightbox quarto-float quarto-figure quarto-figure-center" data-fig-cap="Predictors">
+<figure class="quarto-float quarto-float-fig">
+<div aria-describedby="fig-cap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/predictors_im.png" class="lightbox" data-gallery="quarto-lightbox-gallery-17" title="Figure&nbsp;3: Heat map surfaces of each predictor used in the LGCP model."><img data-src="images/predictors_im.png" style="width:100.0%" data-fig-cap="Predictors"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: Heat map surfaces of each predictor used in the LGCP model.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="log-gaussian-cox-process-approach-1" class="slide level2">
+<h2>Log-Gaussian Cox Process Approach</h2>
+<h4 id="response-surfaces">Response Surfaces</h4>
+<div id="fig-cap" class="lightbox quarto-float quarto-figure quarto-figure-center" data-fig-cap="Predictors">
+<figure class="quarto-float quarto-float-fig">
+<div aria-describedby="fig-cap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/coco_wf_plot.png" class="lightbox" data-gallery="quarto-lightbox-gallery-18" title="Figure&nbsp;4: Locations of wildfires in Coconino. Separated by cause and size."><img data-src="images/coco_wf_plot.png" style="width:100.0%" data-fig-cap="Predictors"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4: Locations of wildfires in Coconino. Separated by cause and size.
+</figcaption>
+</figure>
+</div>
+<p>Goal: Fit an intensity surface for each of these plots using our predictors in a LGCP model.</p>
+</section>
+<section id="log-gaussian-cox-process-approach-2" class="slide level2">
+<h2>Log-Gaussian Cox Process Approach</h2>
+<h4 id="all-human-caused-wildfires">All Human Caused Wildfires</h4>
+<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a>coco_wf_hum.kppm <span class="ot">&lt;-</span> <span class="fu">kppm</span>(<span class="fu">unmark</span>(coco_wf_hum.ppp)<span class="sc">~</span>., </span>
+<span id="cb1-2"><a href=""></a>                         <span class="at">data=</span>predictors.im, </span>
+<span id="cb1-3"><a href=""></a>                         <span class="at">clusters =</span> <span class="st">"LGCP"</span>, </span>
+<span id="cb1-4"><a href=""></a>                         <span class="at">model =</span> <span class="st">"exponential"</span>)</span>
+<span id="cb1-5"><a href=""></a><span class="fu">plot</span>(<span class="fu">predict</span>(coco_wf_hum.kppm, <span class="at">eps =</span> <span class="dv">15000</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="fig-cap" class="lightbox quarto-float quarto-figure quarto-figure-center" data-fig-cap="Predictors">
+<figure class="quarto-float quarto-float-fig">
+<div aria-describedby="fig-cap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/coco_wf_hum_intensity.png" class="lightbox" data-gallery="quarto-lightbox-gallery-19" title="Figure&nbsp;5: All human caused wildfire intensity surface."><img data-src="images/coco_wf_hum_intensity.png" style="width:60.0%" data-fig-cap="Predictors"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5: All human caused wildfire intensity surface.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="log-gaussian-cox-process-approach-3" class="slide level2">
+<h2>Log-Gaussian Cox Process Approach</h2>
+<h4 id="large-human-caused-wildfires">Large Human Caused Wildfires</h4>
+<div class="sourceCode" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href=""></a>coco_wf_hum_lg.kppm <span class="ot">&lt;-</span> <span class="fu">kppm</span>(<span class="fu">unmark</span>(coco_wf_hum_lg.ppp)<span class="sc">~</span>., </span>
+<span id="cb2-2"><a href=""></a>                            <span class="at">data=</span>predictors.im, </span>
+<span id="cb2-3"><a href=""></a>                            <span class="at">clusters =</span> <span class="st">"LGCP"</span>, </span>
+<span id="cb2-4"><a href=""></a>                            <span class="at">model =</span> <span class="st">"exponential"</span>)</span>
+<span id="cb2-5"><a href=""></a><span class="fu">plot</span>(<span class="fu">predict</span>(coco_wf_hum_lg.kppm, <span class="at">eps =</span> <span class="dv">15000</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="fig-cap" class="lightbox quarto-float quarto-figure quarto-figure-center" data-fig-cap="Predictors">
+<figure class="quarto-float quarto-float-fig">
+<div aria-describedby="fig-cap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/coco_wf_hum_lg_intensity.png" class="lightbox" data-gallery="quarto-lightbox-gallery-20" title="Figure&nbsp;6: Large human caused wildfire intensity surface."><img data-src="images/coco_wf_hum_lg_intensity.png" style="width:60.0%" data-fig-cap="Predictors"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6: Large human caused wildfire intensity surface.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="log-gaussian-cox-process-approach-4" class="slide level2">
+<h2>Log-Gaussian Cox Process Approach</h2>
+<h4 id="small-human-caused-wildfires">Small Human Caused Wildfires</h4>
+<div class="sourceCode" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a>coco_wf_hum_sm.kppm <span class="ot">&lt;-</span> <span class="fu">kppm</span>(<span class="fu">unmark</span>(coco_wf_hum_sm.ppp)<span class="sc">~</span>., </span>
+<span id="cb3-2"><a href=""></a>                            <span class="at">data=</span>predictors.im, </span>
+<span id="cb3-3"><a href=""></a>                            <span class="at">clusters =</span> <span class="st">"LGCP"</span>,</span>
+<span id="cb3-4"><a href=""></a>                            <span class="at">model =</span> <span class="st">"exponential"</span>)</span>
+<span id="cb3-5"><a href=""></a><span class="fu">plot</span>(<span class="fu">predict</span>(coco_wf_hum_sm.kppm, <span class="at">eps =</span> <span class="dv">15000</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="fig-cap" class="lightbox quarto-float quarto-figure quarto-figure-center" data-fig-cap="Predictors">
+<figure class="quarto-float quarto-float-fig">
+<div aria-describedby="fig-cap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/coco_wf_hum_sm_intensity.png" class="lightbox" data-gallery="quarto-lightbox-gallery-21" title="Figure&nbsp;7: Small human caused wildfire intensity surface."><img data-src="images/coco_wf_hum_sm_intensity.png" style="width:60.0%" data-fig-cap="Predictors"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7: Small human caused wildfire intensity surface.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="log-gaussian-cox-process-approach-5" class="slide level2">
+<h2>Log-Gaussian Cox Process Approach</h2>
+<h4 id="all-natural-wildfires">All Natural Wildfires</h4>
+<div class="sourceCode" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href=""></a>coco_wf_nat.kppm <span class="ot">&lt;-</span> <span class="fu">kppm</span>(<span class="fu">unmark</span>(coco_wf_nat.ppp)<span class="sc">~</span>.,</span>
+<span id="cb4-2"><a href=""></a>                         <span class="at">data=</span>predictors.im, </span>
+<span id="cb4-3"><a href=""></a>                         <span class="at">clusters =</span> <span class="st">"LGCP"</span>, </span>
+<span id="cb4-4"><a href=""></a>                         <span class="at">model =</span> <span class="st">"exponential"</span>)</span>
+<span id="cb4-5"><a href=""></a><span class="fu">plot</span>(<span class="fu">predict</span>(coco_wf_nat.kppm, <span class="at">eps =</span> <span class="dv">15000</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="fig-cap" class="lightbox quarto-float quarto-figure quarto-figure-center" data-fig-cap="Predictors">
+<figure class="quarto-float quarto-float-fig">
+<div aria-describedby="fig-cap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/coco_wf_nat_intensity.png" class="lightbox" data-gallery="quarto-lightbox-gallery-22" title="Figure&nbsp;8: All natural wildfire intensity surface."><img data-src="images/coco_wf_nat_intensity.png" style="width:60.0%" data-fig-cap="Predictors"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;8: All natural wildfire intensity surface.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="log-gaussian-cox-process-approach-6" class="slide level2">
+<h2>Log-Gaussian Cox Process Approach</h2>
+<h4 id="large-natural-wildfires">Large Natural Wildfires</h4>
+<div class="sourceCode" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a>coco_wf_nat_lg.kppm <span class="ot">&lt;-</span> <span class="fu">kppm</span>(<span class="fu">unmark</span>(coco_wf_nat_lg.ppp)<span class="sc">~</span>.,</span>
+<span id="cb5-2"><a href=""></a>                            <span class="at">data=</span>predictors.im, </span>
+<span id="cb5-3"><a href=""></a>                            <span class="at">clusters =</span> <span class="st">"LGCP"</span>, </span>
+<span id="cb5-4"><a href=""></a>                            <span class="at">model =</span> <span class="st">"exponential"</span>)</span>
+<span id="cb5-5"><a href=""></a><span class="fu">plot</span>(<span class="fu">predict</span>(coco_wf_nat_lg.kppm, <span class="at">eps =</span> <span class="dv">15000</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="fig-cap" class="lightbox quarto-float quarto-figure quarto-figure-center" data-fig-cap="Predictors">
+<figure class="quarto-float quarto-float-fig">
+<div aria-describedby="fig-cap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/coco_wf_hum_lg_intensity.png" class="lightbox" data-gallery="quarto-lightbox-gallery-23" title="Figure&nbsp;9: Large natural wildfire intensity surface."><img data-src="images/coco_wf_hum_lg_intensity.png" style="width:60.0%" data-fig-cap="Predictors"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;9: Large natural wildfire intensity surface.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="log-gaussian-cox-process-approach-7" class="slide level2">
+<h2>Log-Gaussian Cox Process Approach</h2>
+<h4 id="small-human-caused-wildfires-1">Small Human Caused Wildfires</h4>
+<div class="sourceCode" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href=""></a>coco_wf_nat_sm.kppm <span class="ot">&lt;-</span> <span class="fu">kppm</span>(<span class="fu">unmark</span>(coco_wf_nat_sm.ppp)<span class="sc">~</span>., </span>
+<span id="cb6-2"><a href=""></a>                            <span class="at">data=</span>predictors.im, </span>
+<span id="cb6-3"><a href=""></a>                            <span class="at">clusters =</span> <span class="st">"LGCP"</span>, </span>
+<span id="cb6-4"><a href=""></a>                            <span class="at">model =</span> <span class="st">"exponential"</span>)</span>
+<span id="cb6-5"><a href=""></a><span class="fu">plot</span>(<span class="fu">predict</span>(coco_wf_nat_sm.kppm, <span class="at">eps =</span> <span class="dv">15000</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="fig-cap" class="lightbox quarto-float quarto-figure quarto-figure-center" data-fig-cap="Predictors">
+<figure class="quarto-float quarto-float-fig">
+<div aria-describedby="fig-cap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/coco_wf_nat_sm_intensity.png" class="lightbox" data-gallery="quarto-lightbox-gallery-24" title="Figure&nbsp;10: Small natural wildfire intensity surface."><img data-src="images/coco_wf_nat_sm_intensity.png" style="width:60.0%" data-fig-cap="Predictors"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;10: Small natural wildfire intensity surface.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="log-gaussian-cox-process-approach-8" class="slide level2">
+<h2>Log-Gaussian Cox Process Approach</h2>
+<div id="fig-cap" class="lightbox quarto-float quarto-figure quarto-figure-center" data-fig-cap="Predictors">
+<figure class="quarto-float quarto-float-fig">
+<div aria-describedby="fig-cap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/coco_wf_intensity_grid.png" class="lightbox" data-gallery="quarto-lightbox-gallery-25" title="Figure&nbsp;11: "><img data-src="images/coco_wf_intensity_grid.png" style="width:85.0%" data-fig-cap="Predictors"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-cap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;11
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="log-gaussian-cox-process-approach-9" class="slide level2">
+<h2>Log-Gaussian Cox Process Approach</h2>
 <p><span class="math display">\[
-\log(\lambda(u))=\mathrm{\boldsymbol{Z}}(u)\boldsymbol{\beta}+e(u),\,\,\,\,e(u)\sim\mathrm{N}(0,C(\boldsymbol{\theta})),\,\,\,\,C(u,u')=\sigma^{2}e^{-||u-u'||/h}
-\]</span> <span style="font-size: 0.8em;"> - Visuals of the data you’re investigating (plots of points on coco county) - F, G, K plots with model and CIs plotted for most interesting plots - is data CSR? For what filters (human cause/natural cause, &gt;=1000 acres, etc) - How you landed on the model you did (AIC, other analysis) - Any data filtering you did, variable transformations - Point estimates and Confidence intervals on fixed effects - Fit parameters for spatial variance (nugget, range, sill) - Prediction intensity surface </span></p>
+C(u,u')=\sigma^{2}e^{-||u-u'||/h}
+\]</span></p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: right;"><span class="math inline">\(\sigma^2\)</span>(partial sill)</th>
+<th style="text-align: right;">h(range)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">All Human Caused</td>
+<td style="text-align: right;">4.728370e+00</td>
+<td style="text-align: right;">7791.704</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Large Human Caused</td>
+<td style="text-align: right;">3.220770e-09</td>
+<td style="text-align: right;">29691.296</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Small Human Caused</td>
+<td style="text-align: right;">4.688047e+00</td>
+<td style="text-align: right;">7806.519</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">All Natural</td>
+<td style="text-align: right;">5.472859e-01</td>
+<td style="text-align: right;">9910.462</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Large Natural</td>
+<td style="text-align: right;">1.400144e+00</td>
+<td style="text-align: right;">5681.422</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Small Natural</td>
+<td style="text-align: right;">2.056924e+00</td>
+<td style="text-align: right;">12054.552</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="research-questions-3-1" class="slide level2">
+<h2>Research Questions (3)</h2>
+<h4 id="are-the-patterns-of-human-or-non-human-caused-fires-spatially-csr-or-do-they-exhibit-an-inhomogeneous-spatial-intensity-1">Are the patterns of human or non human caused fires spatially CSR, or do they exhibit an inhomogeneous spatial intensity?</h4>
+<div id="fig-cap" class="lightbox quarto-float quarto-figure quarto-figure-center" data-fig-cap="Predictors">
+<figure class="quarto-float quarto-float-fig">
+<div aria-describedby="fig-cap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/coco_envelope_plot_grid.png" class="lightbox" data-gallery="quarto-lightbox-gallery-26" title="Figure&nbsp;12: Green represents the intercept only model; red represents our model with all predictors."><img data-src="images/coco_envelope_plot_grid.png" style="width:100.0%" data-fig-cap="Predictors"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;12: Green represents the intercept only model; red represents our model with all predictors.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="research-questions-3-2" class="slide level2">
+<h2>Research Questions (3)</h2>
+<h4 id="arizona-csr-analysis">Arizona CSR Analysis</h4>
+<div id="fig-cap" class="lightbox quarto-float quarto-figure quarto-figure-center" data-fig-cap="Predictors">
+<figure class="quarto-float quarto-float-fig">
+<div aria-describedby="fig-cap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/AZ_envelope_plot_grid.png" class="lightbox" data-gallery="quarto-lightbox-gallery-27" title="Figure&nbsp;13: "><img data-src="images/AZ_envelope_plot_grid.png" style="width:100.0%" data-fig-cap="Predictors"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-cap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;13
+</figcaption>
+</figure>
+</div>
 </section>
 <section id="binary-glm-spatial-approach" class="slide level2">
 <h2>Binary GLM Spatial approach</h2>
@@ -711,7 +963,7 @@ Y(\boldsymbol{s}) \sim \mathrm{Bern}(p(\boldsymbol{s})),
 <figure>
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><a href="images/az_wf_cc_binary_1s.png" class="lightbox" data-gallery="quarto-lightbox-gallery-15" title="n=66 incidence points"><img data-src="images/az_wf_cc_binary_1s.png" class="quarto-figure quarto-figure-center" style="width:55.0%" alt="n=66 incidence points"></a></p>
+<p><a href="images/az_wf_cc_binary_1s.png" class="lightbox" data-gallery="quarto-lightbox-gallery-28" title="n=66 incidence points"><img data-src="images/az_wf_cc_binary_1s.png" class="quarto-figure quarto-figure-center" style="width:55.0%" alt="n=66 incidence points"></a></p>
 </figure>
 </div>
 <figcaption><span class="math inline">\(n=66\)</span> incidence points</figcaption>
@@ -746,7 +998,7 @@ Y(\boldsymbol{s}) \sim \mathrm{Bern}(p(\boldsymbol{s})),
 <figure>
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><a href="images/az_wf_cc_binary_0s.png" class="lightbox" data-gallery="quarto-lightbox-gallery-16" title="n=73 background points"><img data-src="images/az_wf_cc_binary_0s.png" class="quarto-figure quarto-figure-center" style="width:45.0%" alt="n=73 background points"></a></p>
+<p><a href="images/az_wf_cc_binary_0s.png" class="lightbox" data-gallery="quarto-lightbox-gallery-29" title="n=73 background points"><img data-src="images/az_wf_cc_binary_0s.png" class="quarto-figure quarto-figure-center" style="width:45.0%" alt="n=73 background points"></a></p>
 </figure>
 </div>
 <figcaption><span class="math inline">\(n=73\)</span> background points</figcaption>
@@ -761,7 +1013,7 @@ Y(\boldsymbol{s}) \sim \mathrm{Bern}(p(\boldsymbol{s})),
 <figure>
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><a href="images/az_wf_cc_binary.png" class="lightbox" data-gallery="quarto-lightbox-gallery-17" title="66 incidence points, 73 background points"><img data-src="images/az_wf_cc_binary.png" class="quarto-figure quarto-figure-center" style="width:45.0%" alt="66 incidence points, 73 background points"></a></p>
+<p><a href="images/az_wf_cc_binary.png" class="lightbox" data-gallery="quarto-lightbox-gallery-30" title="66 incidence points, 73 background points"><img data-src="images/az_wf_cc_binary.png" class="quarto-figure quarto-figure-center" style="width:45.0%" alt="66 incidence points, 73 background points"></a></p>
 </figure>
 </div>
 <figcaption>66 incidence points, 73 background points</figcaption>
@@ -772,14 +1024,14 @@ Y(\boldsymbol{s}) \sim \mathrm{Bern}(p(\boldsymbol{s})),
 <h2>Binary GLM Spatial approach</h2>
 <h5 id="model-selection">Model Selection</h5>
 <p>The selection of covariates of the model utilized a semi-automated process that minimized AIC. There were some issues with model convergence for some spatial covariance fits, and AIC did not necessarily favor significant predictors in the end.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a>spglm_formula <span class="ot">&lt;-</span> Wildfires <span class="sc">~</span>  <span class="fu">I</span>(<span class="fu">sqrt</span>(distance_rd_min_isprisec)) <span class="sc">+</span> <span class="fu">I</span>(<span class="fu">log</span>(pop.density)) <span class="sc">+</span></span>
-<span id="cb1-2"><a href=""></a>  Precipitation_Buffered <span class="sc">*</span> Temp_Min_Buffered <span class="sc">+</span> <span class="fu">I</span>(<span class="fu">get_season</span>(FireDiscoveryDateTime)) <span class="sc">+</span></span>
-<span id="cb1-3"><a href=""></a>  mean_grass <span class="sc">*</span> mean_forest</span>
-<span id="cb1-4"><a href=""></a></span>
-<span id="cb1-5"><a href=""></a>az_wf_spcov <span class="ot">&lt;-</span> <span class="fu">spcov_initial</span>(<span class="st">"wave"</span>)</span>
-<span id="cb1-6"><a href=""></a></span>
-<span id="cb1-7"><a href=""></a>az_wf_spglm <span class="ot">&lt;-</span> <span class="fu">spglm</span>(spglm_formula, <span class="at">data =</span> model_data_sf, </span>
-<span id="cb1-8"><a href=""></a>                     <span class="at">family =</span> binomial, <span class="at">spcov_initial =</span> az_wf_spcov)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a>spglm_formula <span class="ot">&lt;-</span> Wildfires <span class="sc">~</span>  <span class="fu">I</span>(<span class="fu">sqrt</span>(distance_rd_min_isprisec)) <span class="sc">+</span> <span class="fu">I</span>(<span class="fu">log</span>(pop.density)) <span class="sc">+</span></span>
+<span id="cb7-2"><a href=""></a>  Precipitation_Buffered <span class="sc">*</span> Temp_Min_Buffered <span class="sc">+</span> <span class="fu">I</span>(<span class="fu">get_season</span>(FireDiscoveryDateTime)) <span class="sc">+</span></span>
+<span id="cb7-3"><a href=""></a>  mean_grass <span class="sc">*</span> mean_forest</span>
+<span id="cb7-4"><a href=""></a></span>
+<span id="cb7-5"><a href=""></a>az_wf_spcov <span class="ot">&lt;-</span> <span class="fu">spcov_initial</span>(<span class="st">"wave"</span>)</span>
+<span id="cb7-6"><a href=""></a></span>
+<span id="cb7-7"><a href=""></a>az_wf_spglm <span class="ot">&lt;-</span> <span class="fu">spglm</span>(spglm_formula, <span class="at">data =</span> model_data_sf, </span>
+<span id="cb7-8"><a href=""></a>                     <span class="at">family =</span> binomial, <span class="at">spcov_initial =</span> az_wf_spcov)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="smallmath">
 <p><em>The best AIC model tested utilized square root minimum distance from major roads, log population density data at the coordinates, interactions of environmental factors, and season.</em></p>
 </div>
@@ -789,38 +1041,38 @@ Y(\boldsymbol{s}) \sim \mathrm{Bern}(p(\boldsymbol{s})),
 <h3 id="model-summary-quick-look">Model Summary Quick Look</h3>
 <div class="columns">
 <div class="column" style="width:80%;">
-<div class="sourceCode" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href=""></a>Call<span class="sc">:</span></span>
-<span id="cb2-2"><a href=""></a><span class="fu">spglm</span>(<span class="at">formula =</span> spglm_formula, <span class="at">family =</span> binomial, <span class="at">data =</span> model_data_sf, </span>
-<span id="cb2-3"><a href=""></a>    <span class="at">spcov_initial =</span> az_wf_spcov)</span>
-<span id="cb2-4"><a href=""></a></span>
-<span id="cb2-5"><a href=""></a>Deviance Residuals<span class="sc">:</span></span>
-<span id="cb2-6"><a href=""></a>     Min       <span class="dv">1</span>Q   Median       <span class="dv">3</span>Q      Max </span>
-<span id="cb2-7"><a href=""></a><span class="sc">-</span><span class="fl">2.79364</span> <span class="sc">-</span><span class="fl">0.37217</span> <span class="sc">-</span><span class="fl">0.03644</span>  <span class="fl">0.38603</span>  <span class="fl">2.67112</span> </span>
-<span id="cb2-8"><a href=""></a></span>
-<span id="cb2-9"><a href=""></a><span class="fu">Coefficients</span> (fixed)<span class="sc">:</span></span>
-<span id="cb2-10"><a href=""></a>                                         Estimate Std. Error z value <span class="fu">Pr</span>(<span class="sc">&gt;</span><span class="er">|</span>z<span class="sc">|</span>)  </span>
-<span id="cb2-11"><a href=""></a>(Intercept)                              <span class="sc">-</span><span class="fl">2.31282</span>    <span class="fl">7.91520</span>  <span class="sc">-</span><span class="fl">0.292</span>   <span class="fl">0.7701</span>  </span>
-<span id="cb2-12"><a href=""></a><span class="fu">I</span>(<span class="fu">sqrt</span>(distance_rd_min_isprisec))        <span class="sc">-</span><span class="fl">1.32153</span>    <span class="fl">0.81237</span>  <span class="sc">-</span><span class="fl">1.627</span>   <span class="fl">0.1038</span>  </span>
-<span id="cb2-13"><a href=""></a><span class="fu">I</span>(<span class="fu">log</span>(pop.density))                      <span class="sc">-</span><span class="fl">0.10851</span>    <span class="fl">0.49135</span>  <span class="sc">-</span><span class="fl">0.221</span>   <span class="fl">0.8252</span>  </span>
-<span id="cb2-14"><a href=""></a>Precipitation_Buffered                    <span class="fl">0.06916</span>    <span class="fl">2.08641</span>   <span class="fl">0.033</span>   <span class="fl">0.9736</span>  </span>
-<span id="cb2-15"><a href=""></a>Temp_Min_Buffered                        <span class="sc">-</span><span class="fl">1.12366</span>    <span class="fl">0.78317</span>  <span class="sc">-</span><span class="fl">1.435</span>   <span class="fl">0.1514</span>  </span>
-<span id="cb2-16"><a href=""></a><span class="fu">I</span>(<span class="fu">get_season</span>(FireDiscoveryDateTime))      <span class="fl">0.54990</span>    <span class="fl">0.37428</span>   <span class="fl">1.469</span>   <span class="fl">0.1418</span>  </span>
-<span id="cb2-17"><a href=""></a>mean_grass                                <span class="fl">1.07408</span>    <span class="fl">1.74733</span>   <span class="fl">0.615</span>   <span class="fl">0.5388</span>  </span>
-<span id="cb2-18"><a href=""></a>mean_forest                               <span class="fl">1.30509</span>    <span class="fl">1.21915</span>   <span class="fl">1.070</span>   <span class="fl">0.2844</span>  </span>
-<span id="cb2-19"><a href=""></a>Precipitation_Buffered<span class="sc">:</span>Temp_Min_Buffered  <span class="fl">0.39667</span>    <span class="fl">0.52455</span>   <span class="fl">0.756</span>   <span class="fl">0.4495</span>  </span>
-<span id="cb2-20"><a href=""></a>mean_grass<span class="sc">:</span>mean_forest                   <span class="fl">15.29506</span>    <span class="fl">9.16978</span>   <span class="fl">1.668</span>   <span class="fl">0.0953</span> .</span>
-<span id="cb2-21"><a href=""></a><span class="sc">---</span></span>
-<span id="cb2-22"><a href=""></a>Signif. codes<span class="sc">:</span>  <span class="dv">0</span> ‘<span class="sc">**</span><span class="er">*</span>’ <span class="fl">0.001</span> ‘<span class="sc">**</span>’ <span class="fl">0.01</span> ‘<span class="sc">*</span>’ <span class="fl">0.05</span> ‘.’ <span class="fl">0.1</span> ‘ ’ <span class="dv">1</span></span>
-<span id="cb2-23"><a href=""></a></span>
-<span id="cb2-24"><a href=""></a>Pseudo R<span class="sc">-</span>squared<span class="sc">:</span> <span class="fl">0.3684</span></span>
-<span id="cb2-25"><a href=""></a></span>
-<span id="cb2-26"><a href=""></a><span class="fu">Coefficients</span> (wave spatial covariance)<span class="sc">:</span></span>
-<span id="cb2-27"><a href=""></a>       de        ie     range </span>
-<span id="cb2-28"><a href=""></a><span class="fl">2.832e+00</span> <span class="fl">3.549e-02</span> <span class="fl">3.554e+04</span> </span>
-<span id="cb2-29"><a href=""></a></span>
-<span id="cb2-30"><a href=""></a><span class="fu">Coefficients</span> (Dispersion <span class="cf">for</span> binomial family)<span class="sc">:</span></span>
-<span id="cb2-31"><a href=""></a>dispersion </span>
-<span id="cb2-32"><a href=""></a>         <span class="dv">1</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href=""></a>Call<span class="sc">:</span></span>
+<span id="cb8-2"><a href=""></a><span class="fu">spglm</span>(<span class="at">formula =</span> spglm_formula, <span class="at">family =</span> binomial, <span class="at">data =</span> model_data_sf, </span>
+<span id="cb8-3"><a href=""></a>    <span class="at">spcov_initial =</span> az_wf_spcov)</span>
+<span id="cb8-4"><a href=""></a></span>
+<span id="cb8-5"><a href=""></a>Deviance Residuals<span class="sc">:</span></span>
+<span id="cb8-6"><a href=""></a>     Min       <span class="dv">1</span>Q   Median       <span class="dv">3</span>Q      Max </span>
+<span id="cb8-7"><a href=""></a><span class="sc">-</span><span class="fl">2.79364</span> <span class="sc">-</span><span class="fl">0.37217</span> <span class="sc">-</span><span class="fl">0.03644</span>  <span class="fl">0.38603</span>  <span class="fl">2.67112</span> </span>
+<span id="cb8-8"><a href=""></a></span>
+<span id="cb8-9"><a href=""></a><span class="fu">Coefficients</span> (fixed)<span class="sc">:</span></span>
+<span id="cb8-10"><a href=""></a>                                         Estimate Std. Error z value <span class="fu">Pr</span>(<span class="sc">&gt;</span><span class="er">|</span>z<span class="sc">|</span>)  </span>
+<span id="cb8-11"><a href=""></a>(Intercept)                              <span class="sc">-</span><span class="fl">2.31282</span>    <span class="fl">7.91520</span>  <span class="sc">-</span><span class="fl">0.292</span>   <span class="fl">0.7701</span>  </span>
+<span id="cb8-12"><a href=""></a><span class="fu">I</span>(<span class="fu">sqrt</span>(distance_rd_min_isprisec))        <span class="sc">-</span><span class="fl">1.32153</span>    <span class="fl">0.81237</span>  <span class="sc">-</span><span class="fl">1.627</span>   <span class="fl">0.1038</span>  </span>
+<span id="cb8-13"><a href=""></a><span class="fu">I</span>(<span class="fu">log</span>(pop.density))                      <span class="sc">-</span><span class="fl">0.10851</span>    <span class="fl">0.49135</span>  <span class="sc">-</span><span class="fl">0.221</span>   <span class="fl">0.8252</span>  </span>
+<span id="cb8-14"><a href=""></a>Precipitation_Buffered                    <span class="fl">0.06916</span>    <span class="fl">2.08641</span>   <span class="fl">0.033</span>   <span class="fl">0.9736</span>  </span>
+<span id="cb8-15"><a href=""></a>Temp_Min_Buffered                        <span class="sc">-</span><span class="fl">1.12366</span>    <span class="fl">0.78317</span>  <span class="sc">-</span><span class="fl">1.435</span>   <span class="fl">0.1514</span>  </span>
+<span id="cb8-16"><a href=""></a><span class="fu">I</span>(<span class="fu">get_season</span>(FireDiscoveryDateTime))      <span class="fl">0.54990</span>    <span class="fl">0.37428</span>   <span class="fl">1.469</span>   <span class="fl">0.1418</span>  </span>
+<span id="cb8-17"><a href=""></a>mean_grass                                <span class="fl">1.07408</span>    <span class="fl">1.74733</span>   <span class="fl">0.615</span>   <span class="fl">0.5388</span>  </span>
+<span id="cb8-18"><a href=""></a>mean_forest                               <span class="fl">1.30509</span>    <span class="fl">1.21915</span>   <span class="fl">1.070</span>   <span class="fl">0.2844</span>  </span>
+<span id="cb8-19"><a href=""></a>Precipitation_Buffered<span class="sc">:</span>Temp_Min_Buffered  <span class="fl">0.39667</span>    <span class="fl">0.52455</span>   <span class="fl">0.756</span>   <span class="fl">0.4495</span>  </span>
+<span id="cb8-20"><a href=""></a>mean_grass<span class="sc">:</span>mean_forest                   <span class="fl">15.29506</span>    <span class="fl">9.16978</span>   <span class="fl">1.668</span>   <span class="fl">0.0953</span> .</span>
+<span id="cb8-21"><a href=""></a><span class="sc">---</span></span>
+<span id="cb8-22"><a href=""></a>Signif. codes<span class="sc">:</span>  <span class="dv">0</span> ‘<span class="sc">**</span><span class="er">*</span>’ <span class="fl">0.001</span> ‘<span class="sc">**</span>’ <span class="fl">0.01</span> ‘<span class="sc">*</span>’ <span class="fl">0.05</span> ‘.’ <span class="fl">0.1</span> ‘ ’ <span class="dv">1</span></span>
+<span id="cb8-23"><a href=""></a></span>
+<span id="cb8-24"><a href=""></a>Pseudo R<span class="sc">-</span>squared<span class="sc">:</span> <span class="fl">0.3684</span></span>
+<span id="cb8-25"><a href=""></a></span>
+<span id="cb8-26"><a href=""></a><span class="fu">Coefficients</span> (wave spatial covariance)<span class="sc">:</span></span>
+<span id="cb8-27"><a href=""></a>       de        ie     range </span>
+<span id="cb8-28"><a href=""></a><span class="fl">2.832e+00</span> <span class="fl">3.549e-02</span> <span class="fl">3.554e+04</span> </span>
+<span id="cb8-29"><a href=""></a></span>
+<span id="cb8-30"><a href=""></a><span class="fu">Coefficients</span> (Dispersion <span class="cf">for</span> binomial family)<span class="sc">:</span></span>
+<span id="cb8-31"><a href=""></a>dispersion </span>
+<span id="cb8-32"><a href=""></a>         <span class="dv">1</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div><div class="column" style="width:20%;">
 <p><span class="math inline">\(\sigma_{sill} = 2.832e+00\)</span> <span class="math inline">\(\sigma_{nugget} = 3.549e-02\)</span> <span class="math inline">\(\text{range} = 3.554e+04 \,\,(\sim\text{35.5 km})\)</span></p>
 <div class="smallmath">
@@ -831,25 +1083,25 @@ Y(\boldsymbol{s}) \sim \mathrm{Bern}(p(\boldsymbol{s})),
 <section id="binary-glm-spatial-approach-6" class="slide level2">
 <h2>Binary GLM Spatial approach</h2>
 <h4 id="cis-quick-look">CIs Quick Look</h4>
-<div class="sourceCode" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a><span class="sc">&gt;</span> <span class="fu">confint</span>(az_wf_spglm)</span>
-<span id="cb3-2"><a href=""></a>                                               <span class="fl">2.5</span> <span class="sc">%     97.5 %</span></span>
-<span id="cb3-3"><a href=""></a>(Intercept)                              <span class="sc">-</span><span class="fl">17.8263262</span> <span class="fl">13.2006939</span></span>
-<span id="cb3-4"><a href=""></a><span class="fu">I</span>(<span class="fu">sqrt</span>(distance_rd_min_isprisec))         <span class="sc">-</span><span class="fl">2.9137530</span>  <span class="fl">0.2706848</span></span>
-<span id="cb3-5"><a href=""></a><span class="fu">I</span>(<span class="fu">log</span>(pop.density))                       <span class="sc">-</span><span class="fl">1.0715342</span>  <span class="fl">0.8545142</span></span>
-<span id="cb3-6"><a href=""></a>Precipitation_Buffered                    <span class="sc">-</span><span class="fl">4.0201412</span>  <span class="fl">4.1584522</span></span>
-<span id="cb3-7"><a href=""></a>Temp_Min_Buffered                         <span class="sc">-</span><span class="fl">2.6586537</span>  <span class="fl">0.4113346</span></span>
-<span id="cb3-8"><a href=""></a><span class="fu">I</span>(<span class="fu">get_season</span>(FireDiscoveryDateTime))      <span class="sc">-</span><span class="fl">0.1836816</span>  <span class="fl">1.2834872</span></span>
-<span id="cb3-9"><a href=""></a>mean_grass                                <span class="sc">-</span><span class="fl">2.3506191</span>  <span class="fl">4.4987742</span></span>
-<span id="cb3-10"><a href=""></a>mean_forest                               <span class="sc">-</span><span class="fl">1.0844096</span>  <span class="fl">3.6945865</span></span>
-<span id="cb3-11"><a href=""></a>Precipitation_Buffered<span class="sc">:</span>Temp_Min_Buffered  <span class="sc">-</span><span class="fl">0.6314373</span>  <span class="fl">1.4247793</span></span>
-<span id="cb3-12"><a href=""></a>mean_grass<span class="sc">:</span>mean_forest                    <span class="sc">-</span><span class="fl">2.6773800</span> <span class="fl">33.2675083</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href=""></a><span class="sc">&gt;</span> <span class="fu">confint</span>(az_wf_spglm)</span>
+<span id="cb9-2"><a href=""></a>                                               <span class="fl">2.5</span> <span class="sc">%     97.5 %</span></span>
+<span id="cb9-3"><a href=""></a>(Intercept)                              <span class="sc">-</span><span class="fl">17.8263262</span> <span class="fl">13.2006939</span></span>
+<span id="cb9-4"><a href=""></a><span class="fu">I</span>(<span class="fu">sqrt</span>(distance_rd_min_isprisec))         <span class="sc">-</span><span class="fl">2.9137530</span>  <span class="fl">0.2706848</span></span>
+<span id="cb9-5"><a href=""></a><span class="fu">I</span>(<span class="fu">log</span>(pop.density))                       <span class="sc">-</span><span class="fl">1.0715342</span>  <span class="fl">0.8545142</span></span>
+<span id="cb9-6"><a href=""></a>Precipitation_Buffered                    <span class="sc">-</span><span class="fl">4.0201412</span>  <span class="fl">4.1584522</span></span>
+<span id="cb9-7"><a href=""></a>Temp_Min_Buffered                         <span class="sc">-</span><span class="fl">2.6586537</span>  <span class="fl">0.4113346</span></span>
+<span id="cb9-8"><a href=""></a><span class="fu">I</span>(<span class="fu">get_season</span>(FireDiscoveryDateTime))      <span class="sc">-</span><span class="fl">0.1836816</span>  <span class="fl">1.2834872</span></span>
+<span id="cb9-9"><a href=""></a>mean_grass                                <span class="sc">-</span><span class="fl">2.3506191</span>  <span class="fl">4.4987742</span></span>
+<span id="cb9-10"><a href=""></a>mean_forest                               <span class="sc">-</span><span class="fl">1.0844096</span>  <span class="fl">3.6945865</span></span>
+<span id="cb9-11"><a href=""></a>Precipitation_Buffered<span class="sc">:</span>Temp_Min_Buffered  <span class="sc">-</span><span class="fl">0.6314373</span>  <span class="fl">1.4247793</span></span>
+<span id="cb9-12"><a href=""></a>mean_grass<span class="sc">:</span>mean_forest                    <span class="sc">-</span><span class="fl">2.6773800</span> <span class="fl">33.2675083</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div id="fig-CIs" class="quarto-float quarto-figure quarto-figure-center">
 <figure class="quarto-float quarto-float-fig">
 <div aria-describedby="fig-CIs-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div id="fig-ci1" class="lightbox quarto-float quarto-figure quarto-figure-center" data-fig-align="center">
 <figure class="quarto-float quarto-subfloat-fig">
 <div aria-describedby="fig-ci1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/spglm_bin_CI1.png" class="lightbox" data-gallery="fig-CIs" title="Figure&nbsp;2&nbsp;(a): CIs for fixed effects"><img data-src="images/spglm_bin_CI1.png" class="quarto-figure quarto-figure-center" style="width:34.0%" data-ref-parent="fig-CIs"></a>
+<a href="images/spglm_bin_CI1.png" class="lightbox" data-gallery="fig-CIs" title="Figure&nbsp;14&nbsp;(a): CIs for fixed effects"><img data-src="images/spglm_bin_CI1.png" class="quarto-figure quarto-figure-center" style="width:34.0%" data-ref-parent="fig-CIs"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-ci1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 (a) CIs for fixed effects
@@ -858,7 +1110,7 @@ Y(\boldsymbol{s}) \sim \mathrm{Bern}(p(\boldsymbol{s})),
 </div>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-CIs-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2: Confidence Intervals
+Figure&nbsp;14: Confidence Intervals
 </figcaption>
 </figure>
 </div>
@@ -882,7 +1134,7 @@ Figure&nbsp;2: Confidence Intervals
 <div class="columns">
 <div class="column" style="width:65%;">
 <div id="figgrid">
-<p><a href="images/predict_surface_overlayanimation.gif" class="lightbox" data-gallery="quarto-lightbox-gallery-19"><img data-src="images/predict_surface_overlayanimation.gif" style="width:110.0%"></a></p>
+<p><a href="images/predict_surface_overlayanimation.gif" class="lightbox" data-gallery="quarto-lightbox-gallery-32"><img data-src="images/predict_surface_overlayanimation.gif" style="width:110.0%"></a></p>
 </div>
 </div><div class="column" style="width:35%;">
 <p>This is the result prediction surface (treating each grid point prediction as representative probability for the pixel’s region), and the wildfire incidence points as well as the areas of national forests in the region overlayed.</p>
@@ -900,7 +1152,7 @@ Figure&nbsp;2: Confidence Intervals
 <div id="fig-wfpoints" class="lightbox quarto-float quarto-figure quarto-figure-center">
 <figure class="quarto-float quarto-subfloat-fig">
 <div aria-describedby="fig-wfpoints-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/predict_surface_tempsweep.gif" class="lightbox" data-gallery="fig-sweeps" title="Figure&nbsp;3&nbsp;(a): +/- 5°C Temp_Min_Buffered sweep"><img data-src="images/predict_surface_tempsweep.gif" style="width:75.0%" data-ref-parent="fig-sweeps"></a>
+<a href="images/predict_surface_tempsweep.gif" class="lightbox" data-gallery="fig-sweeps" title="Figure&nbsp;15&nbsp;(a): +/- 5°C Temp_Min_Buffered sweep"><img data-src="images/predict_surface_tempsweep.gif" style="width:75.0%" data-ref-parent="fig-sweeps"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-wfpoints-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 (a) +/- 5°C <code>Temp_Min_Buffered</code> sweep
@@ -912,7 +1164,7 @@ Figure&nbsp;2: Confidence Intervals
 <div id="fig-wfpointsrds" class="lightbox quarto-float quarto-figure quarto-figure-center">
 <figure class="quarto-float quarto-subfloat-fig">
 <div aria-describedby="fig-wfpointsrds-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/predict_surface_precipsweep.gif" class="lightbox" data-gallery="fig-sweeps" title="Figure&nbsp;3&nbsp;(b): +/- 10% Precipitation_Buffered sweep"><img data-src="images/predict_surface_precipsweep.gif" style="width:75.0%" data-ref-parent="fig-sweeps"></a>
+<a href="images/predict_surface_precipsweep.gif" class="lightbox" data-gallery="fig-sweeps" title="Figure&nbsp;15&nbsp;(b): +/- 10% Precipitation_Buffered sweep"><img data-src="images/predict_surface_precipsweep.gif" style="width:75.0%" data-ref-parent="fig-sweeps"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-wfpointsrds-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 (b) +/- 10% <code>Precipitation_Buffered</code> sweep
@@ -923,7 +1175,7 @@ Figure&nbsp;2: Confidence Intervals
 </div>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sweeps-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;3: Prediction surface for adjusting annual min temperature and precipitation
+Figure&nbsp;15: Prediction surface for adjusting annual min temperature and precipitation
 </figcaption>
 </figure>
 </div>
@@ -941,7 +1193,7 @@ Figure&nbsp;3: Prediction surface for adjusting annual min temperature and preci
 <div id="fig-splmconc" class="lightbox quarto-float quarto-figure quarto-figure-center">
 <figure class="quarto-float quarto-subfloat-fig">
 <div aria-describedby="fig-splmconc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/az_wf_small.png" class="lightbox" data-gallery="fig-sweeps" title="Figure&nbsp;4&nbsp;(a): Spatial Linear Model"><img data-src="images/az_wf_small.png" data-ref-parent="fig-sweeps"></a>
+<a href="images/splm.png" class="lightbox" data-gallery="fig-sweeps" title="Figure&nbsp;16&nbsp;(a): Spatial Linear Model"><img data-src="images/splm.png" data-ref-parent="fig-sweeps"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-splmconc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 (a) Spatial Linear Model
@@ -953,7 +1205,7 @@ Figure&nbsp;3: Prediction surface for adjusting annual min temperature and preci
 <div id="fig-lgcpconc" class="lightbox quarto-float quarto-figure quarto-figure-center">
 <figure class="quarto-float quarto-subfloat-fig">
 <div aria-describedby="fig-lgcpconc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/az_cc_wf.png" class="lightbox" data-gallery="fig-sweeps" title="Figure&nbsp;4&nbsp;(b): Log-Gaussian Cox Process"><img data-src="images/az_cc_wf.png" data-ref-parent="fig-sweeps"></a>
+<a href="images/coco_wf_intensity_grid.png" class="lightbox" data-gallery="fig-sweeps" title="Figure&nbsp;16&nbsp;(b): Log-Gaussian Cox Process"><img data-src="images/coco_wf_intensity_grid.png" data-ref-parent="fig-sweeps"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-lgcpconc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 (b) Log-Gaussian Cox Process
@@ -965,7 +1217,7 @@ Figure&nbsp;3: Prediction surface for adjusting annual min temperature and preci
 <div id="fig-binaryglmconc" class="lightbox quarto-float quarto-figure quarto-figure-center">
 <figure class="quarto-float quarto-subfloat-fig">
 <div aria-describedby="fig-binaryglmconc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/predict_surface_overlayanimation.gif" class="lightbox" data-gallery="fig-sweeps" title="Figure&nbsp;4&nbsp;(c): Binary Spatial GLM"><img data-src="images/predict_surface_overlayanimation.gif" data-ref-parent="fig-sweeps"></a>
+<a href="images/predict_surface_overlayanimation.gif" class="lightbox" data-gallery="fig-sweeps" title="Figure&nbsp;16&nbsp;(c): Binary Spatial GLM"><img data-src="images/predict_surface_overlayanimation.gif" data-ref-parent="fig-sweeps"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-binaryglmconc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 (c) Binary Spatial GLM
@@ -976,7 +1228,7 @@ Figure&nbsp;3: Prediction surface for adjusting annual min temperature and preci
 </div>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-sweeps-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;4
+Figure&nbsp;16
 </figcaption>
 </figure>
 </div>
@@ -1400,7 +1652,7 @@ Figure&nbsp;4
       }
     });
     </script>
-    <script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","loop":false,"openEffect":"zoom","selector":".lightbox","descPosition":"bottom"});
+    <script>var lightboxQuarto = GLightbox({"loop":false,"selector":".lightbox","descPosition":"bottom","openEffect":"zoom","closeEffect":"zoom"});
     (function() {
       let previousOnload = window.onload;
       window.onload = () => {
