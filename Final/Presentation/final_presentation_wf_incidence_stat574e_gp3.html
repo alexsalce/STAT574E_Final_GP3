@@ -454,13 +454,17 @@ Raymond Owino, Alex Salce, Matthew Wallace
 </div><div class="column" style="width:50%;">
 <p>Refinement of this dataset utilized the following data attributes (of 96 columns) for incidence filtering &amp; covariates.</p>
 <ul>
+<li><code>x</code> and <code>y</code> | Spatial coordinates in lat/lon</li>
 <li><code>IncidentSize</code> | Size of the resulting wildfire in acres</li>
 <li><code>FireCause</code> | Human, Natural, Unknown, Undetermined</li>
 <li><code>FireDiscoveryDateTime</code> | Date &amp; time of incident reporting</li>
 <li><code>IncidentTypeCategory</code> | WF (wildfire) or RX (prescribed burn)</li>
-<li><code>x</code> and <code>y</code> | Spatial coordinates in lat/lon</li>
 </ul>
 </div></div>
+</section>
+<section id="research-question-1" class="slide level2">
+<h2>Research Question 1</h2>
+<h3 id="in-what-ways-can-we-approach-spatial-modeling-of-this-data-to-produce-useful-insights">In what ways can we approach spatial modeling of this data to produce useful insights?</h3>
 </section>
 <section id="wildfire-incidence-data---continuous-fixed-spatial-index" class="slide level2">
 <h2>Wildfire Incidence Data - Continuous, Fixed Spatial Index</h2>
@@ -468,7 +472,6 @@ Raymond Owino, Alex Salce, Matthew Wallace
 <ul>
 <li><strong>Continuous, fixed</strong> - Treating <code>x</code> and <code>y</code> as coordinates as fixed and using <code>IncidentSize</code> as a continuous response, our data is geostatistical.</li>
 </ul>
-<div class="fragment">
 <h4 id="modeling-approach">Modeling approach</h4>
 <ul>
 <li><strong>Spatial Linear Model</strong> - Module 2, similar to Holland example in <em>Continuously indexed spatial data (geostatistics)</em>, or the <code>dioxane</code> analysis in HW2.</li>
@@ -476,7 +479,6 @@ Raymond Owino, Alex Salce, Matthew Wallace
 <p><span class="math display">\[
 \boldsymbol{\mathrm{y}}=\boldsymbol{\mathrm{X}}^{T}\boldsymbol{\beta}+\boldsymbol{e}\,\,\,\,\boldsymbol{e}\sim\mathrm{N}(\boldsymbol{0},\Sigma(\boldsymbol{\theta}))
 \]</span></p>
-</div>
 </section>
 <section id="wildfire-incidence-data---continuous-fixed-spatial-index-1" class="slide level2">
 <h2>Wildfire Incidence Data - Continuous, Fixed Spatial Index</h2>
@@ -504,7 +506,6 @@ Raymond Owino, Alex Salce, Matthew Wallace
 <ul>
 <li><strong>Point process</strong> - Using <code>x</code> and <code>y</code> as coordinates and <code>IncidentSize</code> as a <em>threshold</em>, we can study “large wildfires” (<code>IncidentSize</code> <span class="math inline">\(\geq 1000\)</span> acres) as point process data.</li>
 </ul>
-<div class="fragment">
 <h4 id="modeling-approach-1">Modeling approach</h4>
 <ul>
 <li><strong>Log-Gaussian Cox Process</strong> Module 4, similar to Gorillas LGCP example in <em>Random spatial index (point pattern)</em>, or the <code>earthquakes_um</code> analysis of Kansas in HW4.</li>
@@ -512,7 +513,6 @@ Raymond Owino, Alex Salce, Matthew Wallace
 <p><span class="math display">\[
 \log(\lambda(u))=\mathrm{\boldsymbol{Z}}(u)\boldsymbol{\beta}+e(u),\,\,\,\,e(u)\sim\mathrm{N}(0,C(\boldsymbol{\theta})),\,\,\,\,C(u,u')=\sigma^{2}e^{-||u-u'||/h}
 \]</span></p>
-</div>
 </section>
 <section id="wildfire-incidence-data---point-process-1-1" class="slide level2">
 <h2>Wildfire Incidence Data - Point Process 1</h2>
@@ -545,7 +545,6 @@ Raymond Owino, Alex Salce, Matthew Wallace
 <ul>
 <li><strong>Point process</strong> - Using <code>x</code> and <code>y</code> as coordinates and <code>IncidentSize</code> as a <em>threshold</em>, we can study “large wildfires” (<code>IncidentSize</code> <span class="math inline">\(\geq 1000\)</span> acres) as point process data.</li>
 </ul>
-<div class="fragment">
 <h4 id="modeling-approach-2">Modeling approach</h4>
 <ul>
 <li><strong>Binary Response Spatial Logistic Regression</strong> - Module 5, similar to Gorillas Logistic Regression GLM example in <em>Non-Gaussian spatial data</em>.</li>
@@ -557,7 +556,6 @@ Raymond Owino, Alex Salce, Matthew Wallace
 <p><span class="math display">\[
 Y(\boldsymbol{s}) \sim \mathrm{Bern}(p(\boldsymbol{s})),\,\,\,\, \mathrm{E}[ Y (\boldsymbol{s}) ] = p(\boldsymbol{s}) = \frac{\lambda_{1}(\boldsymbol{s})}{\lambda_{0}(\boldsymbol{s})+\lambda_{1}(\boldsymbol{s})}
 \]</span></p>
-</div>
 </div>
 </section>
 <section id="wildfire-incidence-data---point-process-2-1" class="slide level2">
@@ -577,9 +575,13 @@ Y(\boldsymbol{s}) \sim \mathrm{Bern}(p(\boldsymbol{s})),\,\,\,\, \mathrm{E}[ Y (
 </div>
 </div>
 </section>
-<section id="research-questions-1" class="slide level2">
-<h2>Research Questions (1)</h2>
-<h4 id="does-the-proximity-of-a-wildfires-origin-to-a-road-influence-its-resulting-size">Does the proximity of a wildfire’s origin to a road influence its resulting size?</h4>
+<section id="research-questions-2" class="slide level2">
+<h2>Research Questions (2)</h2>
+<h3 id="can-we-find-useful-covariate-data-that-can-improve-our-models">Can we find useful covariate data that can improve our models?</h3>
+</section>
+<section id="research-questions-2-1" class="slide level2">
+<h2>Research Questions (2)</h2>
+<h4 id="can-we-find-useful-covariate-data-that-can-improve-our-models-1">Can we find useful covariate data that can improve our models?</h4>
 <div id="fig-rdprox" class="quarto-layout-panel">
 <figure class="quarto-float quarto-float-fig">
 <div aria-describedby="fig-rdprox-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -611,16 +613,16 @@ Y(\boldsymbol{s}) \sim \mathrm{Bern}(p(\boldsymbol{s})),\,\,\,\, \mathrm{E}[ Y (
 </div>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-rdprox-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1: Reasearch question 1 framework
+Figure&nbsp;1: Roads and wildfires in AZ
 </figcaption>
 </figure>
 </div>
 <p>Data explorations showed some clear wildfire patterns near roads (the outlines are visible). We wanted to include the distance in meters to the nearest major roads (and “remote” roads) as usable predictors. For each point, the <code>roads()</code> function in the <code>tigris</code> package to generate <code>sf</code> objects for AZ roads, and <code>st_distance()</code> function in the <code>sf</code> package helped us generate this data to be used as a covariate.</p>
 </section>
-<section id="research-questions-2" class="slide level2">
+<section id="research-questions-2-2" class="slide level2">
 <h2>Research Questions (2)</h2>
-<h4 id="can-environmental-or-human-factors-be-useful-predictors-in-modeling-resulting-wildfire-size">Can environmental or human factors be useful predictors in modeling resulting wildfire size?</h4>
-<p>Raymond and Matt collected data to address environmental factors and human factors to address research question 2 (RQ2) in our modeling efforts.</p>
+<h4 id="can-we-find-useful-covariate-data-that-can-improve-our-models-2">Can we find useful covariate data that can improve our models?</h4>
+<p>Raymond and Matt collected data for environmental and human factors to address research question 2 (RQ2) in our modeling efforts.</p>
 </section>
 <section id="research-questions-3" class="slide level2">
 <h2>Research Questions (3)</h2>
@@ -1388,7 +1390,7 @@ Figure&nbsp;4
       }
     });
     </script>
-    <script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","selector":".lightbox","loop":false,"openEffect":"zoom","descPosition":"bottom"});
+    <script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","selector":".lightbox","loop":false,"descPosition":"bottom","openEffect":"zoom"});
     (function() {
       let previousOnload = window.onload;
       window.onload = () => {

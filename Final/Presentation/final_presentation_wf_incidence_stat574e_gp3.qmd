@@ -88,24 +88,26 @@ There are over 300K records in this dataset, and just over 18K in Arizona.
 
 Refinement of this dataset utilized the following data attributes (of 96 columns) for incidence filtering & covariates.
 
+- `x` and `y` | Spatial coordinates in lat/lon
 - `IncidentSize` | Size of the resulting wildfire in acres
 - `FireCause` | Human, Natural, Unknown, Undetermined
 - `FireDiscoveryDateTime` | Date & time of incident reporting
 - `IncidentTypeCategory` | WF (wildfire) or RX (prescribed burn)
-- `x` and `y` | Spatial coordinates in lat/lon
 
 
 :::
 
 ::::
 
+## Research Question 1
+
+### In what ways can we approach spatial modeling of this data to produce useful insights?
+
 ## Wildfire Incidence Data - Continuous, Fixed Spatial Index
 
 This dataset offered us a unique opportunity to take multiple approaches to spatial statistical modeling. Using the available data attributes, we can approach our data from different angles.
 
  - **Continuous, fixed** - Treating `x` and `y` as coordinates as fixed and using `IncidentSize` as a continuous response, our data is geostatistical.
- 
-. . .
 
 #### Modeling approach
 
@@ -133,8 +135,6 @@ $$
 This dataset offered us a unique opportunity to take multiple approaches to spatial statistical modeling. Using the available data attributes, we can approach our data from different angles.
 
  - **Point process** - Using `x` and `y` as coordinates and `IncidentSize` as a *threshold*, we can study "large wildfires" (`IncidentSize` $\geq 1000$ acres) as point process data. 
- 
-. . .
 
 
 #### Modeling approach
@@ -165,8 +165,6 @@ $$
 This dataset offered us a unique opportunity to take multiple approaches to spatial statistical modeling. Using the available data attributes, we can approach our data from different angles.
 
  - **Point process** - Using `x` and `y` as coordinates and `IncidentSize` as a *threshold*, we can study "large wildfires" (`IncidentSize` $\geq 1000$ acres) as point process data.
- 
-. . .
 
 
 #### Modeling approach
@@ -195,11 +193,17 @@ $$
 :::
 
 
-## Research Questions (1)
+## Research Questions (2)
 
 
 
-#### Does the proximity of a wildfire’s origin to a road influence its resulting size?
+### Can we find useful covariate data that can improve our models?
+
+## Research Questions (2)
+
+
+
+#### Can we find useful covariate data that can improve our models?
 
 
 ::: {#fig-rdprox layout-ncol=2}
@@ -208,7 +212,7 @@ $$
 
 ![Proximity to major roads](images/az_rd_proximity2.png){#fig-wfpointsrds width=40% .lightbox}
 
-Reasearch question 1 framework
+Roads and wildfires in AZ
 
 :::
 
@@ -219,9 +223,9 @@ Data explorations showed some clear wildfire patterns near roads (the outlines a
 ## Research Questions (2)
 
 
-#### Can environmental or human factors be useful predictors in modeling resulting wildfire size?
+#### Can we find useful covariate data that can improve our models?
 
-Raymond and Matt collected data to address environmental factors and human factors to address research question 2 (RQ2) in our modeling efforts.
+Raymond and Matt collected data for environmental and human factors to address research question 2 (RQ2) in our modeling efforts.
 
 
 ## Research Questions (3)
