@@ -771,9 +771,11 @@ More background process points? Predictors correlated? Spatial confounding?
 
 ## Conclusions and Future Research
 
-Each of these models at least demonstrate proof-of-concept as means to help us better understand how to predict wildfire size or where we are at higher risk of a large wildfire occurring in Coconino County, and could be easily generalized elsewhere with the tools we have learned. 
+- Models at least demonstrate proof-of-concept (RQ1)
 
-We found that envrionmental and human factors can help to improve our models (RQs 1 & 2), and that approaching the data as point patterns can help us to determine that fires aren't spatially random, and we can use models to help inform fire mitigation efforts by understanding wildfire risk spatially (RQ 3).
+- We found covariate data that improved our models (RQ2)
+
+- We found some interesting patterns of CSR/non-CSR for different types of fire incidence (RQ3)
 
 ::: {#fig-sweeps layout-ncol=3}
 
