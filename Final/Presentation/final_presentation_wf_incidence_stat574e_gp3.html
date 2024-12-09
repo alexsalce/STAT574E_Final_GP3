@@ -689,6 +689,19 @@ Figure&nbsp;2: Data retrieved from the <code>tidycensus</code> R package with <c
 </section>
 <section id="log-gaussian-cox-process-approach" class="slide level2">
 <h2>Log-Gaussian Cox Process Approach</h2>
+<ul>
+<li><strong>Point process</strong> - Using <code>x</code> and <code>y</code> as coordinates and <code>IncidentSize</code> as a <em>threshold</em>, we can study “large wildfires” (<code>IncidentSize</code> <span class="math inline">\(\geq 1000\)</span> acres) as point process data.</li>
+</ul>
+<h4 id="modeling-approach-4">Modeling approach</h4>
+<ul>
+<li><strong>Log-Gaussian Cox Process</strong> Module 4, similar to Gorillas LGCP example in <em>Random spatial index (point pattern)</em>, or the <code>earthquakes_um</code> analysis of Kansas in HW4.</li>
+</ul>
+<p><span class="math display">\[
+\log(\lambda(u))=\mathrm{\boldsymbol{Z}}(u)\boldsymbol{\beta}+e(u),\,\,\,\,e(u)\sim\mathrm{N}(0,C(\boldsymbol{\theta})),\,\,\,\,C(u,u')=\sigma^{2}e^{-||u-u'||/h}
+\]</span></p>
+</section>
+<section id="log-gaussian-cox-process-approach-1" class="slide level2">
+<h2>Log-Gaussian Cox Process Approach</h2>
 <h4 id="prediction-surfaces">Prediction Surfaces</h4>
 <div id="fig-cap" class="lightbox quarto-float quarto-figure quarto-figure-center" data-fig-cap="Predictors">
 <figure class="quarto-float quarto-float-fig">
@@ -701,7 +714,7 @@ Figure&nbsp;3: Heat map surfaces of each predictor used in the LGCP model.
 </figure>
 </div>
 </section>
-<section id="log-gaussian-cox-process-approach-1" class="slide level2">
+<section id="log-gaussian-cox-process-approach-2" class="slide level2">
 <h2>Log-Gaussian Cox Process Approach</h2>
 <h4 id="response-surfaces">Response Surfaces</h4>
 <div id="fig-cap" class="lightbox quarto-float quarto-figure quarto-figure-center" data-fig-cap="Predictors">
@@ -716,7 +729,7 @@ Figure&nbsp;4: Locations of wildfires in Coconino. Separated by cause and size.
 </div>
 <p>Goal: Fit an intensity surface for each of these plots using our predictors in a LGCP model.</p>
 </section>
-<section id="log-gaussian-cox-process-approach-2" class="slide level2">
+<section id="log-gaussian-cox-process-approach-3" class="slide level2">
 <h2>Log-Gaussian Cox Process Approach</h2>
 <h4 id="all-human-caused-wildfires">All Human Caused Wildfires</h4>
 <div class="sourceCode" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a>coco_wf_hum.kppm <span class="ot">&lt;-</span> <span class="fu">kppm</span>(<span class="fu">unmark</span>(coco_wf_hum.ppp)<span class="sc">~</span>., </span>
@@ -735,7 +748,7 @@ Figure&nbsp;5: All human caused wildfire intensity surface.
 </figure>
 </div>
 </section>
-<section id="log-gaussian-cox-process-approach-3" class="slide level2">
+<section id="log-gaussian-cox-process-approach-4" class="slide level2">
 <h2>Log-Gaussian Cox Process Approach</h2>
 <h4 id="large-human-caused-wildfires">Large Human Caused Wildfires</h4>
 <div class="sourceCode" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href=""></a>coco_wf_hum_lg.kppm <span class="ot">&lt;-</span> <span class="fu">kppm</span>(<span class="fu">unmark</span>(coco_wf_hum_lg.ppp)<span class="sc">~</span>., </span>
@@ -754,7 +767,7 @@ Figure&nbsp;6: Large human caused wildfire intensity surface.
 </figure>
 </div>
 </section>
-<section id="log-gaussian-cox-process-approach-4" class="slide level2">
+<section id="log-gaussian-cox-process-approach-5" class="slide level2">
 <h2>Log-Gaussian Cox Process Approach</h2>
 <h4 id="small-human-caused-wildfires">Small Human Caused Wildfires</h4>
 <div class="sourceCode" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a>coco_wf_hum_sm.kppm <span class="ot">&lt;-</span> <span class="fu">kppm</span>(<span class="fu">unmark</span>(coco_wf_hum_sm.ppp)<span class="sc">~</span>., </span>
@@ -773,7 +786,7 @@ Figure&nbsp;7: Small human caused wildfire intensity surface.
 </figure>
 </div>
 </section>
-<section id="log-gaussian-cox-process-approach-5" class="slide level2">
+<section id="log-gaussian-cox-process-approach-6" class="slide level2">
 <h2>Log-Gaussian Cox Process Approach</h2>
 <h4 id="all-natural-wildfires">All Natural Wildfires</h4>
 <div class="sourceCode" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href=""></a>coco_wf_nat.kppm <span class="ot">&lt;-</span> <span class="fu">kppm</span>(<span class="fu">unmark</span>(coco_wf_nat.ppp)<span class="sc">~</span>.,</span>
@@ -792,7 +805,7 @@ Figure&nbsp;8: All natural wildfire intensity surface.
 </figure>
 </div>
 </section>
-<section id="log-gaussian-cox-process-approach-6" class="slide level2">
+<section id="log-gaussian-cox-process-approach-7" class="slide level2">
 <h2>Log-Gaussian Cox Process Approach</h2>
 <h4 id="large-natural-wildfires">Large Natural Wildfires</h4>
 <div class="sourceCode" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a>coco_wf_nat_lg.kppm <span class="ot">&lt;-</span> <span class="fu">kppm</span>(<span class="fu">unmark</span>(coco_wf_nat_lg.ppp)<span class="sc">~</span>.,</span>
@@ -811,7 +824,7 @@ Figure&nbsp;9: Large natural wildfire intensity surface.
 </figure>
 </div>
 </section>
-<section id="log-gaussian-cox-process-approach-7" class="slide level2">
+<section id="log-gaussian-cox-process-approach-8" class="slide level2">
 <h2>Log-Gaussian Cox Process Approach</h2>
 <h4 id="small-human-caused-wildfires-1">Small Human Caused Wildfires</h4>
 <div class="sourceCode" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href=""></a>coco_wf_nat_sm.kppm <span class="ot">&lt;-</span> <span class="fu">kppm</span>(<span class="fu">unmark</span>(coco_wf_nat_sm.ppp)<span class="sc">~</span>., </span>
@@ -830,7 +843,7 @@ Figure&nbsp;10: Small natural wildfire intensity surface.
 </figure>
 </div>
 </section>
-<section id="log-gaussian-cox-process-approach-8" class="slide level2">
+<section id="log-gaussian-cox-process-approach-9" class="slide level2">
 <h2>Log-Gaussian Cox Process Approach</h2>
 <div id="fig-cap" class="lightbox quarto-float quarto-figure quarto-figure-center" data-fig-cap="Predictors">
 <figure class="quarto-float quarto-float-fig">
@@ -843,7 +856,7 @@ Figure&nbsp;11
 </figure>
 </div>
 </section>
-<section id="log-gaussian-cox-process-approach-9" class="slide level2">
+<section id="log-gaussian-cox-process-approach-10" class="slide level2">
 <h2>Log-Gaussian Cox Process Approach</h2>
 <p><span class="math display">\[
 C(u,u')=\sigma^{2}e^{-||u-u'||/h}
@@ -923,7 +936,7 @@ Figure&nbsp;13
 <ul>
 <li><strong>Point process</strong> - Using <code>x</code> and <code>y</code> as coordinates and <code>IncidentSize</code> as a <em>threshold</em>, we can study “large wildfires” (<code>IncidentSize</code> <span class="math inline">\(\geq 1000\)</span> acres) as point process data.</li>
 </ul>
-<h4 id="modeling-approach-4">Modeling approach</h4>
+<h4 id="modeling-approach-5">Modeling approach</h4>
 <ul>
 <li><strong>Binary Response Spatial Logistic Regression</strong> - Module 5, similar to Gorillas Logistic Regression GLM example in <em>Non-Gaussian spatial data</em>.</li>
 </ul>
@@ -1655,7 +1668,7 @@ Figure&nbsp;16
       }
     });
     </script>
-    <script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","selector":".lightbox","openEffect":"zoom","loop":false});
+    <script>var lightboxQuarto = GLightbox({"selector":".lightbox","descPosition":"bottom","openEffect":"zoom","closeEffect":"zoom","loop":false});
     (function() {
       let previousOnload = window.onload;
       window.onload = () => {

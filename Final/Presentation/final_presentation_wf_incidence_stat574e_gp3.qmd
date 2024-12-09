@@ -286,6 +286,20 @@ $$
 
 ## Log-Gaussian Cox Process Approach
 
+ - **Point process** - Using `x` and `y` as coordinates and `IncidentSize` as a *threshold*, we can study "large wildfires" (`IncidentSize` $\geq 1000$ acres) as point process data. 
+
+
+#### Modeling approach
+
+- **Log-Gaussian Cox Process** Module 4, similar to Gorillas LGCP example in *Random spatial index (point pattern)*, or the `earthquakes_um` analysis of Kansas in HW4.
+
+$$
+\log(\lambda(u))=\mathrm{\boldsymbol{Z}}(u)\boldsymbol{\beta}+e(u),\,\,\,\,e(u)\sim\mathrm{N}(0,C(\boldsymbol{\theta})),\,\,\,\,C(u,u')=\sigma^{2}e^{-||u-u'||/h}
+$$
+
+
+## Log-Gaussian Cox Process Approach
+
 #### Prediction Surfaces
 
 ::: {#fig-cap}
