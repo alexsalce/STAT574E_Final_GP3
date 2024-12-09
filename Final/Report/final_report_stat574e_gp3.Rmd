@@ -12,6 +12,7 @@ output:
 header-includes:
 - \renewcommand*\familydefault{\sfdefault} %% this picks a sans serif font
 - \usepackage[T1]{fontenc}
+
 ---
 
 ```{r echo=FALSE, warning=FALSE, message=FALSE}
@@ -37,7 +38,7 @@ Wildfire incidence data describes the spatial origin of a wildfire, and is one o
 
 ## Wildfire Incidence Data
 
-Accompanying this paper is `wfigs_az_sf_EPSG32612.RData` which imports `wfigs_az_sf` to the R environment, an `sf` object with 18089 observations of wildfire incidence in the state of Arizona as well as corresponding covariate data for each entry (to be discussed later). This data was originally acquired via [Wildland Fire Incident Locations](https://data-nifc.opendata.arcgis.com/datasets/nifc::wildland-fire-incident-locations/about) from the National Interagency Fire Center. It contains spatial point data indicating the origin of each wildfire recorded in the [IRWIN](https://www.wildfire.gov/application/irwin-integrated-reporting-wildfire-information) database, and includes many useful data attributes for each entry. The attributes from this dataset that we used were
+Accompanying this paper is `wfigs_az_sf_EPSG32612.RData` which imports `wfigs_az_sf` to the R environment, an `sf` object with 18089 observations of wildfire incidence in the state of Arizona as well as corresponding covariate data for each entry (to be discussed later). This data was originally acquired via [Wildland Fire Incident Locations](https://data-nifc.opendata.arcgis.com/datasets/nifc::wildland-fire-incident-locations/about) from the National Interagency Fire Center. It contains spatial point data indicating the origin of each wildfire recorded in the [IRWIN](https://www.wildfire.gov/application/irwin-integrated-reporting-wildfire-information) database (since 2014), and includes many useful data attributes for each entry. The attributes from this dataset that we used were
 
 - `x` and `y` | Spatial coordinates in lat/lon
 - `IncidentSize` | Size of the resulting wildfire in acres
@@ -49,27 +50,40 @@ Other covariate data that was captured for each incidence point will be discusse
 
 ## Research Questions
 
-Our research questions were driven by our curiosities about the ways in which we could approach modeling  the data. We were also motivated in part by our findings during our explorations, and we wanted to evaluate whether real data we felt could influence wildfire size could serve as useful covariate information for our models. Additionally, we wanted to evaluate spatial randomness for different types of incidence to be sure what we are investigating is more than a completely spatially random process.
+Our research questions were driven by our curiosities about the ways in which we could approach modeling  the data. We were also motivated in part by our findings during our explorations, and we wanted to evaluate whether real data we felt could influence wildfire size could serve as useful covariate information for our models. Additionally, we wanted to evaluate spatial randomness for different types of incidence to be sure what we are investigating is more than a completely spatially random process. In general, we found this to be a particularly interesting dataset because it seemed as though there was more than one way to approach its analysis with tools we have learned in this course.
 
 ### In what ways can we approach spatial modeling of this data to produce useful insights?
 
-During our data explorations, we rationalized different ways we could model the dataset. First, we could treat `IncidentSize` as continuous response data, and spatial coordinates as fixed observations, in order to build a spatial linear model. The model could be used to predict wildfire size if an incident were to be observed at a new location with corresponding covariate conditions.
+Our overall goal is to find models that could support wildfire risk assessment, tools for resource allocation, and prediction for wildfire size for forecasting. This got us thinking about how we may approach our data in different ways. During our data explorations, we rationalized different ways we could model the dataset. We determined that we could use the data to build the following models that we will detail throughout the report.
 
-We could also use `IncidentSize`, as well as other data attributes, as filters to subset incidence of types that we would like to study, for example large, naturally caused wildfires
+- Spatial Linear Model - used to predict wildfire size for input coordinates and conditions found to affect size.
 
-#### Proximity to roads (major or backroads)
-During data exploration, one 
+- Log-Gaussian Cox Process (LGCP) - used to determine whether a type of wildfire (e.g. large human caused fires) have characteristics of spatial randomness, or if they are not random, and we can study where higher-risk areas of incidence are spatially.
+
+- Binary response GLM logistic regression - model to be used to assess risk in terms of the model's chosen risk factors, with outputs expressed as probabilities of the incidence in question spatially.
+
 
 ###  Can we find useful covariate data that can improve our models?
 
-.
+Based on combinations of findings from data explorations and our intuition about what could influence wildfire size, we chose to collect covariate data for the following factors.
+
+- Proximity to roads - Is a fire's size influenced by how accessible it is via roads? Do more remote fires tend to get bigger?
+- Environmental factors - can factors like temperature and precipitation influence wildfire size? Can terrain factors like forest and grass coverage, or local steepness influence?
+- Population density - do areas of more concentrated human settlement influence wildfire incidence?
 
 ### Are the patterns of human or non human caused fires spatially CSR, or do they exhibit an inhomogeneous spatial intensity?
 
-If  we filter our data to a desired "type" to study (for example large, naturally occurring wildfires) as a realization of some Poisson process with intensity $\lambda(\mathbf{s})$, can we identify higher risk areas of the fire type in question? Or are they not more than completely spatially random (CSR). As an extension, can we model the probability of these types of fires we choose to assess risks in terms of proababilities given conditions (covariates) that we choose for our model fits?
+An extension of the LGCP model, we wanted to investigate whether certain types of fires occur spatially randomly, or if they exhibit characteristics to the contrary? For example, we may find large human caused fires are not spatially random, and a risk model from an LGCP fit could help determine higher-risk areas of such incidence spatially.
 
 
 # Exploratory Data Analysis
+
+
+First, we could treat `IncidentSize` as continuous response data, and spatial coordinates as fixed observations, in order to build a spatial linear model. The model could be used to predict wildfire size if an incident were to be observed at a new location with corresponding covariate conditions.
+
+We could also use `IncidentSize`, as well as other data attributes like `FireCause` (human or natural), as filters to subset incidence of types that we would like to study, for example large, naturally caused wildfires. The subsetted points could then be treated as a realization of a Poisson point process with some spatial intensity $\lambda_1(\mathbf{s})$. We could then fit a Log-Gaussian Cox Process model to determine spatial intensity (a risk model), and analyze whether that type of fire is likely CSR or the result of an inhomogeneous Poisson process. If we know a process is not random, we can use an intensity model to determine preventative strategies in higher risk areas.
+
+Using the same subsetting approach, we can use the $\lambda_1(\mathbf{s})$ data and generate data from a constant Poisson process $\lambda_0$ to build a binary response point process dataset of incidence of the type of fire in question. We could then fit a binary response GLM logistic regression model to be used to assess risk in terms of the model's chosen risk factors, with outputs expressed as probabilities of the incidence in question spatially.
 
 
 # Statistical Analyses

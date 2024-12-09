@@ -1709,8 +1709,8 @@ entry (to be discussed later). This data was originally acquired via <a href="ht
 Fire Incident Locations</a> from the National Interagency Fire Center.
 It contains spatial point data indicating the origin of each wildfire
 recorded in the <a href="https://www.wildfire.gov/application/irwin-integrated-reporting-wildfire-information">IRWIN</a>
-database, and includes many useful data attributes for each entry. The
-attributes from this dataset that we used were</p>
+database (since 2014), and includes many useful data attributes for each
+entry. The attributes from this dataset that we used were</p>
 <ul>
 <li><code>x</code> and <code>y</code> | Spatial coordinates in
 lat/lon</li>
@@ -1734,27 +1734,47 @@ whether real data we felt could influence wildfire size could serve as
 useful covariate information for our models. Additionally, we wanted to
 evaluate spatial randomness for different types of incidence to be sure
 what we are investigating is more than a completely spatially random
-process.</p>
+process. In general, we found this to be a particularly interesting
+dataset because it seemed as though there was more than one way to
+approach its analysis with tools we have learned in this course.</p>
 <div id="in-what-ways-can-we-approach-spatial-modeling-of-this-data-to-produce-useful-insights" class="section level3">
 <h3>In what ways can we approach spatial modeling of this data to
 produce useful insights?</h3>
-<p>During our data explorations, we rationalized different ways we could
-model the dataset. First, we could treat <code>IncidentSize</code> as
-continuous response data, and spatial coordinates as fixed observations,
-in order to build a spatial linear model. The model could be used to
-predict wildfire size if an incident were to be observed at a new
-location with corresponding covariate conditions.</p>
+<p>Our overall goal is to find models that could support wildfire risk
+assessment, tools for resource allocation, and prediction for wildfire
+size for forecasting. This got us thinking about how we may approach our
+data in different ways. During our data explorations, we rationalized
+different ways we could model the dataset.</p>
+<p>First, we could treat <code>IncidentSize</code> as continuous
+response data, and spatial coordinates as fixed observations, in order
+to build a spatial linear model. The model could be used to predict
+wildfire size if an incident were to be observed at a new location with
+corresponding covariate conditions.</p>
 <p>We could also use <code>IncidentSize</code>, as well as other data
-attributes, as filters to subset incidence of types that we would like
-to study, for example large, naturally caused wildfires</p>
+attributes like <code>FireCause</code> (human or natural), as filters to
+subset incidence of types that we would like to study, for example
+large, naturally caused wildfires. The subsetted points could then be
+treated as a realization of a Poisson point process with some spatial
+intensity <span class="math inline">\(\lambda_1(\mathbf{s})\)</span>. We
+could then fit a Log-Gaussian Cox Process model to determine spatial
+intensity (a risk model), and analyze whether that type of fire is
+likely CSR or the result of an inhomogeneous Poisson process. If we know
+a process is not random, we can use an intensity model to determine
+preventative strategies in higher risk areas.</p>
+<p>Using the same subsetting approach, we can use the <span class="math inline">\(\lambda_1(\mathbf{s})\)</span> data and generate
+data from a constant Poisson process <span class="math inline">\(\lambda_0\)</span> to build a binary response
+point process dataset of incidence of the type of fire in question. We
+could then fit a binary response GLM logistic regression model to be
+used to assess risk in terms of the model’s chosen risk factors, with
+outputs expressed as probabilities of the incidence in question
+spatially.</p>
+</div>
+<div id="can-we-find-useful-covariate-data-that-can-improve-our-models" class="section level3">
+<h3>Can we find useful covariate data that can improve our models?</h3>
 <div id="proximity-to-roads-major-or-backroads" class="section level4">
 <h4>Proximity to roads (major or backroads)</h4>
 <p>During data exploration, one</p>
 </div>
-</div>
-<div id="can-we-find-useful-covariate-data-that-can-improve-our-models" class="section level3">
-<h3>Can we find useful covariate data that can improve our models?</h3>
-<p>.</p>
 </div>
 <div id="are-the-patterns-of-human-or-non-human-caused-fires-spatially-csr-or-do-they-exhibit-an-inhomogeneous-spatial-intensity" class="section level3">
 <h3>Are the patterns of human or non human caused fires spatially CSR,
