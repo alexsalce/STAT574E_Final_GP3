@@ -208,7 +208,6 @@ for (i in 1:length(predictors)){
   plot(get_im(predictors[i]), main=pred_titles[i])
 }
 
-lapply(lapply(predictors, get_im), plot_head)
 
 predictors.im <- lapply(predictors, get_im)
 names(predictors.im) <- predictors
