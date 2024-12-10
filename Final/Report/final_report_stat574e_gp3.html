@@ -1737,61 +1737,62 @@ what we are investigating is more than a completely spatially random
 process. In general, we found this to be a particularly interesting
 dataset because it seemed as though there was more than one way to
 approach its analysis with tools we have learned in this course.</p>
-<div id="in-what-ways-can-we-approach-spatial-modeling-of-this-data-to-produce-useful-insights" class="section level3">
+<div id="in-what-ways-can-we-approach-spatial-modeling-of-this-data-to-produce-useful-insights-rq1" class="section level3">
 <h3>In what ways can we approach spatial modeling of this data to
-produce useful insights?</h3>
+produce useful insights? [RQ1]</h3>
 <p>Our overall goal is to find models that could support wildfire risk
 assessment, tools for resource allocation, and prediction for wildfire
 size for forecasting. This got us thinking about how we may approach our
 data in different ways. During our data explorations, we rationalized
-different ways we could model the dataset.</p>
-<p>First, we could treat <code>IncidentSize</code> as continuous
-response data, and spatial coordinates as fixed observations, in order
-to build a spatial linear model. The model could be used to predict
-wildfire size if an incident were to be observed at a new location with
-corresponding covariate conditions.</p>
-<p>We could also use <code>IncidentSize</code>, as well as other data
-attributes like <code>FireCause</code> (human or natural), as filters to
-subset incidence of types that we would like to study, for example
-large, naturally caused wildfires. The subsetted points could then be
-treated as a realization of a Poisson point process with some spatial
-intensity <span class="math inline">\(\lambda_1(\mathbf{s})\)</span>. We
-could then fit a Log-Gaussian Cox Process model to determine spatial
-intensity (a risk model), and analyze whether that type of fire is
-likely CSR or the result of an inhomogeneous Poisson process. If we know
-a process is not random, we can use an intensity model to determine
-preventative strategies in higher risk areas.</p>
-<p>Using the same subsetting approach, we can use the <span class="math inline">\(\lambda_1(\mathbf{s})\)</span> data and generate
-data from a constant Poisson process <span class="math inline">\(\lambda_0\)</span> to build a binary response
-point process dataset of incidence of the type of fire in question. We
-could then fit a binary response GLM logistic regression model to be
-used to assess risk in terms of the model’s chosen risk factors, with
-outputs expressed as probabilities of the incidence in question
-spatially.</p>
+different ways we could model the dataset. We determined that we could
+use the data to build the following models that we will detail
+throughout the report.</p>
+<ul>
+<li><p>Spatial Linear Model - used to predict wildfire size for input
+coordinates and conditions found to affect size.</p></li>
+<li><p>Log-Gaussian Cox Process (LGCP) - used to determine whether a
+type of wildfire (e.g. large human caused fires) have characteristics of
+spatial randomness, or if they are not random, and we can study where
+higher-risk areas of incidence are spatially.</p></li>
+<li><p>Binary response GLM logistic regression - model to be used to
+assess risk in terms of the model’s chosen risk factors, with outputs
+expressed as probabilities of the incidence in question
+spatially.</p></li>
+</ul>
 </div>
-<div id="can-we-find-useful-covariate-data-that-can-improve-our-models" class="section level3">
-<h3>Can we find useful covariate data that can improve our models?</h3>
-<div id="proximity-to-roads-major-or-backroads" class="section level4">
-<h4>Proximity to roads (major or backroads)</h4>
-<p>During data exploration, one</p>
+<div id="can-we-find-useful-covariate-data-that-can-improve-our-models-rq2" class="section level3">
+<h3>Can we find useful covariate data that can improve our models?
+[RQ2]</h3>
+<p>Based on combinations of findings from data explorations and our
+intuition about what could influence wildfire size, we chose to collect
+covariate data for the following factors.</p>
+<ul>
+<li>Proximity to roads - Is a fire’s size influenced by how accessible
+it is via roads? Do more remote fires tend to get bigger?</li>
+<li>Environmental factors - can factors like temperature and
+precipitation influence wildfire size? Can terrain factors like forest
+and grass coverage, or local steepness influence?</li>
+<li>Population density - do areas of more concentrated human settlement
+influence wildfire incidence?</li>
+</ul>
 </div>
-</div>
-<div id="are-the-patterns-of-human-or-non-human-caused-fires-spatially-csr-or-do-they-exhibit-an-inhomogeneous-spatial-intensity" class="section level3">
+<div id="are-the-patterns-of-human-or-non-human-caused-fires-spatially-csr-or-do-they-exhibit-an-inhomogeneous-spatial-intensity-rq3" class="section level3">
 <h3>Are the patterns of human or non human caused fires spatially CSR,
-or do they exhibit an inhomogeneous spatial intensity?</h3>
-<p>If we filter our data to a desired “type” to study (for example
-large, naturally occurring wildfires) as a realization of some Poisson
-process with intensity <span class="math inline">\(\lambda(\mathbf{s})\)</span>, can we identify
-higher risk areas of the fire type in question? Or are they not more
-than completely spatially random (CSR). As an extension, can we model
-the probability of these types of fires we choose to assess risks in
-terms of proababilities given conditions (covariates) that we choose for
-our model fits?</p>
+or do they exhibit an inhomogeneous spatial intensity? [RQ3]</h3>
+<p>An extension of the LGCP model, we wanted to investigate whether
+certain types of fires occur spatially randomly, or if they exhibit
+characteristics to the contrary? For example, we may find large human
+caused fires are not spatially random, and a risk model from an LGCP fit
+could help determine higher-risk areas of such incidence spatially.</p>
 </div>
 </div>
 </div>
 <div id="exploratory-data-analysis" class="section level1">
 <h1>Exploratory Data Analysis</h1>
+<p>RQ2</p>
+<div id="section" class="section level3">
+<h3></h3>
+</div>
 </div>
 <div id="statistical-analyses" class="section level1">
 <h1>Statistical Analyses</h1>
