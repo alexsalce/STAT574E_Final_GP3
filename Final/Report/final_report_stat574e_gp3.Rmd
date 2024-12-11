@@ -5,11 +5,11 @@ author: "Raymond Owino, Alex Salce, Matthew Wallace"
 date: "December 2024"
 bibliography: references.bib
 output:
-  pdf_document:
-    extra_dependencies: ["wrapfig"]
   html_document:
     df_print: paged
     theme: cosmo
+  pdf_document:
+    extra_dependencies: ["wrapfig"]
 header-includes:
 - \renewcommand*\familydefault{\sfdefault} %% this picks a sans serif font
 - \usepackage[T1]{fontenc}
@@ -95,7 +95,8 @@ During visual explorations of the data, some distinct patterns emerged that appe
 
 We opted to include the distance in meters of an incident location to the nearest road as covariate data for each point. We wanted to explore whether this distance from a road had any predictive power for the resulting fire size. Intuitively, we felt that it may be a good measure of "accessibility" to a fire; if a fire starts and is far away from a major road, valuable time to contain the fire may be lost and the fire may grow out of control.
 
-The `roads()` function in the `tigris` package was used to generate `sf` objects for AZ roads, and `st_distance()` function in the `sf` package helped us generate this data to be used as a covariate. Each `roads` geometry has a corresponding [classification code](https://docs.fcc.gov/public/attachments/DA-12-187A3.pdf) according to the Census Bureau, and we chose to include "Primary Roads" (`S1100`) and "Secondary Roads" (`S1200`) to be representative of what we will call "major" roads. Separately, we used "Vehicular Trail (4WD)" (`S1500`) roads to represent "remote" roads. The covariate data measures an incident to its nearest major road and nearest remote road, and the histograms in Appendix C bin incidence by which type of road is nearest (and how far away it is), to give a visual measure of remoteness of the incident type in question. At both the full state level and the Coconino County level, human fires tend to be less remote (more concentrated near major roads), 
+The `roads()` function in the `tigris` package was used to generate `sf` objects for AZ roads, and `st_distance()` function in the `sf` package helped us generate this data to be used as a covariate. Each `roads` geometry has a corresponding [classification code](https://docs.fcc.gov/public/attachments/DA-12-187A3.pdf) according to the Census Bureau, and we chose to include "Primary Roads" (`S1100`) and "Secondary Roads" (`S1200`) to be representative of what we will call "major" roads. Separately, we used "Vehicular Trail (4WD)" (`S1500`) roads to represent "remote" roads. The covariate data measures an incident to its nearest major road and nearest remote road, and the histograms in Appendix C bin incidence by which type of road is nearest (and how far away it is), to give a visual measure of remoteness of the incident type in question. At both the full state level and the Coconino County level, human fires tend to be less remote (more concentrated near major roads) and natural fires tend to be much more remote. The distribution of distance from *any* roads for large wildfires indicates that while there is a small concentration near major roads, many are far away from major and remote roads, indicating that there may be a relationship between distance from roads and large wildfire incidence.
+
 
 
 ### Environmental factors
@@ -110,12 +111,25 @@ The `roads()` function in the `tigris` package was used to generate `sf` objects
 
 ### Spatial Linear Model
 
+\[
+\boldsymbol{\mathrm{y}}=\boldsymbol{\mathrm{X}}^{T}\boldsymbol{\beta}+\boldsymbol{e}\,\,\,\,\boldsymbol{e}\sim\mathrm{N}(\boldsymbol{0},\Sigma(\boldsymbol{\theta}))
+\]
 
 ## Point Process
 
 ### Log-Gaussian Cox Process
 
+\[
+\log(\lambda(u))=\mathrm{\boldsymbol{Z}}(u)\boldsymbol{\beta}+e(u),\,\,\,\,e(u)\sim\mathrm{N}(0,C(\boldsymbol{\theta})),\,\,\,\,C(u,u')=\sigma^{2}e^{-||u-u'||/h}
+\]
+
+
 ### Binary Response GLM Logistic Regression
+
+\[
+\mathrm{logit}(\lambda_{1}(\mathrm{\boldsymbol{s}}))=\boldsymbol{\mathrm{x}}(\mathrm{\boldsymbol{s}})^{T}\boldsymbol{\beta}+e(\mathrm{\boldsymbol{s}})+\log(\lambda_{0}),\,\,\, Y(\boldsymbol{s}) \sim \mathrm{Bern}(p(\boldsymbol{s})),\,\,\,\, \mathrm{E}[ Y (\boldsymbol{s}) ] = p(\boldsymbol{s}) = \frac{\lambda_{1}(\boldsymbol{s})}{\lambda_{0}(\boldsymbol{s})+\lambda_{1}(\boldsymbol{s})}
+\]
+
 
 
 # Conclusions

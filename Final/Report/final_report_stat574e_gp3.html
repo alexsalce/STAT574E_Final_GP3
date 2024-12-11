@@ -1670,8 +1670,8 @@ Incidence in Arizona</h1>
 </div>
 
 
-<div id="executive-summary" class="section level1">
-<h1>Executive Summary</h1>
+<div id="executive-summary" class="section level2">
+<h2>Executive Summary</h2>
 <blockquote>
 <p>The <em><a href="https://data-nifc.opendata.arcgis.com/datasets/nifc::wildland-fire-incident-locations/about">Wildland
 Fire Incident Locations</a></em> dataset we selected for study (provided
@@ -1822,7 +1822,10 @@ could help determine higher-risk areas of such incidence spatially.</p>
 <h1>Exploratory Data Analysis</h1>
 <p><strong>Note:</strong> all spatial data was projected to the <a href="https://epsg.io/32612">UTM Zone 12N coordinate reference system
 (EPSG:32612)</a> for analysis. Plots shown in latitude and longitude
-representations are for visual reference only.</p>
+representations are for visual reference only. Please refer to
+supplemental diagrams and data explorations in each appendix for
+complementary data and visuals to this discussion; Appendix A for
+environmental data, B for population density, C for roads.</p>
 <div id="wildfire-incidence-types-coconino-county" class="section level3">
 <h3>Wildfire Incidence Types, Coconino County</h3>
 <p>The full set of incidence data for Arizona contained 18089 total
@@ -1844,16 +1847,44 @@ acres (66 natural, 6 human caused in CC), or class F and G wildfires
 (the largest) as defined by <span class="citation">Short (2014)</span>.
 Small wildfires were all others (2062 natural, 1686 human caused).</p>
 </div>
-<div id="proximity-to-roads" class="section level3">
-<h3>Proximity to roads</h3>
-<p>.</p>
+<div id="proximity-to-roads-and-population-density" class="section level3">
+<h3>Proximity to roads and Population density</h3>
+<p>During visual explorations of the data, some distinct patterns
+emerged that appeared related to human activity. Human caused wildfire
+incidence showed clear concentration around more densely populated
+areas, and the outlines of roads are clearly visible. Both of these
+features are not present for naturally caused fires.</p>
+<p>We opted to include the distance in meters of an incident location to
+the nearest road as covariate data for each point. We wanted to explore
+whether this distance from a road had any predictive power for the
+resulting fire size. Intuitively, we felt that it may be a good measure
+of “accessibility” to a fire; if a fire starts and is far away from a
+major road, valuable time to contain the fire may be lost and the fire
+may grow out of control.</p>
+<p>The <code>roads()</code> function in the <code>tigris</code> package
+was used to generate <code>sf</code> objects for AZ roads, and
+<code>st_distance()</code> function in the <code>sf</code> package
+helped us generate this data to be used as a covariate. Each
+<code>roads</code> geometry has a corresponding <a href="https://docs.fcc.gov/public/attachments/DA-12-187A3.pdf">classification
+code</a> according to the Census Bureau, and we chose to include
+“Primary Roads” (<code>S1100</code>) and “Secondary Roads”
+(<code>S1200</code>) to be representative of what we will call “major”
+roads. Separately, we used “Vehicular Trail (4WD)” (<code>S1500</code>)
+roads to represent “remote” roads. The covariate data measures an
+incident to its nearest major road and nearest remote road, and the
+histograms in Appendix C bin incidence by which type of road is nearest
+(and how far away it is), to give a visual measure of remoteness of the
+incident type in question. At both the full state level and the Coconino
+County level, human fires tend to be less remote (more concentrated near
+major roads) and natural fires tend to be much more remote. The
+distribution of distance from <em>any</em> roads for large wildfires
+indicates that while there is a small concentration near major roads,
+many are far away from major and remote roads, indicating that there may
+be a relationship between distance from roads and large wildfire
+incidence.</p>
 </div>
 <div id="environmental-factors" class="section level3">
 <h3>Environmental factors</h3>
-<p>.</p>
-</div>
-<div id="population-density" class="section level3">
-<h3>Population density</h3>
 <p>.</p>
 </div>
 </div>
@@ -1863,15 +1894,27 @@ Small wildfires were all others (2062 natural, 1686 human caused).</p>
 <h2>Fixed, Continuous Response</h2>
 <div id="spatial-linear-model" class="section level3">
 <h3>Spatial Linear Model</h3>
+<p><span class="math display">\[
+\boldsymbol{\mathrm{y}}=\boldsymbol{\mathrm{X}}^{T}\boldsymbol{\beta}+\boldsymbol{e}\,\,\,\,\boldsymbol{e}\sim\mathrm{N}(\boldsymbol{0},\Sigma(\boldsymbol{\theta}))
+\]</span></p>
 </div>
 </div>
 <div id="point-process" class="section level2">
 <h2>Point Process</h2>
 <div id="log-gaussian-cox-process" class="section level3">
 <h3>Log-Gaussian Cox Process</h3>
+<p><span class="math display">\[
+\log(\lambda(u))=\mathrm{\boldsymbol{Z}}(u)\boldsymbol{\beta}+e(u),\,\,\,\,e(u)\sim\mathrm{N}(0,C(\boldsymbol{\theta})),\,\,\,\,C(u,u&#39;)=\sigma^{2}e^{-||u-u&#39;||/h}
+\]</span></p>
 </div>
 <div id="binary-response-glm-logistic-regression" class="section level3">
 <h3>Binary Response GLM Logistic Regression</h3>
+<p><span class="math display">\[
+\mathrm{logit}(\lambda_{1}(\mathrm{\boldsymbol{s}}))=\boldsymbol{\mathrm{x}}(\mathrm{\boldsymbol{s}})^{T}\boldsymbol{\beta}+e(\mathrm{\boldsymbol{s}})+\log(\lambda_{0}),\,\,\,
+Y(\boldsymbol{s}) \sim \mathrm{Bern}(p(\boldsymbol{s})),\,\,\,\,
+\mathrm{E}[ Y (\boldsymbol{s}) ] = p(\boldsymbol{s}) =
+\frac{\lambda_{1}(\boldsymbol{s})}{\lambda_{0}(\boldsymbol{s})+\lambda_{1}(\boldsymbol{s})}
+\]</span></p>
 </div>
 </div>
 </div>
@@ -1891,6 +1934,10 @@ ONE</em> 18 (3): 1–32. <a href="https://doi.org/10.1371/journal.pone.0282524">
 Short, K. C. 2014. <span>“A Spatial Database of Wildfires in the United
 States, 1992-2011.”</span> <em>Earth System Science Data</em> 6 (1):
 1–27. <a href="https://doi.org/10.5194/essd-6-1-2014">https://doi.org/10.5194/essd-6-1-2014</a>.
+</div>
+<div id="ref-zvh" class="csl-entry">
+Zimmerman, &amp; Ver Hoef, D. L. 2024. <em>Spatial Linear Models for
+Environmental Data</em>. Chapman; Hall/CRC. <a href="https://doi.org/10.1201/9780429060878">https://doi.org/10.1201/9780429060878</a>.
 </div>
 </div>
 </div>
