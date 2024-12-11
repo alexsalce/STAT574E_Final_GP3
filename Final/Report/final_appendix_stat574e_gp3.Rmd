@@ -1,18 +1,18 @@
 ---
-title: "STAT574E Group 3 Final Project Appendix"
-author: "Alex Salce, Raymond Owino, Matthew Wallace"
-date: "`r Sys.Date()`"
+title: "Appendix C"
+author: "Alex Salce"
+# date: "`r Sys.Date()`"
 output:
+  pdf_document: default
   html_document:
     df_print: paged
     theme: cosmo
-  pdf_document: default
 header-includes:
 - \renewcommand*\familydefault{\sfdefault} %% this picks a sans serif font
 - \usepackage[T1]{fontenc}
 ---
 
-```{r warning=FALSE, message=FALSE, echo=FALSE}
+```{r warning=FALSE, message=FALSE}
 
 library(dplyr)
 library(tigris)
@@ -206,6 +206,96 @@ rm(histdf1, histdf2, histdf3, x_rng, y_max, bins, df_names, row_counts, result_t
 
 There is a very high concentration of wildfires cause by humans very close to primary and secondary roads, and natural fires generally seem to be more remote (in general closer to more 4WD roads.)
 
+#### Coconino County Wildfire Data
+
+
+```{r cococounty}
+
+# Extract Coconino County
+coconino_sf <- az_counties_sf %>% 
+  filter(NAME == "Coconino")
+
+az_fires_wf_hum <- az_fires_wf %>% filter(FireCause=="Human")
+az_fires_wf_nat <- az_fires_wf %>% filter(FireCause=="Natural")
+az_fires_wf_un <- az_fires_wf %>% filter(FireCause=="Undetermined" | FireCause=="Unknown")
+
+az_fires_wf_hum <- st_intersection(az_fires_wf_hum, coconino_sf)
+az_fires_wf_nat <- st_intersection(az_fires_wf_nat, coconino_sf)
+az_fires_wf_un <- st_intersection(az_fires_wf_un, coconino_sf)
+
+```
+
+```{r disthistsmindistprimsec4wdNothreshCC, echo=FALSE}
+
+
+bins <- 30
+
+# human caused
+
+histdf1 <- az_fires_wf_hum
+
+# naturally caused
+
+histdf2 <- az_fires_wf_nat
+
+# undetermined / unknown cause
+
+histdf3 <- az_fires_wf_un
+
+
+x_rng <- range(c(histdf1$distance_rd_min_all[histdf1$distance_rd_min_isprisec==1], 
+                 histdf1$distance_rd_min_all[histdf1$distance_rd_min_isprisec==0],
+                 histdf2$distance_rd_min_all[histdf2$distance_rd_min_isprisec==1], 
+                 histdf2$distance_rd_min_all[histdf2$distance_rd_min_isprisec==0]))
+y_max <- max(hist(histdf1$distance_rd_min_all, plot = FALSE)$counts, 
+             hist(histdf2$distance_rd_min_all, plot = FALSE)$counts)
+
+
+#overlay hist of dist from roads
+
+# one plot
+# par(mfrow=c(1, 2))
+
+hist(histdf1$distance_rd_min_all[histdf1$distance_rd_min_isprisec==1], 
+     col = rgb(0, 0, 1, 0.5), xlim = x_rng, ylim = c(0, y_max),
+     breaks = bins,
+     main = "Min distance to Human caused fires", xlab = "Distance (m)")
+hist(histdf1$distance_rd_min_all[histdf1$distance_rd_min_isprisec==0], 
+     col = rgb(1, 0, 0, 0.5), 
+     breaks = bins,
+     add = TRUE)
+
+# Add a legend
+legend("topright", c("MinDistIsPrimSec", "MinDistIs4WD"),
+       fill = c(rgb(0, 0, 1, 0.5), rgb(1, 0, 0, 0.5)))
+
+hist(histdf2$distance_rd_min_all[histdf2$distance_rd_min_isprisec==1], 
+     col = rgb(0, 0, 1, 0.5), xlim = x_rng, ylim = c(0, y_max),
+     breaks = bins,
+     main = "Min distance to naturally caused fires", xlab = "Distance (m)")
+hist(histdf2$distance_rd_min_all[histdf2$distance_rd_min_isprisec==0], 
+     col = rgb(1, 0, 0, 0.5), 
+     breaks = bins,
+     add = TRUE)
+
+# Add a legend
+legend("topright", c("MinDistIsPrimSec", "MinDistIs4WD"),
+       fill = c(rgb(0, 0, 1, 0.5), rgb(1, 0, 0, 0.5)))
+
+
+
+df_names <- c("Human Caused Fires", "Naturally Caused Fires", "Unknown Caused Fires")
+row_counts <- c(nrow(az_fires_wf_hum), nrow(az_fires_wf_nat), nrow(az_fires_wf_un))
+
+# Create a table
+result_table <- data.frame(WildFireType = df_names, Counts = row_counts)
+
+kable(result_table, label = "Wildfire Counts")
+
+rm(histdf1, histdf2, histdf3, x_rng, y_max, bins, df_names, row_counts, result_table)
+
+```
+
 
 #### Thresholded for Wildfire Acreage
 
@@ -319,15 +409,6 @@ rm(histdf1, histdf2, histdf3, x_rng, y_max, bins, df_names, row_counts, result_t
 
 ## Models
 
-### Spatial Linear Model - Raymond
-
-A spatial linear model, capturing factors as well as spatial variation.
-
-
-### Point Process Spatial Intensity Model - Matthew
-
-Checking K, F, G functions to determine if wildfires are CSR or not.
-
 
 ### Point Process Binary GLM - Alex
 
@@ -351,6 +432,7 @@ wf_size_threshold <- 1000
 
 
 wfigs_az_sf$size_threshold <- as.integer(wfigs_az_sf$IncidentSize >= wf_size_threshold)
+# wfigs_az_sf$size_threshold <- as.integer(wfigs_az_sf$IncidentSize < wf_size_threshold)
 
 wfigs_az_sf_thresh <- wfigs_az_sf %>% filter(size_threshold==1)
 
@@ -407,11 +489,7 @@ rm(county_counts, az_counties_with_counts, az_county_intersections)
 
 ```
 
-```{r cococounty}
-
-# Extract Coconino County
-coconino_sf <- az_counties_sf %>% 
-  filter(NAME == "Coconino")
+```{r cococountythreshold}
 
 #filter large wildfire data to only Coconino County
 az_fires_wf <- st_intersection(az_fires_wf[az_fires_wf$FireCause=="Human" | az_fires_wf$FireCause == "Natural",], coconino_sf)
@@ -448,6 +526,8 @@ az_fires_wf_un <- az_fires_wf %>% filter(FireCause=="Undetermined" | FireCause==
 
 ```
 
+Minimum distance to naturally caused fires in Coconino County.
+
 ```{r disthistsmindistprimsec4wdThresh, echo=FALSE}
 
 bins <- 10
@@ -479,7 +559,7 @@ y_max <- max(hist(histdf1$distance_rd_min_all, plot = FALSE)$counts,
 hist(histdf2$distance_rd_min_all[histdf2$distance_rd_min_isprisec==1], 
      col = rgb(0, 0, 1, 0.5), xlim = x_rng, ylim = c(0, y_max),
      breaks = bins,
-     main = "Min distance to naturally caused fires", xlab = "Distance (m)")
+     main = "Min distance to naturally caused large fires", xlab = "Distance (m)")
 hist(histdf2$distance_rd_min_all[histdf2$distance_rd_min_isprisec==0], 
      col = rgb(1, 0, 0, 0.5), 
      breaks = bins,
@@ -501,6 +581,8 @@ rm(histdf1, histdf2, histdf3, x_rng, y_max, bins,
    df_names, row_counts, result_table, az_fires_wf_un)
 
 ```
+
+In general, the naturally occurring fires that end up becoming large are rather remote, as indicated by more roads that are in closer proximity to 4WD roads, and even among those, many of which are over a kilometer away from even the nearest remote roads.
 
 
 ##### Building a Background Poisson Process Realization
@@ -851,7 +933,7 @@ coconino_grid_with_values <- st_join(coconino_grid, predict_plot)
 ggplot() +
   geom_sf(data = coconino_grid_with_values, aes(fill = predict_bin_spglm), color = NA) +
   geom_sf(data = coconino_sf, fill = NA, color = "black", size = 0.5) +
-  # geom_sf(data = naz_nf_plot, fill = "turquoise", alpha = 0.5, color = NA) +
+  geom_sf(data = naz_nf_plot, fill = "turquoise", alpha = 0.5, color = NA) +
   # geom_sf(data = coco_nf_plot, fill = "lawngreen", alpha = 0.5, color = NA) +
   # geom_sf(data = kaibab_nf_plot, fill = "green4", alpha = 0.5, color = NA) +
   geom_sf(data=wf_sf_cc_plot, shape = 21, size = 1.2,
@@ -869,7 +951,9 @@ Since natural factors like temperature and precipitation can vary year to year, 
 
 ##### Predictor Sweep Animations
 
-```{r predmapoverlayanim}
+*HTML only*
+
+```{r predmapoverlayanim, eval=FALSE, echo=FALSE}
 
 library(animation)
 
@@ -923,7 +1007,7 @@ file.remove(c("plot1.png", "plot2.png", "plot3.png"))
 rm(save_plot, plot1, plot2, plot3)
 ```
 
-```{r tempsweep, cache=TRUE}
+```{r tempsweep, cache=TRUE, eval=FALSE, echo=FALSE}
 
 temp_sweep <- seq(-5, 5, by = 0.5)
 temp_prediction_list <- list()
@@ -946,7 +1030,7 @@ temp_prediction_sf <- st_transform(temp_prediction_sf, crs = 4326)
 
 ```
 
-```{r precipsweep, cache=TRUE}
+```{r precipsweep, cache=TRUE, eval=FALSE, echo=FALSE}
 
 precip_sweep <- seq(0.9, 1.1, by = 0.01)
 precip_prediction_list <- list()
@@ -968,14 +1052,14 @@ precip_prediction_sf <- st_transform(precip_prediction_sf, crs = 4326)
 
 ```
 
-```{r genanimations, echo=FALSE, cache=TRUE}
+```{r genanimations, echo=FALSE, cache=TRUE, eval=FALSE}
 
 library(gganimate)
 library(gifski)
 
 ```
 
-```{r temperatureanimation, cache=TRUE}
+```{r temperatureanimation, cache=TRUE, eval=FALSE, echo=FALSE}
 
 # Temperature animation
 temp_animation <- ggplot() +
@@ -994,7 +1078,7 @@ temp_animation
 
 ```
 
-```{r precipanimation, cache=TRUE}
+```{r precipanimation, cache=TRUE, eval=FALSE, echo=FALSE}
 
 # Precipitation animation
 precip_animation <- ggplot() +
@@ -1013,7 +1097,7 @@ precip_animation
 ```
 
 
-```{r renderanimations, message=FALSE, warning=FALSE, cache=TRUE, eval=FALSE}
+```{r renderanimations, message=FALSE, warning=FALSE, cache=TRUE, eval=FALSE,echo=FALSE}
 
 # Render temperature animation
 animate(temp_animation, nframes = 20, fps = 2, width = 1200, height = 900,

@@ -3,6 +3,7 @@ title: "Spatial Statistical Modeling of Wildfire Incidence in Arizona"
 subtitle: "STAT574E | Group 3"
 author: "Raymond Owino, Alex Salce, Matthew Wallace"
 date: "December 2024"
+bibliography: references.bib
 output:
   pdf_document:
     extra_dependencies: ["wrapfig"]
@@ -12,6 +13,7 @@ output:
 header-includes:
 - \renewcommand*\familydefault{\sfdefault} %% this picks a sans serif font
 - \usepackage[T1]{fontenc}
+nocite: '@*'
 ---
 
 ```{r echo=FALSE, warning=FALSE, message=FALSE}
@@ -23,13 +25,14 @@ library(ggplot2)
 
 ```
 
-# Executive Summary
+## Executive Summary
 
-The *[Wildland Fire Incident Locations](https://data-nifc.opendata.arcgis.com/datasets/nifc::wildland-fire-incident-locations/about)* dataset we selected for study (provided by the National Interagency Fire Center) contains spatial coordinates of a wildfire's origin and its resulting size in acreage (among several other useful attributes) for all wildfire incidence in the US as archived in the [IRWIN](https://www.wildfire.gov/application/irwin-integrated-reporting-wildfire-information) system since 2014. Our research goals included the study of factors that may influence the resulting size of a wildfire, and to build spatial models that may aid as a tool for wildfire risk assessment and resource allocation, forecasting, and other possible real-world applications. We were also interested whether wildfire incidence, when treated as a point pattern, occurs as a completely spatially random process, or if there really is inhomogeneity in spatial intensity for incidence and thus truly higher risk in some spatial regions than others.
 
-Attributes contained in the dataset allowed us to take three different approaches to spatial statistical modeling. Using the incident size as a continuous response, we built a spatial linear model that predicts wildfire size based on spatial and selected covariate inputs. Filtering the data using incident size as well as other incident attributes also allowed us to treat wildfire incidence data as a point process. We fit a Log-Gaussian Cox Process (LGCP) spatial model to study spatial intensity, as well as a binary response spatial logistic regression model to map spatially the regions of highest probability of large wildfire ($\geq 1000$ acres) incidence in the region of study.
+> \small The *[Wildland Fire Incident Locations](https://data-nifc.opendata.arcgis.com/datasets/nifc::wildland-fire-incident-locations/about)* dataset we selected for study (provided by the National Interagency Fire Center) contains spatial coordinates of a wildfire's origin and its resulting size in acreage (among several other useful attributes) for all wildfire incidence in the US as archived in the [IRWIN](https://www.wildfire.gov/application/irwin-integrated-reporting-wildfire-information) system since 2014. Our research goals included the study of factors that may influence the resulting size of a wildfire, and to build spatial models that may aid as a tool for wildfire risk assessment and resource allocation, forecasting, and other possible real-world applications. We were also interested whether wildfire incidence, when treated as a point pattern, occurs as a completely spatially random process, or if there really is inhomogeneity in spatial intensity for incidence and thus truly higher risk in some spatial regions than others.
 
-Our modeling efforts studied Coconino County (CC) in Northern Arizona, which has the highest overall wildfire incidence as compared to the rest of the state. We gathered data for incidence proximity to roads, environmental, and census data corresponding to spatial coordinates to use as covariates for our models to support our research questions. These covariates improved performance of our models by AIC metrics.  **Our LGCP model indicated that wildfires are not CSR, and there is thus greater risk of wildfire incidence in certain regions of CC**. Our models require some further refinements, but serve as a solid foundation and proof of concept for our real-world application goals.
+> \small Attributes contained in the dataset allowed us to take three different approaches to spatial statistical modeling. Using the incident size as a continuous response, we built a spatial linear model that predicts wildfire size based on spatial and selected covariate inputs. Filtering the data using incident size as well as other incident attributes also allowed us to treat wildfire incidence data as a point process. We fit a Log-Gaussian Cox Process (LGCP) spatial model to study spatial intensity, as well as a binary response spatial logistic regression model to map spatially the regions of highest probability of large wildfire ($\geq 1000$ acres) incidence in the region of study.
+
+> \small Our modeling efforts studied Coconino County (CC) in Northern Arizona, which has the highest overall wildfire incidence as compared to the rest of the state. We gathered data for incidence proximity to roads, environmental, and census data corresponding to spatial coordinates to use as covariates for our models to support our research questions. These covariates improved performance of our models by AIC metrics.  Our LGCP model indicated some interesting patterns of CSR/non-CSR for all types of wildfire incidence, notably non-CSR at the AZ state level, and possible evidence for CSR in only CC. All models built will require some further refinements, for which we have identified several potential remedies, but each serves as a solid foundation and proof of concept for our real-world application goals.
 
 # Introduction
 
@@ -77,21 +80,28 @@ An extension of the LGCP model, we wanted to investigate whether certain types o
 
 # Exploratory Data Analysis
 
-### Wildfire Incidence, Coconino County
+**Note:** all spatial data was projected to the [UTM Zone 12N coordinate reference system (EPSG:32612)](https://epsg.io/32612) for analysis. Plots shown in latitude and longitude representations are for visual reference only. Please refer to supplemental diagrams and data explorations in each appendix for complementary data and visuals to this discussion; Appendix A for environmental data, B for population density, C for roads.
 
-The full set of incidence data for Arizona contained 18089 total observations, 10174 of which Human caused, 5409 Naturally caused, and 2210 unknown In effort to keep our data manageable, we opted to discard unknown cause data, and filter down to Coconino County, which has the highest count of wildfire incidence in the state with 3824 incidents.
+### Wildfire Incidence Types, Coconino County
 
-### Proximity to roads
+The full set of incidence data for Arizona contained 18089 total observations, 10174 of which human caused, 5409 naturally occurring, and 2210 unknown (using the `FireCause` attribute in the dataset). We opted to discard unknown cause data to avoid studying uncharacterized incidents. The `sf` function `st_intersection` allowed us to subset incidence data `sf` objects spatially to Coconino County (CC) for more focused analysis, which has the highest count of wildfire incidence in the state with 3824 incidents (1692 Human, 2128 Natural). 
 
-.
+The selection of covariates was, in part, influenced by some further subsetting that could be done using the `IncidentSize` attribute. We were interested in studying differences between "large wildfires" and "small wildfires", using `IncidentSize` to threshold our data. The chosen threshold for large wildfires was `IncidentSize`$\geq 1000$ acres (66 natural, 6 human caused in CC), or class F and G wildfires (the largest) as defined by @short. Small wildfires were all others (2062 natural, 1686 human caused).
+
+
+### Proximity to roads and Population density
+
+During visual explorations of the data, some distinct patterns emerged that appeared related to human activity. Human caused wildfire incidence showed clear concentration around more densely populated areas, and the outlines of roads are clearly visible. Both of these features are not present for naturally caused fires.
+
+We opted to include the distance in meters of an incident location to the nearest road as covariate data for each point. We wanted to explore whether this distance from a road had any predictive power for the resulting fire size. Intuitively, we felt that it may be a good measure of "accessibility" to a fire; if a fire starts and is far away from a major road, valuable time to contain the fire may be lost and the fire may grow out of control.
+
+The `roads()` function in the `tigris` package was used to generate `sf` objects for AZ roads, and `st_distance()` function in the `sf` package helped us generate this data to be used as a covariate. Each `roads` geometry has a corresponding [classification code](https://docs.fcc.gov/public/attachments/DA-12-187A3.pdf) according to the Census Bureau, and we chose to include "Primary Roads" (`S1100`) and "Secondary Roads" (`S1200`) to be representative of what we will call "major" roads. Separately, we used "Vehicular Trail (4WD)" (`S1500`) roads to represent "remote" roads. The covariate data measures an incident to its nearest major road and nearest remote road, and the histograms in Appendix C bin incidence by which type of road is nearest (and how far away it is), to give a visual measure of remoteness of the incident type in question. At both the full state level and the Coconino County level, human fires tend to be less remote (more concentrated near major roads), 
+
 
 ### Environmental factors
 
 .
 
-### Population density
-
-.
 
 
 # Statistical Analyses
@@ -110,4 +120,12 @@ The full set of incidence data for Arizona contained 18089 total observations, 1
 
 # Conclusions
 
+
+
+
+# References
+
+<!-- TO CITE: @dumelle -->
+
+<div id="refs"></div>
 
