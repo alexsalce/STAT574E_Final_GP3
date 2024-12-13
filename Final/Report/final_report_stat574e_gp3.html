@@ -1832,7 +1832,9 @@ environmental data, B for population density, C for roads.</p>
 observations, 10174 of which human caused, 5409 naturally occurring, and
 2210 unknown (using the <code>FireCause</code> attribute in the
 dataset). We opted to discard unknown cause data to avoid studying
-uncharacterized incidents. The <code>sf</code> function
+uncharacterized incidents. <code>IncidentTypeCategory</code> also
+allowed us to discard prescribed burns, which are deliberately set and
+should not be part of our study. The <code>sf</code> function
 <code>st_intersection</code> allowed us to subset incidence data
 <code>sf</code> objects spatially to Coconino County (CC) for more
 focused analysis, which has the highest count of wildfire incidence in
@@ -1890,31 +1892,74 @@ incidence.</p>
 </div>
 <div id="statistical-analyses" class="section level1">
 <h1>Statistical Analyses</h1>
+<p>The goal of our modeling efforts is to build models that could be
+used as foundations for practical applications in fire prevention and
+risk assessment. Each modeling approach can serve a unique purpose in
+such an effort.</p>
 <div id="fixed-continuous-response" class="section level2">
 <h2>Fixed, Continuous Response</h2>
+<p>Our first approach to analysis of wildfire incidence treats our
+coordinate data as fixed locations <span class="math inline">\(\mathbf{s} \in D\)</span>, and the
+<code>IncidentSize</code> data as a continuous response <span class="math inline">\(Y(\mathbf{s})\)</span>.</p>
+<p>As a disclaimer, the assumption here is conditioned on <em>a wildfire
+existing</em> at any observed location <span class="math inline">\(\mathbf{s} \in D\)</span>. This is of course not
+an entirely realistic assumption at its face. Standalone wildfire
+incidents are not quantities that we can go out and measure in the same
+way that we can go out and measure a response like, say, pollution. But,
+we can treat predictions of the model as the resulting size of a
+wildfire if there were one observed at <span class="math inline">\(\mathbf{s}\)</span>, under the conditions
+(covariate data) that are chosen for the model at that location.</p>
 <div id="spatial-linear-model" class="section level3">
 <h3>Spatial Linear Model</h3>
-<p><span class="math display">\[
-\boldsymbol{\mathrm{y}}=\boldsymbol{\mathrm{X}}^{T}\boldsymbol{\beta}+\boldsymbol{e}\,\,\,\,\boldsymbol{e}\sim\mathrm{N}(\boldsymbol{0},\Sigma(\boldsymbol{\theta}))
-\]</span></p>
 </div>
 </div>
 <div id="point-process" class="section level2">
 <h2>Point Process</h2>
+<p>Another way to approach incidence data is to utilize data attributes
+to subset fires by characteristics of incidence that we would like to
+study. We were primarily interested in <code>IncidentSize</code>, as
+previously discussed, and thresholding data to study large and small
+wildfire incidence as a point pattern realization. Further, we wanted to
+study differences in naturally occurring fires compared to human-caused,
+which we accomplished using the <code>FireCause</code> attribute. We
+analyzed different fire types at point processes using two different
+modeling approaches.</p>
 <div id="log-gaussian-cox-process" class="section level3">
 <h3>Log-Gaussian Cox Process</h3>
-<p><span class="math display">\[
-\log(\lambda(u))=\mathrm{\boldsymbol{Z}}(u)\boldsymbol{\beta}+e(u),\,\,\,\,e(u)\sim\mathrm{N}(0,C(\boldsymbol{\theta})),\,\,\,\,C(u,u&#39;)=\sigma^{2}e^{-||u-u&#39;||/h}
-\]</span></p>
 </div>
 <div id="binary-response-glm-logistic-regression" class="section level3">
 <h3>Binary Response GLM Logistic Regression</h3>
-<p><span class="math display">\[
-\mathrm{logit}(\lambda_{1}(\mathrm{\boldsymbol{s}}))=\boldsymbol{\mathrm{x}}(\mathrm{\boldsymbol{s}})^{T}\boldsymbol{\beta}+e(\mathrm{\boldsymbol{s}})+\log(\lambda_{0}),\,\,\,
-Y(\boldsymbol{s}) \sim \mathrm{Bern}(p(\boldsymbol{s})),\,\,\,\,
-\mathrm{E}[ Y (\boldsymbol{s}) ] = p(\boldsymbol{s}) =
-\frac{\lambda_{1}(\boldsymbol{s})}{\lambda_{0}(\boldsymbol{s})+\lambda_{1}(\boldsymbol{s})}
-\]</span></p>
+<p>We wanted to hone in on large, naturally occurring wildfire incidence
+in Coconino County in terms of risk spatially, and express that risk in
+probabilities of incidence for interpretable predictions. Evaluating
+spatial risk of this event can be valuable in prioritization of
+resources for mitigation efforts like thinning and prescribed burning
+for this unpredictable variety of wildfire incidence.</p>
+<p>A binary response spatial GLM logistic regression model meets the
+criteria described above (see Appendix C). In order to fit the model we
+needed to supplement our incidence data with additional artificial data
+produced by a realization of a constant intensity <span class="math inline">\(\lambda_0\)</span> Poisson process. This data
+represents locations where large natural wildfires <em>could</em> have
+occurred but did not. We assigned a response <span class="math inline">\(Y(\mathbf{s})=1\)</span> to our real data and
+<span class="math inline">\(Y(\mathbf{s})=0\)</span> to the artificial
+data to be used to fit our model.</p>
+<p>Below is the best-AIC score model that we selected for our fit.</p>
+<pre class="r"><code>spglm_formula &lt;- Wildfires ~  distance_rd_min_isprisec + I(log(pop.density)) +
+  Precipitation_Buffered * Temp_Min_Buffered + I(get_season(FireDiscoveryDateTime)) +
+  mean_grass * mean_forest
+
+az_wf_spcov &lt;- spcov_initial(&quot;wave&quot;)
+
+az_wf_spglm &lt;- spglm(spglm_formula, data = model_data_sf, 
+                     family = binomial, spcov_initial = az_wf_spcov)</code></pre>
+<p>Similar to our other approaches, AIC was the chosen metric to
+objectively evaluate the performance of our model. Unfortunately, there
+is no <code>R</code> package that we could find to cycle all of our
+covariates for <code>spglm</code> objects in a manner similar to a
+function like <code>stepAIC</code> from the <code>MASS</code> package
+for <code>lm</code> objects. So, we built a loop to cycle differnt
+combonations of both predictors as well as spatial covariance fit
+functions.</p>
 </div>
 </div>
 </div>
